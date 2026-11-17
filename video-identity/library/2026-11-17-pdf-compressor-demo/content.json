@@ -1,0 +1,25 @@
+{
+  "format": "F1 قبل/بعد",
+  "command": "run pdf",
+  "headline": "ملف [80MB]؟\nخلّيه {4MB}",
+  "sub": "بثانية، بدون رفع لأي سيرفر",
+  "demo": {
+    "screenshot": null,
+    "before": {
+      "label": "قبل",
+      "value": "80.4 MB"
+    },
+    "after": {
+      "label": "بعد",
+      "value": "4.1 MB",
+      "ratio": 0.12
+    },
+    "headline": "أقل بـ{95%}\nونفس الوضوح",
+    "caption": "الضغط كله على جوالك"
+  },
+  "durations": {
+    "hook": 3.5,
+    "demo": 5,
+    "outro": 4.5
+  }
+}

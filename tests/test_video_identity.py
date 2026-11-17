@@ -31,6 +31,10 @@ class VideoIdentityTest(unittest.TestCase):
         for name in __import__("re").findall(r"url\(fonts/([^)]+)\)", css):
             self.assertTrue((ROOT / "templates" / "fonts" / name).is_file(), name)
 
+    def test_index_line_clean(self):
+        line = render.index_line("2026-11-17", "pdf", {"headline": "ملف [80MB]؟\nخلّيه {4|MB}", "format": "F1"})
+        self.assertEqual(line, "| 2026-11-17 | `2026-11-17-pdf` | F1 | ملف 80MB؟ خلّيه 4/MB | — |\n")
+
     def test_validate_rejects(self):
         with self.assertRaises(SystemExit):
             render.validate({"headline": "x"})

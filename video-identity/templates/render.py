@@ -74,11 +74,47 @@ def film(page, scene: str, out: pathlib.Path, fps: int) -> None:
     tmp.rename(out)
 
 
+LIBRARY = ROOT / "library"
+INDEX_HEAD = "# مكتبة فيديوهات ساجد\n_سطر لكل فيديو. اقرأ هذا الفهرس فقط؛ افتح مجلد فيديو عند الحاجة لتكراره أو التعلّم منه._\n\n| التاريخ | المجلد | الصيغة | الخطّاف | النتيجة |\n|---|---|---|---|---|\n"
+
+
+def index_line(date: str, slug: str, content: dict) -> str:
+    hook = " ".join(content["headline"].replace("[", "").replace("]", "").replace("{", "").replace("}", "").split())
+    cell = lambda s: str(s).replace("|", "/")
+    return f"| {date} | `{date}-{slug}` | {cell(content.get('format', '-'))} | {cell(hook)} | — |\n"
+
+
+def archive(content_path: pathlib.Path, content: dict, video: pathlib.Path) -> pathlib.Path:
+    """يحفظ ما يكفي لإعادة إنتاج الفيديو والتعلّم منه: المحتوى + لقطة مصغّرة + سطر فهرس."""
+    date = __import__("datetime").date.today().isoformat()
+    folder = LIBRARY / f"{date}-{video.stem}"
+    folder.mkdir(parents=True, exist_ok=True)
+    saved = json.loads(json.dumps(content))
+    shot = content["demo"].get("screenshot")
+    if shot:
+        src = (content_path.parent / shot).resolve()
+        dst = folder / ("screenshot" + src.suffix)
+        shutil.copyfile(src, dst)
+        saved["demo"]["screenshot"] = dst.name
+    (folder / "content.json").write_text(json.dumps(saved, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    d = {"hook": 3.5, "demo": 5, "outro": 4.5, **content.get("durations", {})}
+    marks = [d["hook"] - 0.3, d["hook"] + d["demo"] - 0.3, sum(d[s] for s in SCENES) - 0.3]
+    inputs = sum((["-ss", f"{m:.2f}", "-i", str(video)] for m in marks), [])
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *inputs, "-filter_complex",
+                    "[0:v][1:v][2:v]hstack=3,scale=540:-2", "-frames:v", "1", "-q:v", "4",
+                    str(folder / "sheet.jpg")], check=True)
+    index = LIBRARY / "index.md"
+    text = index.read_text(encoding="utf-8") if index.exists() else INDEX_HEAD
+    index.write_text(text + index_line(date, video.stem, content), encoding="utf-8")
+    return folder
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("content")
     ap.add_argument("out")
     ap.add_argument("--preview", action="store_true")
+    ap.add_argument("--no-archive", action="store_true", help="لا تحفظ في library/")
     args = ap.parse_args()
 
     brand = load_brand(pathlib.Path(args.content).resolve())
@@ -116,6 +152,8 @@ def main() -> None:
                         "-i", str(lst), "-c", "copy", str(tmp)], check=True)
         tmp.rename(out)
     print(out)
+    if not args.no_archive:
+        print(archive(pathlib.Path(args.content).resolve(), brand["content"], out))
 
 
 if __name__ == "__main__":
