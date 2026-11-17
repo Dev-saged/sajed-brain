@@ -1,5 +1,5 @@
 # 🧠 sajed-brain — السياق الكامل لساجد
-_آخر تحديث: 2026-11-17_
+_آخر تحديث: 2026-11-17 (GRCS v5.7.0)_
 
 > **كيفية الاستخدام:** اقرأ هذا الملف أول شيء في كل جلسة. ابحث في الملفات الفرعية فقط عند الحاجة لتفاصيل ميزة معينة.
 
@@ -15,6 +15,8 @@ _آخر تحديث: 2026-11-17_
 | Icons.kt | hand-crafted ImageVector، عائلة واحدة لكل app، شبكة 24dp، طقم كامل من البداية، الاتجاهية تنعكس RTL → `features/icons.md` |
 | Motion & life | خلفية حية في الـhome، SharedTransitionLayout، haptics، skeleton loading، pull-to-refresh → `features/motion.md` |
 | Firebase + Cloudflare | مشروع Firebase لكل عميل، Security Rules إلزامية، Cloudflare Worker للعمليات الحساسة → `features/firebase.md` |
+| مزامنة سريعة | نبض `sync/pulse` + فحص 45ث + عامل 6 ساعات → `features/background-sync.md` |
+| تصدير بتقدّم | foreground service + إشعار + مجلد منظم، كشف أفقي → `features/export-pipeline.md` |
 | CI/CD | build.yml → sign (KEYSTORE_BASE64 + SIGNING_*) → Release "latest-build" → unpack-zip.yml → repomap.yml → `features/ci-cd.md` |
 
 ---
@@ -25,6 +27,7 @@ _آخر تحديث: 2026-11-17_
 | قيد — نظام متاجر | Dev-saged/qayd | Kotlin+Compose+Firebase+Cloudflare | نشط | v2.x |
 | SMS Barq — رسائل SMS | Dev-saged/SMS-Barq | Kotlin+Compose | نشط | v1.x |
 | القالب الرئيسي | Dev-saged/android-template | Kotlin+Compose | قالب | - |
+| GRCS — مخيمات النزوح | Dev-saged/wasla-system | Kotlin+Compose+Firestore REST + ويب | نشط | v5.7.0 |
 | Sport Monitor AI | Dev-saged/sport-monitor-ai | Python Flask + Android WebView | نشط | - |
 
 تفاصيل كل مشروع → `projects/index.md`

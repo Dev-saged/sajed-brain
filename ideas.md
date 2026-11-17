@@ -26,3 +26,8 @@ _سياق يتراكم عبر الجلسات_
   - Security Rules تفرض shopId isolation + roles + paid features
 - **SMS Barq**: SMS engine في حزمة sms/ (SendEngine، SendQueue، SendDrainer، ...)
 - **Sport Monitor AI**: Python Flask على Termux، Android WebView bridge
+
+## GRCS (Nov 2026)
+- نسخة الويب تتبع التطبيق في الإصدار؛ فكّر بتوليد `version.json` تلقائياً من `gradle.properties` في CI
+- قرار: المندوب والمستفيد قد يحتاجان نبضاً خاصاً؛ حالياً النبض للمدير والمندوب
+- فكرة: سجل مركزي لأخطاء المشاريع في هذا المستودع يُقرأ أول كل جلسة (خريطة محادثات/مشاريع)
