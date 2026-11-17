@@ -1,0 +1,21 @@
+[
+  {"id": "fix-lowercase", "tier": "T0", "pattern": "\\.toLowerCase\\(\\)", "replace": ".lowercase()"},
+  {"id": "fix-uppercase", "tier": "T0", "pattern": "\\.toUpperCase\\(\\)", "replace": ".uppercase()"},
+  {"id": "fix-capitalize", "tier": "T0", "pattern": "\\.capitalize\\(\\)", "replace": ".replaceFirstChar { it.uppercase() }"},
+  {"id": "fix-decapitalize", "tier": "T0", "pattern": "\\.decapitalize\\(\\)", "replace": ".replaceFirstChar { it.lowercase() }"},
+  {"id": "fix-divider", "tier": "T0", "pattern": "\\bDivider\\(", "replace": "HorizontalDivider(",
+   "only_if_file_contains": ["androidx.compose.material3."],
+   "unless_file_contains_any": ["androidx.compose.material.Divider"],
+   "imports": ["androidx.compose.material3.HorizontalDivider"],
+   "drop_imports": ["androidx.compose.material3.Divider"]},
+  {"id": "fix-ripple", "tier": "T1", "pattern": "\\brememberRipple\\(", "replace": "ripple(",
+   "only_if_file_contains": ["androidx.compose.material3."],
+   "imports": ["androidx.compose.material3.ripple"],
+   "drop_imports": ["androidx.compose.material.ripple.rememberRipple"]},
+  {"id": "fix-collect-lifecycle", "tier": "T1", "pattern": "\\.collectAsState\\(\\)", "replace": ".collectAsStateWithLifecycle()",
+   "imports": ["androidx.lifecycle.compose.collectAsStateWithLifecycle"],
+   "drop_imports": ["androidx.compose.runtime.collectAsState"],
+   "requires_project_contains": {"files": ["gradle/libs.versions.toml", "app/build.gradle.kts"], "any": ["lifecycle-runtime-compose"]}},
+  {"id": "fix-jcenter", "tier": "T1", "scope": "raw", "files": ["*.kts", "*.gradle"],
+   "pattern": "^[ \\t]*jcenter\\(\\)[ \\t]*\\n", "replace": ""}
+]

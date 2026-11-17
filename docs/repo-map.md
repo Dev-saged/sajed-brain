@@ -11,6 +11,12 @@ _تحت 5KB، بلا كود_
 - سلامة الدماغ: scripts/brain_doctor.py ← `check`
 - عبر المشاريع: scripts/crossref.py ← `analyse`؛ التجميع scripts/collect.py (يحتاج GH_PAT + projects.json)
 - طبقة المشروع: templates/claude/brain_hooks.py (boot/stop/learn/scout/commit-msg)، تثبيت scripts/install_project.py
+- إصلاحات آلية: rules/fixes.json ← scoutlib/fixes.py `apply_fixes`؛ `cli.maintain` للصيانة
+- detekt: scoutlib/external.py ← `merge`؛ الإعداد templates/detekt.yml
+- صيانة أسبوعية: scripts/auto_maintain.py ← `main`؛ templates/workflows/auto-maintain.yml
+- حارس من خطأ: scripts/guard_suggest.py ← `make_entry`، `add_entry`؛ workflow brain-guard.yml
+- يوميات: scripts/journal_digest.py ← `run`؛ hooks `learn --file journal`
+- sajed-kit: scripts/kit.py ← `extract`، `adopt`؛ workflows brain-kit.yml، kit-adopt.yml
 - كتابة آمنة للدماغ: .github/workflows/brain-update.yml ← scripts/update_brain.py
 
 ## القرارات
@@ -20,8 +26,11 @@ _تحت 5KB، بلا كود_
 - commit-msg يزيل ذيول الأدوات تلقائياً (طلب ساجد: لا تمييز لعمل الذكاء الاصطناعي).
 
 ## أخطاء محلولة
+- build_pattern الأول لم يسمح بمسافات داخل الاستدعاء ← فاصل `\s*` بين كل رمزين، `\s+` بين كلمتين فقط.
 - regex الـimports كان يلتقط `\n` فيفشل تطابق النص ← `[ \t]*$` بدل `\s*$`.
 
 ## مشاكل مفتوحة
 - README يشير إلى features/{room-setup,icons,motion,firebase}.md وهي غير موجودة (doctor يحذّر).
-- لم يُشغَّل scout على qayd/SMS-Barq؛ لم تُشغَّل الـworkflows على GitHub.
+- لم يُشغَّل scout على qayd/SMS-Barq؛ الـworkflows (brain-*، scout، auto-maintain، kit-adopt) لم تُشغَّل على GitHub.
+- الكود المولَّد في sajed-kit لم يُترجَم؛ detekt لم يُشغَّل فعلياً.
+- لا إزالة آلية للميت المؤكَّد بعد (تبقى يدوية بالتقرير).

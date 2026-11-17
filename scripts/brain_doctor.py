@@ -62,6 +62,25 @@ def check(root=ROOT):
         warns += [f"{name}: صيغة غير قياسية: {ln[:50]}" for ln in lines if not ENTRY.match(ln)]
         warns += [f"{name}: سطر مكرر: {ln[:50]}" for ln, n in Counter(lines).items() if n > 1]
 
+    rule_ids = set()
+    for name in ("guards.json", "deprecated.json"):
+        f = root / "rules" / name
+        if f.exists():
+            try:
+                rule_ids |= {r.get("id") for r in json.loads(f.read_text(encoding="utf-8"))}
+            except json.JSONDecodeError:
+                pass
+    mistakes = root / "mistakes.md"
+    if mistakes.exists():
+        for ln in mistakes.read_text(encoding="utf-8").splitlines():
+            if not ENTRY.match(ln.strip()):
+                continue
+            gid = re.search(r"\bguard:([\w\-]+)", ln)
+            if gid and gid.group(1) not in rule_ids:
+                warns.append(f"mistakes.md: الحارس {gid.group(1)} غير موجود (PR معلّق؟)")
+            elif not gid and "noguard" not in ln:
+                warns.append(f"mistakes.md: خطأ بلا حارس (أضف guard:<id> أو noguard): {ln[:50]}")
+
     md = {p.relative_to(root).as_posix(): cli.Src(p.read_text(encoding="utf-8"), None)
           for p in root.rglob("*") if p.suffix in (".md", ".json", ".yml", ".py")
           and ".git" not in p.parts and "tests" not in p.parts}

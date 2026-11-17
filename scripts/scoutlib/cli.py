@@ -7,8 +7,8 @@ import pathlib
 import sys
 from collections import Counter, namedtuple
 
+from . import external, fixes, report, symbols
 from . import findings as F
-from . import report, symbols
 from .lexer import lex
 
 Src = namedtuple("Src", "raw lexed")
@@ -67,6 +67,20 @@ def apply_imports(root, files, unused):
     return changed
 
 
+def maintain(root, imports=True, fix=True):
+    """تنظيف آمن T0/T1: إصلاحات 1:1 ثم imports؛ يعيد إحصاءات للـPR."""
+    cfg = load_cfg(root)
+    stats = {"fixes": {}, "imports": 0}
+    files = collect(root, cfg)
+    if fix:
+        stats["fixes"] = dict(fixes.apply_fixes(root, files))
+        files = collect(root, cfg)
+    if imports:
+        unused = {rel: u for rel, src in files.items() if (u := F.unused_imports(rel, src))}
+        stats["imports"] = apply_imports(root, files, unused)
+    return stats
+
+
 def where(name, syms, per_file):
     for s in syms:
         if s.name == name:
@@ -84,6 +98,8 @@ def run(argv=None):
     ap.add_argument("--out")
     ap.add_argument("--base")
     ap.add_argument("--apply-imports", action="store_true")
+    ap.add_argument("--apply-fixes", action="store_true", help="إصلاحات 1:1 من rules/fixes.json")
+    ap.add_argument("--detekt-report", help="ملف SARIF من detekt لتأكيد الميت")
     ap.add_argument("--where")
     ap.add_argument("--fail-on", choices=["error", "warn", "never"], default="never")
     ap.add_argument("--no-write", action="store_true")
@@ -92,6 +108,10 @@ def run(argv=None):
     root = pathlib.Path(a.path).resolve()
     cfg = load_cfg(root)
     files = collect(root, cfg)
+    if a.apply_fixes:
+        done = fixes.apply_fixes(root, files)
+        print("إصلاحات:", dict(done) or "لا شيء")
+        files = collect(root, cfg)
     syms = [s for rel, src in sorted(files.items()) if rel.endswith(".kt") for s in symbols.extract(rel, src.lexed)]
     refs, per_file = build_refs(files)
 
@@ -108,6 +128,9 @@ def run(argv=None):
     found += F.dup_bodies(syms) + F.long_functions(syms)
     if a.base:
         found += F.migration_edits(root, a.base)
+    ext = external.load(a.detekt_report) if a.detekt_report else None
+    if ext is not None:
+        found = external.merge(found, ext, set(files))
     found = [f for f in found if f["rule"] not in disabled]
 
     if a.apply_imports:

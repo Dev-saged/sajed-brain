@@ -48,7 +48,8 @@ def install(project):
     merge_settings(p / ".claude" / "settings.json")
     done.append(".claude/settings.json")
     put(".githooks/commit-msg", src=T / "git-hooks" / "commit-msg", mode=0o755)
-    put(".github/workflows/scout.yml", src=T / "workflows" / "scout.yml")
+    for wf in ("scout", "auto-maintain", "kit-adopt"):
+        put(f".github/workflows/{wf}.yml", src=T / "workflows" / f"{wf}.yml")
 
     block = (T / "project-claude-md.md").read_text(encoding="utf-8")
     cmd = p / "CLAUDE.md"

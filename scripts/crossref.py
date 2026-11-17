@@ -13,7 +13,7 @@ def load(index):
         for line in tsv.read_text(encoding="utf-8").splitlines():
             p = line.split("\t")
             if len(p) >= 8:
-                rows.append({"project": tsv.parent.name, "name": p[0], "kind": p[1], "loc": p[3], "hash": p[7]})
+                rows.append({"project": tsv.parent.name, "name": p[0], "kind": p[1], "vis": p[2], "loc": p[3], "scope": p[5], "hash": p[7]})
     return rows
 
 

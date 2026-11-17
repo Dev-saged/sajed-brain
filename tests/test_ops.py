@@ -150,7 +150,8 @@ class InstallAndHooksTests(unittest.TestCase):
         md = (self.p / "CLAUDE.md").read_text(encoding="utf-8")
         self.assertIn("قواعد قائمة", md)
         self.assertEqual(md.count("brain:begin"), 1)
-        for rel in ("docs/repo-map.md", ".claude/session-handoff.md", ".githooks/commit-msg", ".github/workflows/scout.yml"):
+        for rel in ("docs/repo-map.md", ".claude/session-handoff.md", ".githooks/commit-msg", ".github/workflows/scout.yml",
+                    ".github/workflows/auto-maintain.yml", ".github/workflows/kit-adopt.yml"):
             self.assertTrue((self.p / rel).exists(), rel)
         hp = subprocess.run(["git", "config", "core.hooksPath"], cwd=self.p, capture_output=True, text=True).stdout.strip()
         self.assertEqual(hp, ".githooks")

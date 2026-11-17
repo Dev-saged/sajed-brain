@@ -31,3 +31,5 @@ _سياق يتراكم عبر الجلسات_
 - [2026-11-17] #brain الدماغ صار مركز عمليات: scout + guards + deps radar + brief + خطافات؛ التفاصيل docs/mission-control.md
 - [2026-11-17] #brain كل خطأ مصلَح = حارس في rules/guards.json (لا تكرار)؛ كل مشروع يُثبَّت عبر scripts/install_project.py
 - [2026-11-17] #brain commit بلا ذيول أدوات؛ الخطاف commit-msg ينظّفها (لا تمييز لعمل الذكاء الاصطناعي)
+- [2026-11-17] #brain v2.1: صيانة أسبوعية PR، fixes آلية، تأكيد الميت بـdetekt، حارس من الخطأ، يوميات ✓/✗ مضغوطة، sajed-kit (extract/adopt)
+- [2026-11-17] #brain الكيت JVM نقي فقط (بلا android/androidx ولا اعتماد على رموز المشروع)؛ لا شيء يُدمج في مشروع قبل build أخضر

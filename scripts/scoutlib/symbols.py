@@ -60,10 +60,11 @@ def parse_line(s):
     return annos, s, ((kw, mods, name) if name else None)
 
 
-def _body_info(code, start):
+def body_span(code, start):
+    """(فتح، إغلاق) لقوس جسم الدالة ذات الكتلة، أو None إن كانت تعبيرية/غير مكتملة."""
     p = code.find("(", start)
     if p < 0:
-        return "", 0
+        return None
     depth, j = 0, p
     while j < len(code):
         c = code[j]
@@ -76,7 +77,7 @@ def _body_info(code, start):
         j += 1
     m = SIG_END.match(code, j + 1)
     if not m or m.group(1) != "{":
-        return "", 0
+        return None
     k, depth = m.end() - 1, 0
     for q in range(k, len(code)):
         c = code[q]
@@ -85,11 +86,18 @@ def _body_info(code, start):
         elif c == "}":
             depth -= 1
             if depth == 0:
-                inner = code[k + 1:q]
-                body = re.sub(r"\s+", " ", inner).strip()
-                digest = hashlib.sha1(body.encode()).hexdigest()[:10] if len(body) >= 80 else ""
-                return digest, inner.count("\n") + 1
-    return "", 0
+                return k, q
+    return None
+
+
+def _body_info(code, start):
+    span = body_span(code, start)
+    if not span:
+        return "", 0
+    inner = code[span[0] + 1:span[1]]
+    body = re.sub(r"\s+", " ", inner).strip()
+    digest = hashlib.sha1(body.encode()).hexdigest()[:10] if len(body) >= 80 else ""
+    return digest, inner.count("\n") + 1
 
 
 def extract(path, lx):

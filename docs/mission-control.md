@@ -1,5 +1,5 @@
 # Mission Control — الدماغ كمركز عمليات
-_v2.0.0 · 2026-11-17_
+_v2.1.0 · 2026-11-17_
 
 ## نظرة عامة
 الدماغ لم يعد ملفات تُقرأ فقط: هو طبقة تعمل على كل مشروع. تفحص الكود، تفهرس كل رمز، تنفّذ الأخطاء السابقة كقواعد، تستدعي السياق بقدر المهمة، وتُلزم أي ذكاء يعمل في مشروعك ببروتوكول واحد.
@@ -28,18 +28,17 @@ sajed-brain/
 ## ما يتحقق منه scout
 ميت (private=T0، عام=T2) · imports غير مستخدمة (يُطبَّق `--apply-imports`) · أجسام دوال متطابقة · نصوص/أبعاد/مدد مكررة → token · دوال >80 سطراً · catch فارغ · أسرار (تُحجب في التقرير) · ألوان خارج BrandConfig · Material You افتراضي · balance مخزّن · حزم أيقونات · WebView · TODO/debug/emoji · أثر أسلوب آلي · R8 معطّل · cleartext/allowBackup · APIs مُهملة · تعديل migration قديمة (`--base REF`).
 
-## Roadmap — اقتراحات للاختيار
-أولوية عالية (أقترح البدء بها):
-1. **Auto-PR أسبوعي**: يطبّق T0/T1 (imports، ترقيات minor، بدائل 1:1) على فرع ويفتح PR بعد build أخضر.
-2. **fixes.json**: قواعد استبدال آلية للـAPIs المُهملة (`toLowerCase()→lowercase()`…) بـ`--apply`.
-3. **محلّل أدق**: دمج ktlint/detekt (أو kotlinc) لتقليل الإيجابيات الكاذبة في "الميت".
-4. **توليد حارس من الخطأ**: عند `learn` على mistakes يُقترح regex جاهز في PR.
-5. **يوميات الجلسة**: Stop يلخّص ما نجح/فشل في `journal/` وملخص شهري مضغوط.
-6. **مكتبة مشتركة `sajed-kit`**: من مرشحي CROSS.md إلى Gradle module مع PR في كل مشروع.
+## منفَّذ في v2.1
+1. **Auto-PR أسبوعي**: templates/workflows/auto-maintain.yml + scripts/auto_maintain.py (إصلاحات + imports + ترقيات patch/minor؛ major يُذكر فقط).
+2. **fixes.json**: rules/fixes.json + scoutlib/fixes.py (`--apply-fixes`)؛ تعديل الكود الفعلي فقط وضبط imports، وبعض القواعد مشروطة باعتمادية المشروع.
+3. **تأكيد الميت**: scoutlib/external.py يدمج SARIF من detekt (`--detekt-report`)؛ مؤكَّد = T0، غير مؤكَّد = T1. (ktlint لم يُدمج: وظيفته التنسيق لا الميت.)
+4. **حارس من الخطأ**: scripts/guard_suggest.py + workflow brain-guard.yml (PR)؛ doctor يحذّر من خطأ بلا `guard:<id>`.
+5. **يوميات الجلسة**: `learn --file journal` + journal/digest.md من scripts/journal_digest.py (يومياً في brain-daily)؛ boot يعرض تعثّرات المشروع.
+6. **sajed-kit**: scripts/kit.py (`extract` من CROSS، `adopt` في المشاريع) + brain-kit.yml + templates/workflows/kit-adopt.yml.
 
-أخرى:
+## Roadmap — المتبقي
 7. شبكة معرفة: روابط بين القرارات والأخطاء والمشاريع (`#وسم`/`@مشروع`) + backlinks.
-8. تقادم المعرفة: `last_verified` للحقائق المتغيّرة (SDK، إصدارات) وإعادة تحقق دورية.
+8. تقادم المعرفة: `last_verified` للحقائق المتغيّرة وإعادة تحقق دورية.
 9. Release notes تلقائية من commits منذ آخر tag.
 10. حزمة أمان: linter لـFirestore Rules مقابل schemas، exported components، ثغرات OSV.
 11. رادار أداء: Compose stability، حجم APK لكل push، baseline profiles.
@@ -48,8 +47,14 @@ sajed-brain/
 14. لوحة ويب حيّة (Artifact) من scout-history.tsv.
 15. `new-project` يستدعي install_project تلقائياً مع هيكل BrandConfig/schema.
 16. بحث عابر: `ask "كيف عملنا X"` على الفهارس وتاريخ git.
+17. إزالة آلية للميت المؤكَّد (حدود التصريح/الـannotations) ثم دمجه في auto-maintain.
+18. نشر الكيت: تثبيت مستودع GitHub Packages تلقائياً في settings.gradle.kts.
 
 ## حدود معلنة
+- sajed-kit: الكود المولَّد لم يُترجَم (kotlinc/Gradle بلا شبكة هنا)؛ الاستخراج متحفّظ (JVM نقي، بلا اعتماد على المشروع)، والتبنّي PR مسوّدة بخطوات يدوية (مستودع الحزم والاعتماد).
+- detekt-cli v1.23.8 وأمر التشغيل في scout.yml لم يُشغَّلا فعلياً؛ التكامل اختُبر بملف SARIF مُحاكى.
+- auto-maintain: بلا GH_PAT لا يعمل build.yml على الـPR (قيد GitHub).
+- ‎fixes: تغييرات T1 (ripple، collectAsStateWithLifecycle) تتطلب build قبل الدمج.
 - أُختبر على fixture Kotlin وعلى git محلي؛ لم يُشغَّل على qayd/SMS-Barq الفعليين بعد.
 - الـworkflows (brain-update، brain-daily، scout.yml) لم تُشغَّل على GitHub بعد؛ كُتبت بحقن آمن للمدخلات وتحتاج تشغيلاً أولياً.
 - deps_radar لم يُختبر على الشبكة الحيّة (اختُبر بمصدر مُحاكى).

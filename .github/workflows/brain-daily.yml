@@ -25,6 +25,9 @@ jobs:
       - name: Tests
         run: python3 -m unittest discover -s tests -t . -v
 
+      - name: Journal digest
+        run: python3 scripts/journal_digest.py
+
       - name: Organize
         run: python3 scripts/organize_brain.py
 

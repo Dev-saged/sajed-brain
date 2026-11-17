@@ -13,6 +13,10 @@ _آخر تحديث: 2026-11-17 · Mission Control v2_
 | `scripts/deps_radar.py` | مقارنة libs.versions.toml بآخر الإصدارات؛ `--apply` لـpatch/minor فقط |
 | `scripts/brief.py --task "..."` | يسترجع من الدماغ المقاطع ذات الصلة فقط ضمن ميزانية |
 | `rules/guards.json` | كل خطأ سابق = قاعدة تُفحص تلقائياً (لا تكرار) |
+| `scout.py --apply-fixes` / `--detekt-report` | إصلاحات API آلية 1:1 (`rules/fixes.json`) + تأكيد الميت بـdetekt |
+| `scripts/auto_maintain.py` | صيانة أسبوعية T0/T1 → PR (workflow `auto-maintain.yml`) |
+| `learn --bad '...'` / `learn --file journal` | حارس مقترح (PR) من خطأ · يومية ✓/✗ تُضغط شهرياً في `journal/digest.md` |
+| `scripts/kit.py` | استخراج الدوال المتطابقة إلى sajed-kit + `adopt` يحوّل المشاريع |
 | `scripts/install_project.py <path>` | يثبّت الخطافات + scout.yml + commit-msg + ملفات الذاكرة في أي مشروع |
 | `index/HEALTH.md`, `index/CROSS.md` | لوحة صحة المشاريع + كود مكرر عبر المشاريع (مرشح لمكتبة مشتركة) |
 تفاصيل → `docs/mission-control.md`

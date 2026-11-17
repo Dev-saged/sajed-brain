@@ -25,8 +25,19 @@ jobs:
           repository: Dev-saged/sajed-brain
           token: ${{ secrets.GH_PAT }}
           path: .brain
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Detekt (يؤكّد الميت)
+        continue-on-error: true
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/detekt.zip" https://github.com/detekt/detekt/releases/download/v1.23.8/detekt-cli-1.23.8.zip
+          unzip -q "$RUNNER_TEMP/detekt.zip" -d "$RUNNER_TEMP"
+          "$RUNNER_TEMP"/detekt-cli-1.23.8/bin/detekt-cli --input . --excludes "**/build/**,**/.brain/**" \
+            --build-upon-default-config --config .brain/templates/detekt.yml --report "sarif:$RUNNER_TEMP/detekt.sarif" || true
       - name: Scout
-        run: python3 .brain/scripts/scout.py . --out docs
+        run: python3 .brain/scripts/scout.py . --out docs --detekt-report "$RUNNER_TEMP/detekt.sarif"
       - name: Deps radar
         run: python3 .brain/scripts/deps_radar.py . --out docs
         continue-on-error: true

@@ -1,0 +1,71 @@
+name: brain-guard
+
+on:
+  workflow_dispatch:
+    inputs:
+      id:
+        description: "معرّف الحارس (slug)"
+        required: true
+      bad:
+        description: "مثال الكود الخاطئ"
+        required: true
+      good:
+        description: "مثال صحيح لا يجب أن يلتقطه الحارس"
+        required: false
+        default: ""
+      message:
+        description: "رسالة الحارس"
+        required: true
+      severity:
+        description: "error | warn | info"
+        required: false
+        default: warn
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: brain-guard
+  cancel-in-progress: false
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Generate guard
+        env:
+          GID: ${{ inputs.id }}
+          BAD: ${{ inputs.bad }}
+          GOOD: ${{ inputs.good }}
+          MSG: ${{ inputs.message }}
+          SEV: ${{ inputs.severity }}
+        run: |
+          args=(--id "$GID" --bad "$BAD" --message "$MSG" --severity "$SEV" --add)
+          [ -n "$GOOD" ] && args+=(--good "$GOOD")
+          python3 scripts/guard_suggest.py "${args[@]}"
+
+      - name: Verify
+        run: |
+          python3 scripts/brain_doctor.py --quiet
+          python3 -m unittest discover -s tests -t .
+
+      - name: Open PR
+        env:
+          GID: ${{ inputs.id }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions-robot@users.noreply.github.com"
+          branch="guard/$GID"
+          git checkout -b "$branch"
+          git add rules/guards.json
+          git commit -m "brain: add guard $GID"
+          git push -u origin "$branch"
+          gh pr create --title "brain: add guard $GID" --body "حارس جديد من خطأ مسجَّل. راجع الـregex في rules/guards.json قبل الدمج." --base main --head "$branch"
