@@ -127,7 +127,7 @@ body{font-family:'Alexandria',sans-serif;color:var(--ink);-webkit-font-smoothing
   $('.outro').textContent = I.outroTag;
 
   const scenes = {
-    hook: (() => {
+    hook: () => {
       const s = $('#hook'), term = `${I.terminalPath} $ ${C.command || 'run'}`, head = tokens(C.headline);
       $('.sub', s).textContent = C.sub || '';
       const typeEnd = 1000 + head.length * 42;
@@ -141,8 +141,8 @@ body{font-family:'Alexandria',sans-serif;color:var(--ink);-webkit-font-smoothing
         $('.head', s).innerHTML = html(head, n) + (blink ? '' : '<span class="cur">▍</span>');
         const u = p(t, typeEnd, 400); show($('.sub', s), out3(u), 30 * (1 - out3(u)));
       };
-    })(),
-    demo: (() => {
+    },
+    demo: () => {
       const s = $('#demo'), d = C.demo;
       $('.phone', s).innerHTML = A.screenshot ? `<img src="${esc(A.screenshot)}" alt="">` : '<div class="ph"><i style="height:24px;width:50%;background:var(--accent)"></i><i style="height:140px"></i><i style="height:140px"></i><i style="height:140px"></i></div>';
       $('.bl', s).textContent = d.before.label; $('.bv', s).textContent = d.before.value;
@@ -157,8 +157,8 @@ body{font-family:'Alexandria',sans-serif;color:var(--ink);-webkit-font-smoothing
         const h = out3(p(t, 1700, 500)); show($('.dhead', s), h, 40 * (1 - h));
         const c = back(p(t, 2300, 500)); show($('.pill', s), clamp(c), 0, 0, 0.8 + 0.2 * c);
       };
-    })(),
-    outro: (() => {
+    },
+    outro: () => {
       const s = $('#outro'), list = $('.tiles', s), ic = B.icons, k = T.accountTile;
       list.innerHTML = Object.values(ic.icons).map(v => `<div class="tile"><div class="ib"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="${k.iconStroke}" stroke-width="${k.iconStrokeWidth}" stroke-linecap="round" stroke-linejoin="round"><path d="${v.d}"/></svg></div><b>${esc(v.handle)}</b></div>`).join('');
       const tiles = [...list.children];
@@ -168,15 +168,16 @@ body{font-family:'Alexandria',sans-serif;color:var(--ink);-webkit-font-smoothing
         const o = out3(p(t, 550, 500)); show($('p', s), o, 30 * (1 - o));
         tiles.forEach((el, i) => { const x = out3(p(t, 800 + i * 120, 450)); show(el, x, 0, -80 * (1 - x)); });
       };
-    })()
+    }
   };
 
   const name = new URLSearchParams(location.search).get('scene') || 'hook';
   const scene = $('#' + name); scene.classList.add('on');
   const dur = (C.durations && C.durations[name] || { hook: 3.5, demo: 5, outro: 4.5 }[name]) * 1000;
   window.__duration = dur;
+  const run = scenes[name]();
   window.__seek = t => {
-    scenes[name](t);
+    run(t);
     $('.bar', scene).style.width = (100 * t / dur) + '%';
     scene.style.opacity = out3(p(t, 0, 250));
   };

@@ -3,6 +3,8 @@
 ## الحالة
 - هوية فيديو ساجد معتمدة: فيروز ونحاس (`video-identity/tokens.json`)، خطوط Alexandria/Readex Pro/Inter محلية.
 - قوالب جاهزة: `video-identity/templates/render.py content.json out.mp4` يركّب hook+demo+outro (13ث، 1080×1920).
+- فيديو كلام: `video-identity/talk/talk.py transcribe` ← talk.json ← `render` (اختُبر على مقطع تجريبي، لم يُجرَّب بعد على فيديو عربي حقيقي لساجد).
+- مكتبة الفيديوهات `video-identity/library/index.md` ودليل الأفكار `ideas/playbook.md`.
 - لوحة التصميم: https://claude.ai/artifact/1chGnVF6z8etrynxrpEX9L
 - v2.1 (auto-maintain، kit، journal…) مدموج في main عبر PR #1.
 
@@ -17,4 +19,4 @@
 - لا موسيقى/صوت في القالب بعد؛ لا مشاهد إضافية (قائمة ميزات، مقارنة).
 
 ## الخطوة التالية
-أول فيديو حقيقي: لقطة شاشة أداة حقيقية → content.json → render. ثم GH_PAT وinstall_project على qayd وSMS-Barq.
+أول فيديو كلام حقيقي من ساجد عبر talk/، أو لقطة شاشة أداة حقيقية → content.json → render. ثم GH_PAT وinstall_project على qayd وSMS-Barq.

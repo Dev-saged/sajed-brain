@@ -1,0 +1,13 @@
+{
+  "source": "my-video.mp4",
+  "work": "work",
+  "format": "F10 خلف الكواليس",
+  "hook": { "headline": "بنيت تطبيق في [يوم]\nوهاي {النتيجة}", "command": "explain", "sub": "من الفكرة للجوال" },
+  "hook_seconds": 3,
+  "fixes": { "الابلكيشن": "التطبيق" },
+  "emphasis": ["مجاني", "بدون"],
+  "pops": [{ "at": 12.4, "text": "{95%} أقل" }],
+  "zooms": [[8.0, 9.5]],
+  "keep": null,
+  "outro": true
+}

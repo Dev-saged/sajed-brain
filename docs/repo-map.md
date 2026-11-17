@@ -20,6 +20,7 @@ _تحت 5KB، بلا كود_
 - كتابة آمنة للدماغ: .github/workflows/brain-update.yml ← scripts/update_brain.py
 - هوية الفيديو: video-identity/tokens.json (المصدر الوحيد)، icons/platforms.json
 - تركيب فيديو: video-identity/templates/render.py ← `load_brand`، `film`؛ المشاهد video.html ← `scenes`؛ أرشفة render.py ← `archive`، `index_line` → video-identity/library/index.md؛ أفكار ideas/playbook.md
+- فيديو كلام: video-identity/talk/talk.py ← `transcribe`، `auto_keep`، `plan`، `cut_source`؛ الكابشن talk.html
 
 ## القرارات
 - سلّم T0–T3 بدل المنع المطلق في mistakes.md: تنظيف مُثبَت بالـbuild مسموح، حذف العام/المهاجرات بإذن.
@@ -31,6 +32,8 @@ _تحت 5KB، بلا كود_
 - الفيديو: قوالب HTML تُصوَّر إطاراً إطاراً بـplaywright ← ffmpeg (حتمي وبلا شبكة، خطوط محلية).
 
 ## أخطاء محلولة
+- faster-whisper فشل بـ`metadata_errors` (تعارض PyAV) ← تمرير الصوت مصفوفة numpy من wav بدل المسار.
+- video.html كان يبني كل المشاهد فيتعطل بلا demo ← المشاهد تُبنى كسولاً (المطلوب فقط).
 - build_pattern الأول لم يسمح بمسافات داخل الاستدعاء ← فاصل `\s*` بين كل رمزين، `\s+` بين كلمتين فقط.
 - regex الـimports كان يلتقط `\n` فيفشل تطابق النص ← `[ \t]*$` بدل `\s*$`.
 
