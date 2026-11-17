@@ -1,0 +1,2 @@
+#!/bin/sh
+exec python3 "$(git rev-parse --show-toplevel)/.claude/brain_hooks.py" commit-msg "$1"

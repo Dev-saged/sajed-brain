@@ -1,0 +1,66 @@
+name: brain-update
+
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: "الملف الهدف (.md فقط)"
+        required: true
+      action:
+        description: "append | replace_section"
+        required: true
+        default: append
+      content:
+        description: "المحتوى"
+        required: true
+      section:
+        description: "عنوان القسم مع replace_section"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: brain-write
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Validate target
+        env:
+          FILE: ${{ inputs.file }}
+          ACTION: ${{ inputs.action }}
+        run: |
+          case "$FILE" in /*|*..*|.git*|.github*) echo "مسار مرفوض"; exit 1;; esac
+          case "$FILE" in *.md) ;; *) echo "الهدف يجب أن يكون .md"; exit 1;; esac
+          case "$ACTION" in append|replace_section) ;; *) echo "action غير مدعوم"; exit 1;; esac
+
+      - name: Apply
+        env:
+          FILE: ${{ inputs.file }}
+          ACTION: ${{ inputs.action }}
+          CONTENT: ${{ inputs.content }}
+          SECTION: ${{ inputs.section }}
+        run: python3 scripts/update_brain.py --file "$FILE" --action "$ACTION" --content "$CONTENT" --section "$SECTION"
+
+      - name: Doctor
+        run: python3 scripts/brain_doctor.py --quiet
+
+      - name: Commit
+        env:
+          FILE: ${{ inputs.file }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions-robot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "brain: update $FILE"
+          git pull --rebase origin main
+          git push origin main

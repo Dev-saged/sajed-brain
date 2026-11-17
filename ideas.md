@@ -26,3 +26,8 @@ _سياق يتراكم عبر الجلسات_
   - Security Rules تفرض shopId isolation + roles + paid features
 - **SMS Barq**: SMS engine في حزمة sms/ (SendEngine، SendQueue، SendDrainer، ...)
 - **Sport Monitor AI**: Python Flask على Termux، Android WebView bridge
+
+## Mission Control (Nov 2026)
+- [2026-11-17] #brain الدماغ صار مركز عمليات: scout + guards + deps radar + brief + خطافات؛ التفاصيل docs/mission-control.md
+- [2026-11-17] #brain كل خطأ مصلَح = حارس في rules/guards.json (لا تكرار)؛ كل مشروع يُثبَّت عبر scripts/install_project.py
+- [2026-11-17] #brain commit بلا ذيول أدوات؛ الخطاف commit-msg ينظّفها (لا تمييز لعمل الذكاء الاصطناعي)

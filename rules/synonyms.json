@@ -1,0 +1,12 @@
+[
+  ["room", "sqlite", "migration", "هجرة", "قاعدة", "بيانات", "schema"],
+  ["build", "apk", "ci", "workflow", "actions", "بناء", "توقيع", "keystore"],
+  ["update", "auto-update", "تحديث", "إصدار", "release", "version"],
+  ["brand", "brandconfig", "ألوان", "oklch", "خطوط", "هوية", "palette"],
+  ["icon", "icons", "أيقونات", "أيقونة", "imagevector"],
+  ["firebase", "firestore", "rules", "قواعد", "أمان", "security", "cloudflare"],
+  ["motion", "animation", "حركة", "انتقال", "haptics", "skeleton"],
+  ["debts", "debt", "ديون", "دين", "balance", "رصيد", "transactions", "معاملات"],
+  ["sms", "رسائل", "رسالة", "mms"],
+  ["schema", "module", "وحدة", "وحدات", "engine"]
+]

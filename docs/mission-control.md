@@ -1,0 +1,55 @@
+# Mission Control — الدماغ كمركز عمليات
+_v2.0.0 · 2026-11-17_
+
+## نظرة عامة
+الدماغ لم يعد ملفات تُقرأ فقط: هو طبقة تعمل على كل مشروع. تفحص الكود، تفهرس كل رمز، تنفّذ الأخطاء السابقة كقواعد، تستدعي السياق بقدر المهمة، وتُلزم أي ذكاء يعمل في مشروعك ببروتوكول واحد.
+
+## المعمارية
+```
+sajed-brain/
+  CHARTER.md              الدستور (T0–T3، الكشّاف، بصمة بشرية، حلقة التعلّم)
+  README.md               مدخل الجلسة (صغير، <6KB)
+  rules/guards.json       أخطاء/تفضيلات → regex منفَّذة   (source يشير للأصل)
+  rules/deprecated.json   APIs مُهملة + بديلها + Tier
+  rules/synonyms.json     عربي↔إنجليزي لاسترجاع brief
+  scripts/scout.py        → scoutlib/{lexer,symbols,findings,report,cli}
+  scripts/deps_radar.py   ترقيات libs.versions.toml
+  scripts/brief.py        استرجاع بميزانية
+  scripts/brain_doctor.py سلامة الدماغ (روابط، قواعد، أسرار)
+  scripts/crossref.py     كود مشترك/منحرف عبر المشاريع
+  scripts/collect.py      يجمع المشاريع → index/
+  scripts/install_project.py   يركّب الطبقة في مشروع
+  templates/              ما يُنسخ للمشاريع (hooks, settings, scout.yml, commit-msg)
+  index/<project>/        symbol-index.tsv + scout + deps لكل مشروع؛ HEALTH.md، CROSS.md
+  .github/workflows/      brain-update (كتابة آمنة) · brain-daily (اختبارات+تنظيم+جمع)
+```
+تدفق الجلسة: `SessionStart` يحمّل README+CHARTER+handoff+git log+scout ← العمل بالسلّم T0–T3 ← `learn` لكل جديد ← `Stop` يرفض الإنهاء بلا handoff محدَّث ← push يشغّل scout.yml ← يحدّث docs وindex/HEALTH.md.
+
+## ما يتحقق منه scout
+ميت (private=T0، عام=T2) · imports غير مستخدمة (يُطبَّق `--apply-imports`) · أجسام دوال متطابقة · نصوص/أبعاد/مدد مكررة → token · دوال >80 سطراً · catch فارغ · أسرار (تُحجب في التقرير) · ألوان خارج BrandConfig · Material You افتراضي · balance مخزّن · حزم أيقونات · WebView · TODO/debug/emoji · أثر أسلوب آلي · R8 معطّل · cleartext/allowBackup · APIs مُهملة · تعديل migration قديمة (`--base REF`).
+
+## Roadmap — اقتراحات للاختيار
+أولوية عالية (أقترح البدء بها):
+1. **Auto-PR أسبوعي**: يطبّق T0/T1 (imports، ترقيات minor، بدائل 1:1) على فرع ويفتح PR بعد build أخضر.
+2. **fixes.json**: قواعد استبدال آلية للـAPIs المُهملة (`toLowerCase()→lowercase()`…) بـ`--apply`.
+3. **محلّل أدق**: دمج ktlint/detekt (أو kotlinc) لتقليل الإيجابيات الكاذبة في "الميت".
+4. **توليد حارس من الخطأ**: عند `learn` على mistakes يُقترح regex جاهز في PR.
+5. **يوميات الجلسة**: Stop يلخّص ما نجح/فشل في `journal/` وملخص شهري مضغوط.
+6. **مكتبة مشتركة `sajed-kit`**: من مرشحي CROSS.md إلى Gradle module مع PR في كل مشروع.
+
+أخرى:
+7. شبكة معرفة: روابط بين القرارات والأخطاء والمشاريع (`#وسم`/`@مشروع`) + backlinks.
+8. تقادم المعرفة: `last_verified` للحقائق المتغيّرة (SDK، إصدارات) وإعادة تحقق دورية.
+9. Release notes تلقائية من commits منذ آخر tag.
+10. حزمة أمان: linter لـFirestore Rules مقابل schemas، exported components، ثغرات OSV.
+11. رادار أداء: Compose stability، حجم APK لكل push، baseline profiles.
+12. رادار فجوات الاختبار: دوال المال/الرصيد/migration بلا اختبار.
+13. حارس تصميم: تباين ≥4.5 لـOKLCH tokens، أهداف لمس ≥44dp، انعكاس الأيقونات RTL.
+14. لوحة ويب حيّة (Artifact) من scout-history.tsv.
+15. `new-project` يستدعي install_project تلقائياً مع هيكل BrandConfig/schema.
+16. بحث عابر: `ask "كيف عملنا X"` على الفهارس وتاريخ git.
+
+## حدود معلنة
+- أُختبر على fixture Kotlin وعلى git محلي؛ لم يُشغَّل على qayd/SMS-Barq الفعليين بعد.
+- الـworkflows (brain-update، brain-daily، scout.yml) لم تُشغَّل على GitHub بعد؛ كُتبت بحقن آمن للمدخلات وتحتاج تشغيلاً أولياً.
+- deps_radar لم يُختبر على الشبكة الحيّة (اختُبر بمصدر مُحاكى).
