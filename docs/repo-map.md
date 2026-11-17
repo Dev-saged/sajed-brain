@@ -18,12 +18,16 @@ _تحت 5KB، بلا كود_
 - يوميات: scripts/journal_digest.py ← `run`؛ hooks `learn --file journal`
 - sajed-kit: scripts/kit.py ← `extract`، `adopt`؛ workflows brain-kit.yml، kit-adopt.yml
 - كتابة آمنة للدماغ: .github/workflows/brain-update.yml ← scripts/update_brain.py
+- هوية الفيديو: video-identity/tokens.json (المصدر الوحيد)، icons/platforms.json
+- تركيب فيديو: video-identity/templates/render.py ← `load_brand`، `film`؛ المشاهد video.html ← `scenes`
 
 ## القرارات
 - سلّم T0–T3 بدل المنع المطلق في mistakes.md: تنظيف مُثبَت بالـbuild مسموح، حذف العام/المهاجرات بإذن.
 - تحليل نصّي بدل compiler: بلا اعتماديات، يعمل في CI بثوانٍ؛ الثمن إيجابيات كاذبة ← العام يبقى T2.
 - المخرجات في docs/ تُستثنى من المسح كي لا تُحسب مراجع.
 - commit-msg يزيل ذيول الأدوات تلقائياً (طلب ساجد: لا تمييز لعمل الذكاء الاصطناعي).
+
+- الفيديو: قوالب HTML تُصوَّر إطاراً إطاراً بـplaywright ← ffmpeg (حتمي وبلا شبكة، خطوط محلية).
 
 ## أخطاء محلولة
 - build_pattern الأول لم يسمح بمسافات داخل الاستدعاء ← فاصل `\s*` بين كل رمزين، `\s+` بين كلمتين فقط.
