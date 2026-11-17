@@ -30,3 +30,12 @@ _يُحدَّث عند بدء مشروع جديد أو تغيير حالة_
 - **الحزم:** core/ (database.py، relay.py، arabic_matcher.py)، platforms/ (platform per module)
 - **التخزين:** SQLite WAL، credentials مشفّرة بـFernet
 - **الحالة:** نشط
+
+## GRCS — منظومة مخيمات النزوح (Android الأصلي + نسخة ويب)
+- **المستودع:** Dev-saged/wasla-system (الكود الأصلي في `android/`، نسخة الويب `index.html`)
+- **Stack:** Kotlin + Compose، package `dev.saged.grcs`، Firestore عبر REST (`Fs`)، كاش SQLite (FamCache)، WorkManager
+- **الإصدار:** v5.7.0 (feature/sync-export-brain)؛ الإصدارات تُنشر `vX.Y.Z-bN` من main عبر workflow_dispatch `publish=true`
+- **المزامنة:** عدّادات `sync/pulse` (c/m/u/g)؛ الويب يستمع realtime، التطبيق يفحص النبض كل 45ث أثناء الفتح + عامل خلفية كل 6 ساعات
+- **التصدير:** xlsx منسّق + كشف أفقي (صف لكل أسرة) + «أرباب فقط»، خدمة foreground بإشعار تقدّم، الحفظ `Documents/<BACKUP_DIR>/الكشوف`
+- **مطابقة السجل الوطني:** قراءة تدفقية `NatStream` لملفات ضخمة (مرور واحد، فقط أرباب الأسر المسجّلين)
+- **قرار:** الويب والتطبيق يتشاركان رقم الإصدار؛ تحديث الويب يتبع التطبيق
