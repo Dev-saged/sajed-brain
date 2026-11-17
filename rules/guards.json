@@ -1,0 +1,123 @@
+[
+  {
+    "id": "secret-key",
+    "severity": "error", "tier": "T3", "scope": "raw", "mask": true,
+    "pattern": "AIza[0-9A-Za-z_\\-]{35}|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{40,}|AKIA[0-9A-Z]{16}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----",
+    "files": ["*.kt", "*.java", "*.kts", "*.xml", "*.json", "*.properties", "*.md", "*.yml"],
+    "exclude": ["google-services.json"],
+    "message": "مفتاح/سر ظاهر في الملف — أزله وأبدله بسر في CI",
+    "source": "preferences.md#الكود"
+  },
+  {
+    "id": "secret-assignment",
+    "severity": "error", "tier": "T3", "scope": "raw", "mask": true,
+    "pattern": "(?i)(?:password|passwd|secret|api_?key|token)\\s*=\\s*\"[^\"$]{8,}\"",
+    "message": "قيمة سرّية مكتوبة في الكود",
+    "source": "preferences.md#الكود"
+  },
+  {
+    "id": "material-you-default",
+    "severity": "error", "tier": "T3", "scope": "code",
+    "pattern": "dynamic(?:Dark|Light)ColorScheme|dynamicColor\\s*=\\s*true",
+    "unless_file_contains_any": ["BrandConfig.", "useDynamicColor", "dynamicColorEnabled"],
+    "message": "Material You يجب أن يكون opt-in عبر BrandConfig فقط",
+    "source": "mistakes.md#التصميم والـStack"
+  },
+  {
+    "id": "balance-stored",
+    "severity": "warn", "tier": "T2", "scope": "code",
+    "pattern": "\\b(?:val|var)\\s+(?:balance|currentBalance|totalBalance)\\b",
+    "only_if_file_contains": ["@Entity"],
+    "message": "Balance لا يُخزَّن — يُشتق دائماً من transactions",
+    "source": "mistakes.md#Room"
+  },
+  {
+    "id": "swallowed-exception",
+    "severity": "warn", "tier": "T1", "scope": "code", "multiline": true,
+    "pattern": "catch\\s*\\(\\s*\\w+\\s*:\\s*[\\w.]+\\s*\\)\\s*\\{\\s*\\}",
+    "message": "catch فارغ — أرجع نتيجة sealed بدل كتم الخطأ",
+    "source": "preferences.md#المعمارية"
+  },
+  {
+    "id": "hex-color-outside-brand",
+    "severity": "warn", "tier": "T1", "scope": "raw",
+    "pattern": "Color\\(0x[0-9A-Fa-f]{6,8}\\)|Color\\.parseColor\\(",
+    "exclude": ["BrandConfig", "/test/", "/androidTest/"],
+    "message": "لون خارج BrandConfig.kt — OKLCH من مصدر واحد",
+    "source": "preferences.md#التصميم"
+  },
+  {
+    "id": "icon-pack",
+    "severity": "warn", "tier": "T2", "scope": "code",
+    "pattern": "import\\s+androidx\\.compose\\.material\\.icons",
+    "message": "حزمة أيقونات جاهزة — استخدم Icons.kt المرسوم يدوياً",
+    "source": "preferences.md#التصميم"
+  },
+  {
+    "id": "emoji-in-source",
+    "severity": "warn", "tier": "T0", "scope": "raw",
+    "pattern": "[\\U0001F300-\\U0001FAFF\\u2600-\\u27BF\\u2B50]",
+    "message": "emoji داخل الكود — ممنوع",
+    "source": "preferences.md#التصميم"
+  },
+  {
+    "id": "todo-left",
+    "severity": "warn", "tier": "T1", "scope": "raw",
+    "pattern": "\\b(?:TODO|FIXME|HACK|XXX)\\b",
+    "message": "TODO متروك — نفّذه أو احذفه أو سجّله في repo-map",
+    "source": "preferences.md#الكود"
+  },
+  {
+    "id": "debug-output",
+    "severity": "warn", "tier": "T0", "scope": "code",
+    "pattern": "\\bprintln\\(|\\bLog\\.[dvi]\\(|printStackTrace\\(\\)",
+    "exclude": ["/test/", "/androidTest/"],
+    "message": "إخراج تشخيصي متروك",
+    "source": "preferences.md#الكود"
+  },
+  {
+    "id": "global-scope",
+    "severity": "warn", "tier": "T1", "scope": "code",
+    "pattern": "\\bGlobalScope\\.",
+    "message": "GlobalScope يسرّب المهام — استخدم scope مرتبطاً بدورة الحياة",
+    "source": "preferences.md#المعمارية"
+  },
+  {
+    "id": "ai-tell",
+    "severity": "warn", "tier": "T0", "scope": "raw",
+    "pattern": "(?i)generated (?:by|with)|\\bas an ai\\b|\\bchatgpt\\b|\\bcopilot\\b|\\bclaude\\b|co-authored-by|this (?:function|method|class) (?:is used|will|does|handles)|\\bhere'?s\\b",
+    "message": "أسلوب آلي ظاهر في تعليق/نص — اكتب كمهندس بشري",
+    "source": "CHARTER.md#بصمة بشرية"
+  },
+  {
+    "id": "r8-disabled-release",
+    "severity": "error", "tier": "T2", "scope": "raw", "multiline": true,
+    "pattern": "release\\s*\\{[^}]*isMinifyEnabled\\s*=\\s*false",
+    "files": ["build.gradle.kts"],
+    "message": "R8 لازم مفعّلاً في release",
+    "source": "preferences.md#الكود"
+  },
+  {
+    "id": "cleartext-traffic",
+    "severity": "warn", "tier": "T2", "scope": "raw",
+    "pattern": "android:usesCleartextTraffic=\"true\"",
+    "files": ["AndroidManifest.xml"],
+    "message": "HTTP غير مشفّر مسموح",
+    "source": "security"
+  },
+  {
+    "id": "allow-backup",
+    "severity": "warn", "tier": "T2", "scope": "raw",
+    "pattern": "android:allowBackup=\"true\"",
+    "files": ["AndroidManifest.xml"],
+    "message": "allowBackup=true يسمح باستخراج بيانات التطبيق",
+    "source": "security"
+  },
+  {
+    "id": "webview-policy",
+    "severity": "info", "tier": "T2", "scope": "code",
+    "pattern": "\\bWebView\\(|import\\s+android\\.webkit\\.WebView",
+    "message": "WebView ممنوع في مشاريع Native (Compose فقط)",
+    "source": "preferences.md#المعمارية"
+  }
+]

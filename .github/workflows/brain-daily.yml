@@ -1,0 +1,50 @@
+name: brain-daily
+
+on:
+  schedule:
+    - cron: "23 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: brain-write
+  cancel-in-progress: false
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    env:
+      GH_PAT: ${{ secrets.GH_PAT }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Tests
+        run: python3 -m unittest discover -s tests -t . -v
+
+      - name: Journal digest
+        run: python3 scripts/journal_digest.py
+
+      - name: Organize
+        run: python3 scripts/organize_brain.py
+
+      - name: Doctor
+        run: python3 scripts/brain_doctor.py
+
+      - name: Collect projects
+        if: env.GH_PAT != ''
+        run: python3 scripts/collect.py
+        continue-on-error: true
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions-robot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "brain: daily organize and collect"
+          git pull --rebase origin main
+          git push origin main

@@ -1,0 +1,67 @@
+name: brain-kit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: brain-write
+  cancel-in-progress: false
+
+jobs:
+  kit:
+    runs-on: ubuntu-latest
+    env:
+      GH_PAT: ${{ secrets.GH_PAT }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Require PAT
+        run: test -n "$GH_PAT" || { echo "GH_PAT مطلوب"; exit 1; }
+
+      - name: Refresh index
+        run: python3 scripts/collect.py
+
+      - name: Extract kit
+        run: python3 scripts/kit.py extract --clone projects.json --out "$RUNNER_TEMP/sajed-kit"
+
+      - name: Publish to sajed-kit repo
+        run: |
+          auth=$(printf 'x-access-token:%s' "$GH_PAT" | base64 -w0)
+          g() { git -c "http.extraheader=Authorization: Basic $auth" "$@"; }
+          gh repo view Dev-saged/sajed-kit >/dev/null 2>&1 || gh repo create Dev-saged/sajed-kit --private
+          dest="$RUNNER_TEMP/kit-repo"
+          g clone -q https://github.com/Dev-saged/sajed-kit.git "$dest"
+          cd "$dest"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions-robot@users.noreply.github.com"
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a "$RUNNER_TEMP/sajed-kit/." .
+          git add -A
+          git diff --cached --quiet && { echo "لا تغيير في الكيت"; exit 0; }
+          if git rev-parse HEAD >/dev/null 2>&1; then
+            branch="kit/update-$(date +%Y%m%d%H%M)"
+            git checkout -q -b "$branch"
+            git commit -qm "kit: refresh shared functions"
+            g push -q -u origin "$branch"
+            GH_TOKEN="$GH_PAT" gh pr create --repo Dev-saged/sajed-kit --title "kit: refresh shared functions" --body "تحديث مولَّد من sajed-brain. راجع README للمستخرَج والمتروك." --base main --head "$branch"
+          else
+            git checkout -q -B main
+            git commit -qm "kit: initial shared functions"
+            g push -q -u origin main
+          fi
+
+      - name: Commit manifest to brain
+        run: |
+          cp "$RUNNER_TEMP/sajed-kit/kit-manifest.json" index/kit-manifest.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions-robot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "brain: refresh kit manifest"
+          git pull --rebase origin main
+          git push origin main

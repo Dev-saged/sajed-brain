@@ -27,6 +27,13 @@ _سياق يتراكم عبر الجلسات_
 - **SMS Barq**: SMS engine في حزمة sms/ (SendEngine، SendQueue، SendDrainer، ...)
 - **Sport Monitor AI**: Python Flask على Termux، Android WebView bridge
 
+## Mission Control (Nov 2026)
+- [2026-11-17] #brain الدماغ صار مركز عمليات: scout + guards + deps radar + brief + خطافات؛ التفاصيل docs/mission-control.md
+- [2026-11-17] #brain كل خطأ مصلَح = حارس في rules/guards.json (لا تكرار)؛ كل مشروع يُثبَّت عبر scripts/install_project.py
+- [2026-11-17] #brain commit بلا ذيول أدوات؛ الخطاف commit-msg ينظّفها (لا تمييز لعمل الذكاء الاصطناعي)
+- [2026-11-17] #brain v2.1: صيانة أسبوعية PR، fixes آلية، تأكيد الميت بـdetekt، حارس من الخطأ، يوميات ✓/✗ مضغوطة، sajed-kit (extract/adopt)
+- [2026-11-17] #brain الكيت JVM نقي فقط (بلا android/androidx ولا اعتماد على رموز المشروع)؛ لا شيء يُدمج في مشروع قبل build أخضر
+
 ## GRCS (Nov 2026)
 - نسخة الويب تتبع التطبيق في الإصدار؛ فكّر بتوليد `version.json` تلقائياً من `gradle.properties` في CI
 - قرار: المندوب والمستفيد قد يحتاجان نبضاً خاصاً؛ حالياً النبض للمدير والمندوب
