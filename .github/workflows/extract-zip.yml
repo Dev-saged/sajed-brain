@@ -1,4 +1,4 @@
-name: Extract ZIP into repository
+name: Extract ZIP into repository root
 
 on:
   workflow_dispatch:
@@ -17,21 +17,35 @@ jobs:
       - name: Check ZIP file exists
         run: test -f sajed-brain.zip
 
-      - name: Extract ZIP
+      - name: Extract ZIP contents into repository root
+        shell: bash
         run: |
-          mkdir -p extracted
-          unzip -o sajed-brain.zip -d extracted
+          temp_dir="$(mktemp -d)"
+          unzip -q sajed-brain.zip -d "$temp_dir"
 
-      - name: Commit extracted files
+          shopt -s dotglob nullglob
+          entries=("$temp_dir"/*)
+
+          if [[ ${#entries[@]} -eq 1 && -d "${entries[0]}" ]]; then
+            source_dir="${entries[0]}"
+          else
+            source_dir="$temp_dir"
+          fi
+
+          cp -a "$source_dir"/. .
+          rm -rf "$temp_dir"
+          rm sajed-brain.zip
+
+      - name: Commit extracted files and remove ZIP
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add extracted/
+          git add -A
 
           if git diff --cached --quiet; then
-            echo "No new extracted files to commit."
+            echo "No extracted changes to commit."
             exit 0
           fi
 
-          git commit -m "Extract sajed-brain.zip"
+          git commit -m "Extract ZIP contents into repository root"
           git push
