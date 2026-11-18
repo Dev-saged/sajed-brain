@@ -83,7 +83,7 @@ def contact_sheet(path: pathlib.Path, times: list, out: pathlib.Path) -> None:
     with tempfile.TemporaryDirectory() as td:
         for i, t in enumerate(times):
             subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-ss", str(t), "-i", str(path), "-frames:v", "1",
-                            "-vf", "scale=240:-2,pad=240:427:(ow-iw)/2:(oh-ih)/2", f"{td}/{i:02d}.jpg"], check=True)
+                            "-vf", "scale=240:426:force_original_aspect_ratio=decrease,pad=240:426:(ow-iw)/2:(oh-ih)/2", f"{td}/{i:02d}.jpg"], check=True)
         subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-framerate", "1", "-i", f"{td}/%02d.jpg",
                         "-vf", "tile=6x2:padding=6:color=0x111111", "-frames:v", "1", "-q:v", "4", str(out)], check=True)
 
@@ -170,7 +170,7 @@ def main() -> None:
                 path.unlink()
     notes.write_text(text, encoding="utf-8")
     done_path.write_text(json.dumps(done, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    pending = text.count(PENDING)
+    pending = text.count("| " + PENDING)
     print(f"مراجع جديدة: {new} · بانتظار تفسير Claude: {pending}")
 
 

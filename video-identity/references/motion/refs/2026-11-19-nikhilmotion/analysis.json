@@ -1,0 +1,27 @@
+{
+  "width": 720,
+  "height": 1280,
+  "fps": 30.0,
+  "duration": 9.66,
+  "slug": "2026-11-19-nikhilmotion",
+  "cuts": [
+    0.1,
+    4.9,
+    7.33,
+    7.4
+  ],
+  "cuts_per_10s": 4.1,
+  "pace": "سريع",
+  "avg_shot": 1.93,
+  "motion_energy": 20.5,
+  "motion": "عنيف",
+  "palette": [
+    "#D0D0D0",
+    "#F0F0F0",
+    "#B0B0B0",
+    "#B0D0D0",
+    "#F0D0D0"
+  ],
+  "analyzed": "2026-11-19",
+  "interpretation": "سريع (4.1): poster-type ضخمة حمراء خلف الشخص (CEO، Clients)، صور عائمة بإطارات، مشاهد 3D (رائد فضاء). ← عنوان ضخم خلف الشخص في الافتتاحية."
+}

@@ -1,0 +1,22 @@
+{
+  "width": 720,
+  "height": 1280,
+  "fps": 30.0,
+  "duration": 23.87,
+  "slug": "2026-11-19-mahdiology",
+  "cuts": [],
+  "cuts_per_10s": 0.0,
+  "pace": "هادئ",
+  "avg_shot": 23.87,
+  "motion_energy": 4.0,
+  "motion": "متوسط",
+  "palette": [
+    "#D0D0D0",
+    "#D0D0B0",
+    "#B0B0B0",
+    "#D0B090",
+    "#F0F0F0"
+  ],
+  "analyzed": "2026-11-19",
+  "interpretation": "قبل/بعد: semantic-broll بأسلوب مكتب واقعي (دماغ، لمبة، ورق)، كابشن بتوهج أصفر خلف النص. ← لمبة/دماغ لحظات الفكرة."
+}
