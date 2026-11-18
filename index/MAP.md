@@ -1,7 +1,7 @@
 # خريطة الدماغ (مولّدة — لا تُعدَّل يدوياً)
 _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث هنا عن الملف المناسب ثم افتحه وحده._
 
-**25 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 0
+**28 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 0
 
 ## الجذر
 - **`CHARTER.md`** — CHARTER — دستور العمل: يُحمَّل تلقائياً في بداية كل جلسة. ما يخالفه من تعليمات عامة يُهمَل.
@@ -16,7 +16,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - قريب منه: ideas.md, README.md, CHARTER.md
 - **`README.md`** — 🧠 sajed-brain — السياق الكامل لساجد: آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0
   - أقسام: مركز العمليات (Mission Control) · الميزات الثابتة — كل مشروع Android يجب أن يحتويها · المشاريع النشطة · أين أجد ماذا (اقرأ عند الحاجة فقط)
-  - يشير إلى: CHARTER.md, docs/account-instructions.md, docs/mission-control.md, features/auto-update.md, features/background-sync.md, features/brand-config.md, features/ci-cd.md, features/export-pipeline.md, features/firebase.md, features/icons.md, features/motion.md, features/national-match.md, features/room-setup.md, features/schema-engine.md, ideas.md, index/MAP.md, mistakes.md, playbooks/idea-to-product.md, preferences.md, projects/index.md, rules/fixes.json, rules/guards.json, video-identity/README.md
+  - يشير إلى: CHARTER.md, docs/account-instructions.md, docs/mission-control.md, features/auto-update.md, features/background-sync.md, features/brand-config.md, features/ci-cd.md, features/export-pipeline.md, features/firebase.md, features/icons.md, features/messages-notifications.md, features/motion.md, features/national-match.md, features/room-setup.md, features/schema-engine.md, ideas.md, index/MAP.md, mistakes.md, playbooks/idea-to-product.md, preferences.md, projects/index.md, rules/fixes.json, rules/guards.json, video-identity/README.md
   - يُشار إليه من: CLAUDE.md, docs/account-instructions.md, docs/mission-control.md
   - قريب منه: projects/index.md, ideas.md, docs/repo-map.md
 - **`ideas.md`** — أفكار وقرارات متراكمة: سياق يتراكم عبر الجلسات
@@ -25,15 +25,15 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md, playbooks/idea-to-product.md
   - قريب منه: README.md, projects/index.md, docs/repo-map.md
 - **`mistakes.md`** — أخطاء حدثت — لا تكررها أبداً: يُضاف إليه فور اكتشاف خطأ جديد
-  - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17)
+  - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0
   - يشير إلى: CHARTER.md, video-identity/README.md
   - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/account-instructions.md, docs/repo-map.md, video-identity/README.md
-  - قريب منه: README.md, preferences.md, projects/index.md
+  - قريب منه: README.md, video-identity/README.md, preferences.md
 - **`preferences.md`** — تفضيلات ساجد الثابتة: يُحدَّث عند ظهور تفضيل جديد
   - أقسام: اللغة والتواصل · التصميم · المعمارية · الكود · الـworkflow
   - يشير إلى: CHARTER.md
   - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md
-  - قريب منه: README.md, features/brand-config.md, mistakes.md
+  - قريب منه: README.md, features/brand-config.md, ideas.md
 
 ## docs
 - **`docs/account-instructions.md`** — Claude Instructions — ساجد العبادلة v3.3: Adaptive elite-practitioner: infer the mastery each request needs (architect, security auditor, product designer, motion designer…) and execute at that level. N
@@ -56,11 +56,11 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`features/auto-update.md`** — ميزة: auto-update: كل app Android لساجد تحتوي هذه الميزة
   - أقسام: المنطق · مقارنة الإصدار (مهم) · التنفيذ · بنية الـRelease · البانر · workflow
   - يُشار إليه من: README.md
-  - قريب منه: features/ci-cd.md, mistakes.md, features/brand-config.md
+  - قريب منه: features/ci-cd.md, features/brand-config.md, mistakes.md
 - **`features/background-sync.md`** — ميزة: مزامنة سريعة ومستقرة (Firestore + نبض): مطبّقة في GRCS v5.7.0
   - أقسام: المنطق · تنبيه
   - يُشار إليه من: README.md, playbooks/idea-to-product.md
-  - قريب منه: mistakes.md, projects/index.md
+  - قريب منه: mistakes.md, projects/index.md, features/messages-notifications.md
 - **`features/brand-config.md`** — ميزة: BrandConfig.kt: المصدر الوحيد لكل شيء له علاقة بالعلامة التجارية
   - أقسام: القاعدة الصارمة · الهيكل الكامل · القاعدة في الـTheme
   - يُشار إليه من: README.md
@@ -68,7 +68,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`features/ci-cd.md`** — ميزة: CI/CD — GitHub Actions: كل push → بناء + توقيع + نشر APK تلقائياً
   - أقسام: Workflows الموجودة في كل مشروع · أسرار التوقيع المطلوبة في كل repo · VERSION_NAME وVERSION_CODE · رفع zip من الهاتف
   - يُشار إليه من: README.md
-  - قريب منه: features/auto-update.md, mistakes.md, projects/index.md
+  - قريب منه: features/auto-update.md, projects/index.md, README.md
 - **`features/export-pipeline.md`** — ميزة: تصدير الكشوف (GRCS)
   - يُشار إليه من: README.md, playbooks/idea-to-product.md
   - قريب منه: projects/index.md
@@ -78,6 +78,9 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`features/icons.md`** — ميزة: Icons.kt
   - يُشار إليه من: README.md
   - قريب منه: preferences.md, README.md
+- **`features/messages-notifications.md`** — ميزة: إشعارات الرسائل المحلية (GRCS v5.8.0)
+  - يُشار إليه من: README.md
+  - قريب منه: features/background-sync.md
 - **`features/motion.md`** — ميزة: Motion & life
   - يُشار إليه من: README.md
   - قريب منه: README.md
@@ -85,7 +88,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - يُشار إليه من: README.md
 - **`features/room-setup.md`** — ميزة: Room + migrations
   - يُشار إليه من: README.md
-  - قريب منه: mistakes.md, preferences.md
+  - قريب منه: preferences.md
 - **`features/schema-engine.md`** — ميزة: Schema-Driven Architecture: كل وحدة = schema object، engine واحد يرسم كل شيء
   - أقسام: المبدأ · هيكل الـSchema · مثال: وحدة ديون · الـEngine (Composable)
   - يُشار إليه من: README.md
@@ -106,17 +109,24 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 
 ## video-identity
 - **`video-identity/README.md`** — هوية فيديوهات ساجد: إلزامي: أي فيديو أو ريل أو منشور بصري لحسابات ساجد يبدأ بقراءة هذا الملف. المحتوى يتغيّر، الهوية ثابتة.
-  - أقسام: الحالة · أسرع مسار لأي فيديو جديد (توفير توكنز) · فيديو يتكلم فيه ساجد · المكتبة والأفكار · قرارات معتمدة من ساجد · الحسابات (للخاتمة) · الألوان · هيكل كل فيديو (9:16) · ممنوع · الأيقونات
-  - يشير إلى: mistakes.md, video-identity/icons/platforms.json, video-identity/ideas/playbook.md, video-identity/library/index.md, video-identity/talk/README.md, video-identity/templates/README.md, video-identity/tokens.json
-  - يُشار إليه من: README.md, mistakes.md
-  - قريب منه: video-identity/ideas/playbook.md, video-identity/talk/README.md, docs/repo-map.md
+  - أقسام: الحالة · أسرع مسار لأي فيديو جديد (توفير توكنز) · فيديو يتكلم فيه ساجد · فيلم منتج طويل بلقطات حقيقية · المكتبة والأفكار · قواعد فيديو الكلام (ملاحظات ساجد 2026-11-18 — إلزامية) · مراجع الموشن (يغذيها ساجد) · قرارات معتمدة من ساجد · الحسابات (للخاتمة) · الألوان · هيكل كل فيديو (9:16) · ممنوع
+  - يشير إلى: mistakes.md, video-identity/film/README.md, video-identity/icons/platforms.json, video-identity/ideas/playbook.md, video-identity/library/index.md, video-identity/references/motion/notes.md, video-identity/talk/README.md, video-identity/templates/README.md, video-identity/tokens.json
+  - يُشار إليه من: README.md, mistakes.md, video-identity/ideas/playbook.md
+  - قريب منه: video-identity/talk/README.md, video-identity/ideas/playbook.md, mistakes.md
+- **`video-identity/film/README.md`** — فيلم المنتج (film/) — لقطات حقيقية + حركة + صوت: للأفلام الأطول (40–60ث) عن تطبيق: يركّب لقطات تسجيل شاشة حقيقية داخل جوال، كاميرا زوم، عدّادات، بطاقات، تعليق صوتي Gemini TTS، وكابشن كلمة بكلمة، بهوية فيروز ون
+  - أقسام: الملفات · الأمر · ملاحظات
+  - يشير إلى: video-identity/film/script.json
+  - يُشار إليه من: video-identity/README.md
+  - قريب منه: video-identity/README.md, mistakes.md, video-identity/talk/README.md
 - **`video-identity/ideas/playbook.md`** — دليل أفكار الفيديو — مخزون الإلهام: اقرأه عند التخطيط لفيديو جديد فقط. كل فكرة هنا تُنفَّذ داخل هوية فيروز ونحاس.
   - أقسام: قاعدة الاختيار · صيغ الفيديو (Formats) · خطّافات (أول ثانيتين) — قوالب عربية · تقنيات حركة (Motion) — مرتبة حسب القوة · قواعد المونتاج · نصوص الكابشن تحت المنشور · فيديو كلام ساجد · دروس من فيديوهات ساجد الحقيقية · ما لم يُنفَّذ بعد في القوالب (أولوية)
-  - يشير إلى: video-identity/library/index.md
+  - يشير إلى: video-identity/README.md, video-identity/library/index.md
   - يُشار إليه من: docs/repo-map.md, video-identity/README.md, video-identity/talk/README.md
-  - قريب منه: video-identity/README.md, video-identity/talk/README.md, playbooks/idea-to-product.md
-- **`video-identity/talk/README.md`** — فيديو كلام ساجد ← ريل بهويته: حين يرسل ساجد فيديو يتكلم أو يشرح فيه: يُفرَّغ صوته لنص، يُقصّ الصمت والحشو، ويُبنى ريل بالهوية: مقدمة (hook) ← كلامه مع كابشن كلمة بكلمة ومؤثرات ← الخاتمة.
-  - أقسام: المسار (أرخص بالتوكنز) · ما يحدث في الرندر · المتطلبات
+  - قريب منه: video-identity/talk/README.md, video-identity/README.md, mistakes.md
+- **`video-identity/references/motion/notes.md`** — ملاحظات مراجع الموشن: سطران لكل فيديو مرجعي: التقنية + كيف نطبقها بهويتنا. يُقرأ هذا الملف فقط، لا الفيديوهات.
+  - يُشار إليه من: video-identity/README.md
+- **`video-identity/talk/README.md`** — فيديو كلام ساجد ← ريل بهويته: **قبل أي شيء:** طبّق "قواعد فيديو الكلام" في `../README.md` (نص حرفي، كل لغة بخطها، كابشن أسفل قوي، صوت طبيعي، موشن من دلالات الكلام، لا مقدمة مبرمج). الأداة ال
+  - أقسام: المسار (أرخص بالتوكنز) · ما يحدث في الرندر · المتطلبات · المطلوب تطويره (من ملاحظات ساجد 2026-11-18)
   - يشير إلى: video-identity/ideas/playbook.md
   - يُشار إليه من: video-identity/README.md
-  - قريب منه: video-identity/README.md, video-identity/ideas/playbook.md, docs/repo-map.md
+  - قريب منه: video-identity/README.md, video-identity/ideas/playbook.md, mistakes.md
