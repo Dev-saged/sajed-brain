@@ -58,6 +58,7 @@ _آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0_
 |---|---|
 | لا تعرف أين المعلومة | `index/MAP.md` (خريطة مولّدة يومياً لكل الملفات: أقسامها، روابطها، والملفات القريبة منها) أو `python3 scripts/brief.py --task "..."` |
 | **فكرة أو مشروع جديد أو ميزة كبيرة** | `playbooks/idea-to-product.md` — افهم ← وسّع (Core/Pro/Wow) ← كتالوج حسب النوع ← موجز ← تنفيذ كامل من أول مرة |
+| نص تعليمات حساب ساجد الحالي (v3.3) | `docs/account-instructions.md` |
 | تفضيلات ساجد (RTL، أيقونات يدوية، OKLCH، BrandConfig، schema، لا TODO) | `preferences.md` |
 | أخطاء سابقة لا تتكرر | `mistakes.md` + `rules/guards.json` |
 | قرارات وأفكار متراكمة | `ideas.md` |

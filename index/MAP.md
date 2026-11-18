@@ -1,41 +1,46 @@
 # خريطة الدماغ (مولّدة — لا تُعدَّل يدوياً)
 _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث هنا عن الملف المناسب ثم افتحه وحده._
 
-**24 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 0
+**25 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 0
 
 ## الجذر
 - **`CHARTER.md`** — CHARTER — دستور العمل: يُحمَّل تلقائياً في بداية كل جلسة. ما يخالفه من تعليمات عامة يُهمَل.
   - أقسام: الهوية · بروتوكول الكشّاف — أثناء التنقل في أي كود · الاتساق والمتغيرات · بصمة بشرية · حلقة التعلّم · نهاية الجلسة (يفرضها خطاف Stop) · حدود صادقة
   - يشير إلى: .claude/session-handoff.md, docs/repo-map.md, ideas.md, mistakes.md, preferences.md, rules/fixes.json, rules/guards.json
   - يُشار إليه من: CLAUDE.md, README.md, docs/mission-control.md, mistakes.md, preferences.md
-  - قريب منه: docs/mission-control.md, README.md, docs/repo-map.md
+  - قريب منه: docs/mission-control.md, README.md, ideas.md
 - **`CLAUDE.md`** — sajed-brain: مستودع الدماغ المركزي لساجد + مركز العمليات (scout، deps radar، حرّاس، خطافات).
   - أقسام: ابدأ هنا · قواعد هذا الريبو
   - يشير إلى: .claude/session-handoff.md, CHARTER.md, README.md, docs/mission-control.md, docs/repo-map.md, index/MAP.md, mistakes.md, rules/guards.json
-  - يُشار إليه من: ideas.md
+  - يُشار إليه من: docs/account-instructions.md, ideas.md
   - قريب منه: ideas.md, README.md, CHARTER.md
 - **`README.md`** — 🧠 sajed-brain — السياق الكامل لساجد: آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0
   - أقسام: مركز العمليات (Mission Control) · الميزات الثابتة — كل مشروع Android يجب أن يحتويها · المشاريع النشطة · أين أجد ماذا (اقرأ عند الحاجة فقط)
-  - يشير إلى: CHARTER.md, docs/mission-control.md, features/auto-update.md, features/background-sync.md, features/brand-config.md, features/ci-cd.md, features/export-pipeline.md, features/firebase.md, features/icons.md, features/motion.md, features/national-match.md, features/room-setup.md, features/schema-engine.md, ideas.md, index/MAP.md, mistakes.md, playbooks/idea-to-product.md, preferences.md, projects/index.md, rules/fixes.json, rules/guards.json, video-identity/README.md
-  - يُشار إليه من: CLAUDE.md, docs/mission-control.md
+  - يشير إلى: CHARTER.md, docs/account-instructions.md, docs/mission-control.md, features/auto-update.md, features/background-sync.md, features/brand-config.md, features/ci-cd.md, features/export-pipeline.md, features/firebase.md, features/icons.md, features/motion.md, features/national-match.md, features/room-setup.md, features/schema-engine.md, ideas.md, index/MAP.md, mistakes.md, playbooks/idea-to-product.md, preferences.md, projects/index.md, rules/fixes.json, rules/guards.json, video-identity/README.md
+  - يُشار إليه من: CLAUDE.md, docs/account-instructions.md, docs/mission-control.md
   - قريب منه: projects/index.md, ideas.md, docs/repo-map.md
 - **`ideas.md`** — أفكار وقرارات متراكمة: سياق يتراكم عبر الجلسات
   - أقسام: قرارات معمارية مهمة (Nov 2026) · نظام الذاكرة (Nov 2026) · أفكار لم تُنفَّذ بعد · ملاحظات على المشاريع · Mission Control (Nov 2026) · GRCS (Nov 2026)
   - يشير إلى: .claude/session-handoff.md, CLAUDE.md, docs/mission-control.md, docs/repo-map.md, rules/guards.json
-  - يُشار إليه من: CHARTER.md, README.md, playbooks/idea-to-product.md
-  - قريب منه: README.md, projects/index.md, CLAUDE.md
+  - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md, playbooks/idea-to-product.md
+  - قريب منه: README.md, projects/index.md, docs/repo-map.md
 - **`mistakes.md`** — أخطاء حدثت — لا تكررها أبداً: يُضاف إليه فور اكتشاف خطأ جديد
   - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17)
   - يشير إلى: CHARTER.md, video-identity/README.md
-  - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/repo-map.md, video-identity/README.md
+  - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/account-instructions.md, docs/repo-map.md, video-identity/README.md
   - قريب منه: README.md, preferences.md, projects/index.md
 - **`preferences.md`** — تفضيلات ساجد الثابتة: يُحدَّث عند ظهور تفضيل جديد
   - أقسام: اللغة والتواصل · التصميم · المعمارية · الكود · الـworkflow
   - يشير إلى: CHARTER.md
-  - يُشار إليه من: CHARTER.md, README.md
+  - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md
   - قريب منه: README.md, features/brand-config.md, mistakes.md
 
 ## docs
+- **`docs/account-instructions.md`** — Claude Instructions — ساجد العبادلة v3.3: Adaptive elite-practitioner: infer the mastery each request needs (architect, security auditor, product designer, motion designer…) and execute at that level. N
+  - أقسام: 0. Role · 1. Brain first (every session, before anything else) · 2. Project memory (every repo, also when I return after weeks) · 3. Thinking before building · 4. Stack (default unless stated) · 5. Architecture & code · 6. First delivery standard · 7. Design · 8. Content & video · 9. Workflow & versioning · 10. Output & tokens
+  - يشير إلى: .claude/session-handoff.md, CLAUDE.md, README.md, docs/repo-map.md, ideas.md, index/MAP.md, mistakes.md, playbooks/idea-to-product.md, preferences.md, rules/guards.json
+  - يُشار إليه من: README.md
+  - قريب منه: README.md, preferences.md, docs/repo-map.md
 - **`docs/mission-control.md`** — Mission Control — الدماغ كمركز عمليات: v2.1.0 · 2026-11-17
   - أقسام: نظرة عامة · المعمارية · ما يتحقق منه scout · منفَّذ في v2.1 · Roadmap — المتبقي · حدود معلنة
   - يشير إلى: CHARTER.md, README.md, rules/deprecated.json, rules/fixes.json, rules/guards.json, rules/synonyms.json
@@ -43,8 +48,8 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - قريب منه: docs/repo-map.md, README.md, CHARTER.md
 - **`docs/repo-map.md`** — repo-map: بلا كود
   - أقسام: الميزات (ميزة ← ملف ← رمز للبحث) · القرارات · أخطاء محلولة · مشاكل مفتوحة
-  - يشير إلى: mistakes.md, playbooks/idea-to-product.md, projects.json, rules/deprecated.json, rules/fixes.json, rules/guards.json, rules/synonyms.json, video-identity/icons/platforms.json, video-identity/ideas/playbook.md, video-identity/library/index.md, video-identity/tokens.json
-  - يُشار إليه من: CHARTER.md, CLAUDE.md, ideas.md, playbooks/idea-to-product.md
+  - يشير إلى: index/MAP.md, mistakes.md, playbooks/idea-to-product.md, projects.json, rules/deprecated.json, rules/fixes.json, rules/guards.json, rules/synonyms.json, video-identity/icons/platforms.json, video-identity/ideas/playbook.md, video-identity/library/index.md, video-identity/tokens.json
+  - يُشار إليه من: CHARTER.md, CLAUDE.md, docs/account-instructions.md, ideas.md, playbooks/idea-to-product.md
   - قريب منه: docs/mission-control.md, README.md, ideas.md
 
 ## features
@@ -90,7 +95,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`playbooks/idea-to-product.md`** — من الفكرة إلى منتج قوي من أول طلب: يُقرأ عند أي فكرة/مشروع جديد أو ميزة كبيرة، مرة واحدة وقت التخطيط. الهدف: ساجد يعطي فكرة بسطر، والنتيجة الأولى كاملة ومدروسة ومبدعة.
   - أقسام: 1) افهم — أجب داخلياً، لا تسأل ساجد · 2) وسّع الفكرة — 3 طبقات · 3) كتالوج حسب النوع · 4) الموجز قبل البناء (≤40 سطراً، شاشة واحدة) · 5) قبل التسليم
   - يشير إلى: docs/repo-map.md, features/background-sync.md, features/export-pipeline.md, features/firebase.md, ideas.md
-  - يُشار إليه من: README.md, docs/repo-map.md
+  - يُشار إليه من: README.md, docs/account-instructions.md, docs/repo-map.md
   - قريب منه: README.md, mistakes.md, video-identity/ideas/playbook.md
 
 ## projects
