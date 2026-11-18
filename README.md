@@ -1,5 +1,5 @@
 # 🧠 sajed-brain — السياق الكامل لساجد
-_آخر تحديث: 2026-11-17 · Mission Control v2.1 · GRCS v5.7.0_
+_آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0_
 
 > **كيفية الاستخدام:** اقرأ هذا الملف أول شيء في كل جلسة. ابحث في الملفات الفرعية فقط عند الحاجة لتفاصيل ميزة معينة.
 
@@ -52,32 +52,11 @@ _آخر تحديث: 2026-11-17 · Mission Control v2.1 · GRCS v5.7.0_
 
 ---
 
-## تفضيلات ساجد الثابتة
-→ القائمة الكاملة في `preferences.md`
-- عربي RTL، أسماء عربية حقيقية في بيانات العرض، لا "John Doe"
-- أيقونات مرسومة يدوياً، لا icon packs ولا emoji
-- OKLCH لكل الألوان، لا hex مباشر
-- BrandConfig.kt المصدر الوحيد للألوان والإعدادات
-- schema-driven: كل وحدة schema لا Composable مخصص
-- Material You opt-in فقط، الـbrand palette هي الافتراضي
-- تحديث تلقائي في كل app عبر GitHub Release
-- لا TODO في الكود، لا AI artifacts، لا purposeless lines
-- تعليقات عربية مختصرة فقط عند الضرورة
-
----
-
-## أخطاء حدثت — لا تكررها
-→ القائمة الكاملة في `mistakes.md`
-- `gh api` يرجع "null" على 404 في bulk workflows → تحقق من وجود الملف قبل التعديل
-- nested folder داخل zip يكسر unpack-zip.yml → flatten الـzip عند الرفع
-- Material You كان default → غُيّر إلى opt-in في BrandConfig (قرار Nov 2026)
-
----
-
-## أفكار وقرارات متراكمة
-→ `ideas.md`
-
----
-
-## هوية الفيديو والمحتوى البصري
-→ `video-identity/README.md` — إلزامي قبل أي فيديو أو ريل أو منشور. خطوط Alexandria + Inter، شاشة بداية أسلوب terminal، "ساجد العبادلة · من غزة" في كل مقدمة، أيقونات منصات مرسومة. الألوان المعتمدة: فيروز ونحاس (`video-identity/tokens.json`).
+## أين أجد ماذا (اقرأ عند الحاجة فقط)
+| الموقف | الملف |
+|---|---|
+| **فكرة أو مشروع جديد أو ميزة كبيرة** | `playbooks/idea-to-product.md` — افهم ← وسّع (Core/Pro/Wow) ← كتالوج حسب النوع ← موجز ← تنفيذ كامل من أول مرة |
+| تفضيلات ساجد (RTL، أيقونات يدوية، OKLCH، BrandConfig، schema، لا TODO) | `preferences.md` |
+| أخطاء سابقة لا تتكرر | `mistakes.md` + `rules/guards.json` |
+| قرارات وأفكار متراكمة | `ideas.md` |
+| أي فيديو/ريل/منشور (مهارة `sajed-video`) | `video-identity/README.md` — فيروز ونحاس، "ساجد العبادلة · من غزة" |

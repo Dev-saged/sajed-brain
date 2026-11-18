@@ -18,6 +18,8 @@ _تحت 5KB، بلا كود_
 - يوميات: scripts/journal_digest.py ← `run`؛ hooks `learn --file journal`
 - sajed-kit: scripts/kit.py ← `extract`، `adopt`؛ workflows brain-kit.yml، kit-adopt.yml
 - كتابة آمنة للدماغ: .github/workflows/brain-update.yml ← scripts/update_brain.py
+- فكرة جديدة: playbooks/idea-to-product.md (Core/Pro/Wow + كتالوج حسب النوع + موجز ≤40 سطراً)
+- features/: room-setup، icons، motion، firebase أُكملت (كانت روابط مكسورة في README)
 - هوية الفيديو: video-identity/tokens.json (المصدر الوحيد)، icons/platforms.json
 - تركيب فيديو: video-identity/templates/render.py ← `load_brand`، `film`؛ المشاهد video.html ← `scenes`؛ أرشفة render.py ← `archive`، `index_line` → video-identity/library/index.md؛ أفكار ideas/playbook.md
 - فيديو كلام: video-identity/talk/talk.py ← `transcribe`، `auto_keep`، `plan`، `cut_source`؛ الكابشن talk.html
