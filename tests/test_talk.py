@@ -59,6 +59,28 @@ class TalkTest(unittest.TestCase):
     def test_arabizi_to_english_script(self):
         self.assertEqual(talk.to_script("فانتاستيك،", {"فانتاستيك": "fantastic"}), "fantastic،")
 
+    def test_timeline_rejects_cut_time_and_unknown_type(self):
+        with self.assertRaises(SystemExit):
+            plan({"keep": [[0.0, 2.0], [3.9, 4.6]], "approved_cuts": "ok", "cards": [{"at": 3.0, "type": "typo", "text": "x"}]})
+        with self.assertRaises(SystemExit):
+            plan({"cards": [{"at": 1.5, "type": "video", "text": "x"}]})
+        p = plan({"cards": [{"at": 1.5, "type": "icon", "icon": "heart", "text": "قلب"}], "frames": [{"from": 0.2, "to": 1.8, "title": "t"}]})
+        self.assertEqual(len(p["cards"]), 1)
+        self.assertEqual(len(p["frames"]), 1)
+
+    def test_sfx_events_and_icons(self):
+        p = plan({"cards": [{"at": 1.5, "type": "typo", "text": "x"}]})
+        kinds = [k for _, k in talk.compose.sfx_events(p, {"title": {"text": "x"}})]
+        self.assertIn("impact", kinds)
+        self.assertIn("whoosh", kinds)
+        self.assertEqual(talk.compose.sfx_events(p, {"sfx": False}), [])
+        self.assertIn("<svg", talk.compose.icons_markup(["heart"])["heart"])
+        with self.assertRaises(SystemExit):
+            talk.compose.icons_markup(["not-an-icon"])
+
+    def test_grades_known(self):
+        self.assertTrue({"teal", "wine", "amber", "natural"} <= set(talk.compose.GRADES))
+
     def test_example_valid_keys(self):
         ex = json.loads((ROOT / "talk.example.json").read_text(encoding="utf-8"))
         self.assertNotIn("hook", ex)

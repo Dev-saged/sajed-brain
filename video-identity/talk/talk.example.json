@@ -2,11 +2,22 @@
   "source": "my-video.mp4",
   "work": "work",
   "format": "مزاج · أجواء",
+  "grade": "teal",
   "title": { "text": "أجواء غزة\nالماطرة", "sub": "بدها قلب صافي", "seconds": 2.6 },
   "fixes": { "وغرجاني": "وغرقاني" },
-  "emphasis": ["fantastic", "صافي"],
-  "pops": [{ "at": 31.4, "text": "السلامة · الصحة" }],
-  "pop_y": "22%",
-  "zooms": [[47.7, 50.5]],
+  "keywords": ["fantastic", "البسطاء"],
+  "emphasis": ["السلامة", "شاي"],
+  "kashida": true,
+  "behind": [{ "from": 2.8, "to": 6.2, "text": "الأجواء", "y": 90 }],
+  "cards": [
+    { "at": 32.0, "dur": 1.8, "type": "icon", "icon": "shield-check", "text": "السلامة · {الصحة}" },
+    { "at": 47.9, "dur": 1.3, "type": "typo", "text": "قلب صافي", "kashida": true },
+    { "at": 50.0, "dur": 1.5, "type": "image", "src": "photos/tea.jpg", "text": "كاسة شاي" }
+  ],
+  "spotlight": [{ "from": 19.4, "to": 21.6, "label": "الدعوات" }],
+  "frames": [{ "from": 27.6, "to": 31.0, "num": "1", "title": "إحنا البسطاء", "sub": "نتمنى فقط من الله" }],
+  "ui": [{ "from": 34.0, "to": 37.4, "title": "نتمنى", "items": ["السلامة", "الصحة"] }],
+  "phones": [{ "from": 40.0, "to": 44.0, "src": "screens/app.png" }],
+  "music": null,
   "outro": true
 }

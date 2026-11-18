@@ -15,9 +15,11 @@ import pathlib
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 
 HERE = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
 ROOT = HERE.parent
 BRAIN = ROOT.parent
 GAP = 0.6
@@ -34,6 +36,8 @@ FX_CUES = {
     "fire": ("نار", "دفا", "دفء", "حطب", "fire"),
     "sparkle": ("يارب", "رب", "ربنا", "الله", "دعاء", "نتمنى", "يحقق"),
 }
+
+import compose  # noqa: E402
 
 spec = importlib.util.spec_from_file_location("render", ROOT / "templates" / "render.py")
 render = importlib.util.module_from_spec(spec)
@@ -168,7 +172,48 @@ def plan(cfg: dict, base: pathlib.Path) -> dict:
         "fx": [f for f in fx if None not in (f.get("from", 0), f.get("to", 0), f.get("at", 0))],
         "bounds": bounds,
         "duration": round(acc, 3),
+        **timeline(cfg, rt, base),
     }
+
+
+SPANS = ("frames", "behind", "spotlight", "ui", "phones")
+
+
+def timeline(cfg: dict, rt, base: pathlib.Path) -> dict:
+    """البطاقات وعناصر الموشن بزمن الفيديو بعد القص، مع رفض أي عنصر يقع في جزء محذوف أو ناقص."""
+    errs, out = [], {}
+    cards = []
+    for c in cfg.get("cards", []):
+        at = rt(c["at"])
+        if at is None:
+            errs.append(f"cards: الزمن {c['at']} في جزء محذوف")
+            continue
+        if c.get("type") not in ("typo", "icon", "image"):
+            errs.append(f"cards: النوع {c.get('type')} غير معروف (typo/icon/image)")
+        if c.get("type") == "image":
+            src = (base / c["src"]).resolve()
+            if not src.is_file():
+                errs.append(f"cards: الصورة غير موجودة {src}")
+            c = {**c, "src": src.as_uri()}
+        cards.append({**c, "at": at})
+    out["cards"] = cards
+    for key in SPANS:
+        items = []
+        for x in cfg.get(key, []):
+            a, b = rt(x["from"]), rt(x["to"])
+            if a is None or b is None:
+                errs.append(f"{key}: الفترة {x['from']}–{x['to']} تقع في جزء محذوف")
+                continue
+            if key == "phones":
+                src = (base / x["src"]).resolve()
+                if not src.is_file():
+                    errs.append(f"phones: الصورة غير موجودة {src}")
+                x = {**x, "src": src.as_uri()}
+            items.append({**x, "from": a, "to": b})
+        out[key] = items
+    if errs:
+        raise SystemExit("\n".join(errs))
+    return out
 
 
 def peak_gain(src: pathlib.Path) -> float:
@@ -177,7 +222,7 @@ def peak_gain(src: pathlib.Path) -> float:
     return max(0.0, -1.5 - float(m.group(1))) if m else 0.0
 
 
-def cut_source(src: pathlib.Path, p: dict, out: pathlib.Path) -> None:
+def cut_source(src: pathlib.Path, p: dict, out: pathlib.Path, grade: str = "teal") -> None:
     keep, parts, labels = p["keep"], [], []
     for i, (s, e) in enumerate(keep):
         parts.append(f"[0:v]trim={s}:{e},setpts=PTS-STARTPTS[v{i}];[0:a]atrim={s}:{e},asetpts=PTS-STARTPTS[a{i}]")
@@ -189,27 +234,9 @@ def cut_source(src: pathlib.Path, p: dict, out: pathlib.Path) -> None:
     gain = peak_gain(src)
     fc = ";".join(parts) + f";{''.join(labels)}concat=n={len(keep)}:v=1:a=1[cv][ca];" \
         f"[cv]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920," \
-        f"crop=w='iw/{z}':h='ih/{z}',scale=1080:1920,setsar=1,eq=contrast=1.05:saturation=1.08[vo];" \
+        f"crop=w='iw/{z}':h='ih/{z}',scale=1080:1920,setsar=1,{compose.GRADES[grade]}[vo];" \
         f"[ca]volume={gain:.2f}dB[ao]"
     ff("-i", str(src), "-filter_complex", fc, "-map", "[vo]", "-map", "[ao]", *VIDEO, *AUDIO, str(out))
-
-
-def open_overlay(br, data: dict):
-    pg = br.new_page(viewport={"width": 1080, "height": 1920})
-    pg.add_init_script("window.__TALK = " + json.dumps(data, ensure_ascii=False))
-    pg.goto((HERE / "talk.html").as_uri())
-    pg.wait_for_function("window.__ready && document.fonts.status === 'loaded'")
-    return pg
-
-
-def overlay_frames(br, data: dict, folder: pathlib.Path) -> None:
-    pg = open_overlay(br, data)
-    for i in range(int(data["duration"] * 30)):
-        pg.evaluate(f"window.__seek({i * 1000 / 30})")
-        pg.screenshot(path=str(folder / f"{i:05d}.png"), omit_background=True)
-    issues = sorted(set(pg.evaluate("window.__issues")))
-    if issues:
-        raise SystemExit("مشاكل عرض (لن يُسلَّم فيديو معيب):\n" + "\n".join(issues[:15]))
 
 
 def with_silence(src: pathlib.Path, out: pathlib.Path) -> None:
@@ -218,8 +245,17 @@ def with_silence(src: pathlib.Path, out: pathlib.Path) -> None:
 
 
 def overlay_data(cfg: dict, p: dict, tokens: dict) -> dict:
+    names = {c["icon"] for c in p["cards"] if c.get("type") == "icon"}
     return {"tokens": tokens, "words": p["words"], "pops": p["pops"], "fx": p["fx"], "title": cfg.get("title"),
-            "emphasis": cfg.get("emphasis", []), "duration": p["duration"], "popY": cfg.get("pop_y")}
+            "emphasis": cfg.get("emphasis", []), "keywords": cfg.get("keywords", []), "kashida": cfg.get("kashida", True),
+            "duration": p["duration"], "popY": cfg.get("pop_y"), "grade": cfg.get("grade", "teal"),
+            "icons": compose.icons_markup(names), **{k: p[k] for k in ("cards", *SPANS)}}
+
+
+def extract_frames(video: pathlib.Path, folder: pathlib.Path) -> list:
+    folder.mkdir(parents=True, exist_ok=True)
+    ff("-i", str(video), "-q:v", "2", str(folder / "%05d.jpg"))
+    return sorted(folder.glob("*.jpg"))
 
 
 def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
@@ -228,6 +264,9 @@ def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
     cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
     base = cfg_path.parent
     src = (base / cfg["source"]).resolve()
+    grade = cfg.get("grade", "teal")
+    if grade not in compose.GRADES:
+        raise SystemExit(f"grade: {grade} غير معروف ({'/'.join(compose.GRADES)})")
     p = plan(cfg, base)
     tokens = json.loads((ROOT / "tokens.json").read_text(encoding="utf-8"))
     icons = json.loads((ROOT / "icons" / "platforms.json").read_text(encoding="utf-8"))
@@ -236,24 +275,36 @@ def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
     with sync_playwright() as pw, tempfile.TemporaryDirectory() as td:
         td = pathlib.Path(td)
         br = pw.chromium.launch()
+        cut_source(src, p, td / "cut.mp4", grade)
+        frames = extract_frames(td / "cut.mp4", td / "src")
+        span = lambda k: [(x["from"], x["to"]) for x in p[k]]
         if preview:
-            pg = open_overlay(br, data)
-            marks = [1.2] + [w["s"] + 0.1 for w in p["words"][len(p["words"]) // 2:len(p["words"]) // 2 + 1]] + [x["at"] + 0.8 for x in p["pops"][:1]]
-            for i, t in enumerate(marks):
-                pg.evaluate(f"window.__seek({t * 1000})")
-                shot = out.with_name(f"{out.stem}-{i}.png")
-                pg.screenshot(path=str(shot), omit_background=True)
+            marks = [1.2] + [x["at"] + 0.9 for x in p["cards"][:3]] + [(x["from"] + x["to"]) / 2 for k in SPANS for x in p[k][:1]]
+            cut_r = [(m - 0.1, m + 0.1) for m in marks if any(a <= m <= b for a, b in span("behind"))]
+            face_r = [(m - 0.1, m + 0.1) for m in marks if any(a <= m <= b for a, b in span("spotlight"))]
+            all_frames = frames
+            cutouts, faces = compose.vision(all_frames, cut_r, face_r, td / "cut")
+            pg = br.new_page(viewport={"width": 1080, "height": 1920})
+            pg.add_init_script("window.__TALK = " + json.dumps(data, ensure_ascii=False))
+            pg.goto((HERE / "talk.html").as_uri())
+            pg.wait_for_function("window.__ready && document.fonts.status === 'loaded'")
+            for n, m in enumerate(marks):
+                i = min(len(all_frames) - 1, int(m * compose.FPS))
+                c = cutouts.get(i)
+                pg.evaluate("([ms, f, c, face]) => window.__seek(ms, f, c, face)", [m * 1000, all_frames[i].as_uri(), c.as_uri() if c else None, faces.get(i)])
+                shot = out.with_name(f"{out.stem}-{n}.jpg")
+                pg.screenshot(path=str(shot), type="jpeg", quality=88)
                 print(shot)
-            print(f"مدة بعد القص {p['duration']}ث · {len(p['keep'])} مقطع · أجواء: {[f['type'] for f in p['fx']]}")
+            print(f"مدة {p['duration']}ث · بطاقات {len(p['cards'])} · أجواء {[f['type'] for f in p['fx']]} · لون {grade}")
             br.close()
             return
-        cut_source(src, p, td / "cut.mp4")
-        frames = td / "ov"
-        frames.mkdir()
-        overlay_frames(br, data, frames)
-        ff("-i", str(td / "cut.mp4"), "-framerate", "30", "-i", str(frames / "%05d.png"),
-           "-filter_complex", "[0:v][1:v]overlay=0:0:eof_action=pass[v]", "-map", "[v]", "-map", "0:a",
-           *VIDEO, "-c:a", "copy", str(td / "talk.mp4"))
+        cutouts, faces = compose.vision(frames, span("behind"), span("spotlight"), td / "cut")
+        compose.composite(br, data, frames, cutouts, faces, td / "out")
+        ff("-i", str(td / "cut.mp4"), "-vn", "-c:a", "pcm_s16le", str(td / "voice.wav"))
+        music = (base / cfg["music"]).resolve() if cfg.get("music") else None
+        compose.mix_audio(td / "voice.wav", compose.sfx_events(p, cfg), music, p["duration"], td / "mix.m4a", td)
+        ff("-framerate", "30", "-i", str(td / "out" / "%05d.jpg"), "-i", str(td / "mix.m4a"),
+           "-map", "0:v", "-map", "1:a", *VIDEO, "-c:a", "copy", "-shortest", str(td / "talk.mp4"))
         order = [td / "talk.mp4"]
         if cfg.get("outro", True):
             brand = {"tokens": tokens, "icons": icons, "content": {"headline": "", "demo": {}, "durations": {"outro": 4}},

@@ -17,7 +17,7 @@ _يُقرأ قبل أي فيديو فخم. يُحدَّث كلما أضاف سا
 - قصص ساجد ودعاؤه ← typo-card نبيذية/فيروزية + semantic-broll.
 - شرح تطبيقاته ← phone-in-hand + floating-ui-cards + frame-in-frame بلقطات تطبيقه الحقيقية.
 
-## خطة البناء في الأداة (بالأولوية)
+## خطة البناء في الأداة — ✅ نُفّذت 1–5 في 2026-11-19 (انظر `talk/README.md` ← عناصر الموشن)
 1. keyword-glow + kashida-type في الكابشن (ترقية `talk.html`).
 2. typo-card + semantic-broll cards (`cards` في talk.json: نص/رسم متجهي/صورة من مكتبة ساجد، بتوقيت من الكلام).
 3. mood-grade presets (teal/wine/amber) + مؤثرات صوتية (whoosh/pop/riser) + موسيقى خفيفة.

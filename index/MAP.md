@@ -126,21 +126,22 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`video-identity/references/motion/LEXICON.md`** — معجم الموشن — لغة مشتركة لوصف المراجع وتنفيذها: كل تفسير في `notes.md` يستخدم أسماء من هنا. العمود الأخير: أين ينفَّذ عندنا. أضف تقنية جديدة كلما ظهرت في مرجع.
   - يشير إلى: video-identity/references/motion/notes.md
   - يُشار إليه من: video-identity/references/motion/notes.md
-  - قريب منه: video-identity/references/motion/SYNTHESIS.md, video-identity/references/motion/notes.md, video-identity/ideas/playbook.md
+  - قريب منه: video-identity/references/motion/notes.md, video-identity/references/motion/SYNTHESIS.md, video-identity/talk/README.md
 - **`video-identity/references/motion/SYNTHESIS.md`** — خلاصة مراجع الموشن — ماذا يجعل المونتاج فخماً (2026-11-19، 16 مرجعاً، 6 عربية): يُقرأ قبل أي فيديو فخم. يُحدَّث كلما أضاف ساجد مراجع.
-  - أقسام: الأنماط المشتركة (مرتبة حسب الأثر) · الترجمة لهوية ساجد (فيروز ونحاس) · خطة البناء في الأداة (بالأولوية)
-  - يُشار إليه من: video-identity/README.md
-  - قريب منه: video-identity/references/motion/LEXICON.md, video-identity/references/motion/notes.md, video-identity/README.md
+  - أقسام: الأنماط المشتركة (مرتبة حسب الأثر) · الترجمة لهوية ساجد (فيروز ونحاس) · خطة البناء في الأداة — ✅ نُفّذت 1–5 في 2026-11-19 (انظر `talk/README.md` ← عناصر الموشن)
+  - يشير إلى: video-identity/talk/README.md
+  - يُشار إليه من: video-identity/README.md, video-identity/talk/README.md
+  - قريب منه: video-identity/references/motion/LEXICON.md, video-identity/references/motion/notes.md, video-identity/talk/README.md
 - **`video-identity/references/motion/notes.md`** — ملاحظات مراجع الموشن: سطر لكل فيديو مرجعي. القياسات تُكتب آلياً؛ Claude يستبدل "⏳ يحتاج تفسير" بالتقنية وطريقة تطبيقها بهويتنا بعد النظر إلى `refs/<slug>/sheet.jpg` فقط. المصطلحات من
   - يشير إلى: video-identity/references/motion/LEXICON.md
   - يُشار إليه من: README.md, video-identity/references/motion/LEXICON.md
-  - قريب منه: video-identity/references/motion/LEXICON.md, video-identity/references/motion/SYNTHESIS.md, video-identity/README.md
+  - قريب منه: video-identity/references/motion/LEXICON.md, video-identity/references/motion/SYNTHESIS.md, video-identity/talk/README.md
 - **`video-identity/references/motion/sources.md`** — مصادر مراجع الموشن — أين نبحث وبأي كلمات: لساجد: ابحث بهذه الكلمات، حمّل ما يعجبك، وارفعه إلى `inbox/` أو ضع رابط Drive في `links.txt`.
   - أقسام: اسم الأسلوب الذي نريده لفيديوهات الكلام · أين تبحث · مختارات بدأتُ بها (2026-11-18) · فرق مهم
   - يُشار إليه من: video-identity/README.md
   - قريب منه: video-identity/README.md, video-identity/references/motion/SYNTHESIS.md
 - **`video-identity/talk/README.md`** — فيديو كلام ساجد ← ريل بهويته: **قبل أي شيء:** طبّق "قواعد فيديو الكلام" في `../README.md` (نص حرفي، كل لغة بخطها، كابشن أسفل قوي، صوت طبيعي، موشن من دلالات الكلام، لا مقدمة مبرمج). الأداة ال
-  - أقسام: المسار (أرخص بالتوكنز) · ما يحدث في الرندر · المتطلبات · ما تفرضه الأداة الآن (قواعد ساجد 2026-11-18)
-  - يشير إلى: rules/arabizi.json
-  - يُشار إليه من: video-identity/README.md
-  - قريب منه: video-identity/README.md, video-identity/ideas/playbook.md, video-identity/references/motion/LEXICON.md
+  - أقسام: المسار (أرخص بالتوكنز) · ما يحدث في الرندر · المتطلبات · ما تفرضه الأداة الآن (قواعد ساجد 2026-11-18) · عناصر الموشن (من خلاصة المراجع — `../references/motion/SYNTHESIS.md`)
+  - يشير إلى: rules/arabizi.json, video-identity/references/motion/SYNTHESIS.md
+  - يُشار إليه من: video-identity/README.md, video-identity/references/motion/SYNTHESIS.md
+  - قريب منه: video-identity/references/motion/LEXICON.md, video-identity/README.md, video-identity/references/motion/SYNTHESIS.md

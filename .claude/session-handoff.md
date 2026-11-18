@@ -14,6 +14,7 @@
 - لا ذيول أدوات في commits.
 
 ## مفتوح
+- 2026-11-19: بُنيت عناصر الموشن الخمسة (keyword-glow، kashida، cards بأيقونات Phosphor، grade، sfx، frame-in-frame، ui، phones، behind، spotlight). ريل اختبار "أجواء غزة موشن" أُرسل لساجد — بانتظار رأيه.
 - ريل أجواء غزة: الأداة طُوّرت حسب ملاحظات ساجد (test-v2 أُرسل كتجربة أداة، لم يُؤرشف). بانتظار رأيه ومراجع الموشن.
 - أول جلسة فيديو: فسّر أسطر ⏳ في references/motion/notes.md.
 - لم يُشغَّل شيء على GitHub: يلزم GH_PAT وتفعيل "Allow Actions to create PRs".
