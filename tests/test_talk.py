@@ -10,39 +10,59 @@ talk = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(talk)
 
 WORDS = [
-    {"w": "أهلاً", "s": 0.5, "e": 0.9},
+    {"w": "Hi", "s": 0.2, "e": 0.4},
+    {"w": "guys،", "s": 0.4, "e": 0.8},
     {"w": "يعني", "s": 1.0, "e": 1.3},
-    {"w": "اليوم", "s": 1.4, "e": 1.8},
-    {"w": "تطبيق", "s": 4.0, "e": 4.5},
+    {"w": "شاي", "s": 1.4, "e": 1.8},
+    {"w": "نار", "s": 4.0, "e": 4.5},
 ]
 
 
+def plan(cfg):
+    with tempfile.TemporaryDirectory() as td:
+        work = pathlib.Path(td) / "work"
+        work.mkdir()
+        (work / "words.json").write_text(json.dumps(WORDS, ensure_ascii=False), encoding="utf-8")
+        return talk.plan({"work": "work", **cfg}, pathlib.Path(td))
+
+
 class TalkTest(unittest.TestCase):
-    def test_auto_keep_drops_silence_and_fillers(self):
+    def test_auto_keep_cuts_silence_only(self):
         keep = talk.auto_keep(WORDS)
         self.assertEqual(len(keep), 2)
-        self.assertAlmostEqual(keep[1][0], 3.88)
+        self.assertTrue(all(talk.retime(w["s"], keep) is not None for w in WORDS))
 
-    def test_retime(self):
-        keep = [[0.0, 2.0], [4.0, 5.0]]
-        self.assertEqual(talk.retime(4.5, keep), 2.5)
-        self.assertIsNone(talk.retime(3.0, keep))
+    def test_verbatim_fillers_stay(self):
+        texts = [w["w"] for w in plan({})["words"]]
+        self.assertIn("يعني", texts)
 
-    def test_plan_applies_fixes_and_removes_fillers(self):
-        with tempfile.TemporaryDirectory() as td:
-            work = pathlib.Path(td) / "work"
-            work.mkdir()
-            (work / "words.json").write_text(json.dumps(WORDS, ensure_ascii=False), encoding="utf-8")
-            p = talk.plan({"work": "work", "fixes": {"اليوم": "النهارده"}, "pops": [{"at": 4.2, "text": "x"}]}, pathlib.Path(td))
-        texts = [w["w"] for w in p["words"]]
-        self.assertNotIn("يعني", texts)
-        self.assertIn("النهارده", texts)
-        self.assertEqual(len(p["pops"]), 1)
-        self.assertGreater(p["duration"], 0)
+    def test_dropping_words_is_refused(self):
+        with self.assertRaises(SystemExit):
+            plan({"keep": [[3.9, 4.6]]})
+        self.assertEqual(len(plan({"keep": [[3.9, 4.6]], "approved_cuts": "ساجد وافق"})["words"]), 1)
 
-    def test_example_has_required_keys(self):
+    def test_english_never_arabized(self):
+        with self.assertRaises(SystemExit):
+            plan({"fixes": {"Hi": "هاي"}})
+        with self.assertRaises(SystemExit):
+            plan({"fixes": {"شاي": "ڤيري"}})
+
+    def test_terminal_hook_rejected(self):
+        with self.assertRaises(SystemExit):
+            plan({"hook": {"headline": "x"}})
+
+    def test_auto_fx_from_meaning(self):
+        kinds = [f["type"] for f in plan({})["fx"]]
+        self.assertIn("steam", kinds)
+        self.assertIn("fire", kinds)
+
+    def test_arabizi_to_english_script(self):
+        self.assertEqual(talk.to_script("فانتاستيك،", {"فانتاستيك": "fantastic"}), "fantastic،")
+
+    def test_example_valid_keys(self):
         ex = json.loads((ROOT / "talk.example.json").read_text(encoding="utf-8"))
-        for k in ("source", "work", "hook"):
+        self.assertNotIn("hook", ex)
+        for k in ("source", "work", "title"):
             self.assertIn(k, ex)
 
 

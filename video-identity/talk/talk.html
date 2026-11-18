@@ -8,18 +8,27 @@
 *{box-sizing:border-box;margin:0}
 html,body{width:1080px;height:1920px;overflow:hidden;background:transparent}
 body{font-family:'Alexandria',sans-serif}
-/* الكابشن فوق المنطقة الآمنة للريلز */
-.cap{position:absolute;left:508px;transform:translateX(-50%);max-width:824px;width:max-content;bottom:420px;padding:10px 34px;border-radius:36px;background:rgba(8,42,43,.62);display:flex;flex-wrap:wrap;justify-content:center;gap:0 22px;font-size:84px;font-weight:800;line-height:1.35;text-align:center}
-.w{color:#fff;text-shadow:0 4px 0 rgba(8,42,43,.9),0 0 28px rgba(8,42,43,.85);display:inline-block}
+canvas{position:absolute;inset:0}
+/* كابشن أسفل الشاشة: حد وظل قويان بلا صندوق */
+.cap{position:absolute;left:70px;right:150px;bottom:390px;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 24px;font-size:92px;font-weight:800;line-height:1.25;text-align:center}
+.w{display:inline-block;color:#fff;-webkit-text-stroke:14px rgba(6,24,25,.92);paint-order:stroke fill;text-shadow:0 10px 26px rgba(0,0,0,.55)}
 .w.on{color:var(--accent)}
-.w.em{background:var(--accent);color:var(--bgDark);text-shadow:none;border-radius:18px;padding:0 18px}
-.pop{position:absolute;left:50%;top:34%;transform:translate(-50%,-50%);background:var(--bgDark);border:4px solid var(--accent);color:var(--ink);border-radius:44px;padding:40px 64px;font-size:110px;font-weight:800;white-space:nowrap;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
+.w.em{color:var(--accent)}
+.g{display:inline-flex;gap:0 22px;direction:ltr;unicode-bidi:isolate}
+.lat{font-family:'Inter','Alexandria',sans-serif;font-weight:700}
+.title{position:absolute;left:80px;right:80px;top:640px;text-align:center;color:#fff}
+.title h1{font-size:132px;font-weight:800;line-height:1.15;-webkit-text-stroke:16px rgba(6,24,25,.9);paint-order:stroke fill;text-shadow:0 14px 40px rgba(0,0,0,.5)}
+.title h1 span{display:inline-block}
+.title p{font-family:'Readex Pro',sans-serif;font-size:54px;font-weight:600;margin-top:22px;color:var(--accent);-webkit-text-stroke:10px rgba(6,24,25,.9);paint-order:stroke fill}
+.pop{position:absolute;left:50%;top:22%;max-width:900px;width:max-content;background:var(--bgDark);border:4px solid var(--accent);color:var(--ink);border-radius:40px;padding:30px 52px;font-size:84px;font-weight:800;line-height:1.25;text-align:center;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
 .pop .a{color:var(--accent)}.pop .n{color:var(--numbers)}
-.ltr{direction:ltr;unicode-bidi:isolate;font-family:'Inter','Alexandria',sans-serif}
+.ltr{direction:ltr;unicode-bidi:isolate}
 .bar{position:absolute;bottom:0;right:0;height:10px;background:var(--accent)}
 </style>
 </head>
 <body>
+<canvas id="fx" width="1080" height="1920"></canvas>
+<div class="title" style="opacity:0"><h1></h1><p></p></div>
 <div class="pop" style="opacity:0"></div>
 <div class="cap"></div>
 <div class="bar"></div>
@@ -27,42 +36,133 @@ body{font-family:'Alexandria',sans-serif}
 (() => {
   const D = window.__TALK, T = D.tokens;
   for (const [k, v] of Object.entries(T.color)) document.documentElement.style.setProperty('--' + k, v);
+  const $ = s => document.querySelector(s);
   const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const mark = s => esc(s).replace(/\[([^\]]+)\]/g, '<span class="n ltr">$1</span>').replace(/\{([^}]+)\}/g, '<span class="a ltr">$1</span>');
+  const mark = s => esc(s).replace(/\[([^\]]+)\]/g, '<span class="n ltr">$1</span>').replace(/\{([^}]+)\}/g, '<span class="a">$1</span>');
+  // الترقيم العربي لا يجعل الكلمة الإنجليزية عربية
+  const isLat = w => { const c = w.replace(/[،؟.!,?]/g, ''); return /[A-Za-z]/.test(c) && !/[؀-ۿ]/.test(c); };
   const em = new Set(D.emphasis || []);
-  // تجميع الكلمات في دفعات: 3 كلمات أو عند وقفة
+  const clamp = v => Math.min(1, Math.max(0, v));
+  const back = x => 1 + 2.4 * Math.pow(x - 1, 3) + 1.4 * Math.pow(x - 1, 2);
+  const out3 = x => 1 - Math.pow(1 - x, 3);
+  window.__issues = [];
+
+  // دفعات ≤3 كلمات أو عند وقفة
   const chunks = [];
   for (const w of D.words) {
     const last = chunks[chunks.length - 1];
     if (!last || last.length >= 3 || w.s - last[last.length - 1].e > 0.35) chunks.push([w]); else last.push(w);
   }
-  const cap = document.querySelector('.cap'), pop = document.querySelector('.pop'), bar = document.querySelector('.bar');
-  // موضع البطاقة قابل للضبط حتى لا تغطي الوجه
+  // الكلمات الإنجليزية المتتالية تُجمع LTR داخل السطر العربي
+  const chunkHtml = ch => {
+    let html = '', i = 0;
+    const span = (w, k) => `<span class="w${isLat(w.w) ? ' lat' : ''}${em.has(w.w) ? ' em' : ''}" data-i="${k}">${esc(w.w)}</span>`;
+    while (i < ch.length) {
+      if (isLat(ch[i].w)) {
+        let g = '';
+        while (i < ch.length && isLat(ch[i].w)) { g += span(ch[i], i); i++; }
+        html += `<span class="g">${g}</span>`;
+      } else { html += span(ch[i], i); i++; }
+    }
+    return html;
+  };
+
+  const cap = $('.cap'), pop = $('.pop'), bar = $('.bar'), title = $('.title');
   if (D.popY) pop.style.top = D.popY;
-  const back = x => 1 + 2.4 * Math.pow(x - 1, 3) + 1.4 * Math.pow(x - 1, 2);
+  if (D.title) {
+    // تحريك بالكلمة لا بالحرف حتى لا ينكسر وصل الحروف العربية
+    $('.title h1').innerHTML = D.title.text.split('\n').map(l => l.split(' ').map(w => `<span>${esc(w)}</span>`).join(' ')).join('<br>');
+    $('.title p').textContent = D.title.sub || '';
+  }
+  const titleDur = D.title ? (D.title.seconds || 2.6) : 0;
+
+  // طبقة الأجواء
+  const cv = $('#fx'), g = cv.getContext('2d');
+  let seed = 7;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const rain = Array.from({ length: 170 }, () => ({ x: rnd() * 1300 - 110, y: rnd() * 1920, l: 40 + rnd() * 70, v: 1500 + rnd() * 900, a: 0.12 + rnd() * 0.22 }));
+  const motes = Array.from({ length: 60 }, () => ({ x: rnd() * 1080, y: rnd() * 1920, r: 2 + rnd() * 5, v: 30 + rnd() * 60, p: rnd() * 6.28 }));
+  const steam = Array.from({ length: 26 }, () => ({ x: 380 + rnd() * 320, o: rnd() * 3, r: 60 + rnd() * 70 }));
+  const env = (t, f) => { const a = f.from ?? f.at, b = f.to ?? (f.at + (f.dur || 3)); if (t < a || t > b) return 0; return Math.min(1, (t - a) / 0.6, (b - t) / 0.6); };
+  const drawFx = t => {
+    g.clearRect(0, 0, 1080, 1920);
+    for (const f of D.fx || []) {
+      const k = env(t, f); if (!k) continue;
+      if (f.type === 'rain') {
+        g.fillStyle = `rgba(40,70,90,${0.18 * k})`; g.fillRect(0, 0, 1080, 1920);
+        g.lineCap = 'round';
+        for (const d of rain) {
+          const y = (d.y + t * d.v) % 2100 - 120, x = d.x + (y + 120) * 0.18;
+          g.strokeStyle = `rgba(220,235,245,${d.a * k})`; g.lineWidth = 2.4;
+          g.beginPath(); g.moveTo(x, y); g.lineTo(x + d.l * 0.18, y + d.l); g.stroke();
+        }
+      } else if (f.type === 'steam') {
+        for (const s of steam) {
+          const life = ((t * 0.45 + s.o) % 3) / 3, y = 1500 - life * 900, x = s.x + Math.sin(t * 1.3 + s.o * 4) * 60 * life;
+          const grd = g.createRadialGradient(x, y, 0, x, y, s.r * (1 + life));
+          grd.addColorStop(0, `rgba(255,255,255,${0.16 * (1 - life) * k})`); grd.addColorStop(1, 'rgba(255,255,255,0)');
+          g.fillStyle = grd; g.beginPath(); g.arc(x, y, s.r * (1 + life), 0, 6.283); g.fill();
+        }
+      } else if (f.type === 'fire') {
+        const fl = 0.75 + 0.25 * Math.sin(t * 9) * Math.sin(t * 5.3);
+        const grd = g.createRadialGradient(540, 2100, 100, 540, 2100, 1300);
+        grd.addColorStop(0, `rgba(255,140,40,${0.42 * k * fl})`); grd.addColorStop(1, 'rgba(255,90,20,0)');
+        g.fillStyle = grd; g.fillRect(0, 0, 1080, 1920);
+        for (const m of motes) {
+          const y = 1920 - ((m.y + t * m.v * 3) % 1920), x = m.x + Math.sin(t * 2 + m.p) * 30;
+          g.fillStyle = `rgba(255,${150 + (m.r * 15 | 0)},60,${0.55 * k * (y / 1920)})`; g.beginPath(); g.arc(x, y, m.r * 0.8, 0, 6.283); g.fill();
+        }
+      } else if (f.type === 'sparkle') {
+        for (const m of motes) {
+          const y = 1920 - ((m.y + t * m.v) % 1920), tw = 0.5 + 0.5 * Math.sin(t * 3 + m.p);
+          g.fillStyle = `rgba(232,200,120,${0.6 * k * tw})`; g.beginPath(); g.arc(m.x, y, m.r, 0, 6.283); g.fill();
+        }
+      } else if (f.type === 'flash') {
+        g.fillStyle = `rgba(255,236,200,${0.55 * k * k})`; g.fillRect(0, 0, 1080, 1920);
+      }
+    }
+    // تظليل سينمائي دائم للأطراف
+    const v = g.createRadialGradient(540, 860, 520, 540, 960, 1250);
+    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.42)');
+    g.fillStyle = v; g.fillRect(0, 0, 1080, 1920);
+    // تعتيم خفيف تحت العنوان الافتتاحي
+    if (t < titleDur) { g.fillStyle = `rgba(6,24,25,${0.38 * Math.min(1, (titleDur - t) / 0.4)})`; g.fillRect(0, 0, 1080, 1920); }
+  };
+
+  const overlap = (a, b) => !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+  const inside = r => r.left >= 0 && r.right <= 1080 && r.top >= 0 && r.bottom <= 1920;
   let shown = null;
   window.__seek = ms => {
     const t = ms / 1000;
+    drawFx(t);
+    if (D.title && t < titleDur + 0.3) {
+      const letters = title.querySelectorAll('h1 span');
+      letters.forEach((el, i) => { const k = out3(clamp((t - i * 0.14) / 0.45)); el.style.opacity = k; el.style.transform = `translateY(${40 * (1 - k)}px)`; });
+      title.style.opacity = Math.min(1, (titleDur + 0.3 - t) / 0.3);
+      title.querySelector('p').style.opacity = out3(clamp((t - 0.6) / 0.4));
+    } else title.style.opacity = 0;
     const c = chunks.find(ch => t >= ch[0].s - 0.05 && t <= ch[ch.length - 1].e + 0.25);
-    if (c !== shown) {
-      cap.style.visibility = c ? 'visible' : 'hidden';
-      cap.innerHTML = c ? c.map(w => `<span class="w${em.has(w.w) ? ' em' : ''}">${esc(w.w)}</span>`).join('') : '';
-      shown = c;
-    }
-    if (c) [...cap.children].forEach((el, i) => {
-      const w = c[i], on = t >= w.s && t <= w.e + 0.05;
-      el.classList.toggle('on', on && !el.classList.contains('em'));
-      const k = Math.min(1, Math.max(0, (t - w.s) / 0.18));
-      el.style.transform = `scale(${t < w.s ? 0.92 : 0.92 + 0.08 * back(k)})`;
-      el.style.opacity = t < w.s - 0.05 ? 0.55 : 1;
+    if (c !== shown) { cap.innerHTML = c ? chunkHtml(c) : ''; shown = c; }
+    if (c) cap.querySelectorAll('.w').forEach(el => {
+      const w = c[+el.dataset.i], on = t >= w.s && t <= w.e + 0.05;
+      el.classList.toggle('on', on);
+      const k = clamp((t - w.s) / 0.16);
+      el.style.transform = `scale(${t < w.s ? 0.94 : 0.94 + 0.06 * back(k)})`;
+      el.style.opacity = t < w.s - 0.05 ? 0.6 : 1;
     });
-    const p = (D.pops || []).find(x => t >= x.at && t <= x.at + 1.4);
+    const p = (D.pops || []).find(x => t >= x.at && t <= x.at + 1.6);
     if (p) {
       if (pop.dataset.at != p.at) { pop.innerHTML = mark(p.text); pop.dataset.at = p.at; }
-      const k = Math.min(1, (t - p.at) / 0.35), out = Math.min(1, Math.max(0, (p.at + 1.4 - t) / 0.2));
-      pop.style.opacity = Math.min(k * 2, out);
+      const k = clamp((t - p.at) / 0.35), o = clamp((p.at + 1.6 - t) / 0.2);
+      pop.style.opacity = Math.min(k * 2, o);
       pop.style.transform = `translate(-50%,-50%) scale(${0.7 + 0.3 * back(k)})`;
+      if (k >= 1 && o >= 1) {
+        const pr = pop.getBoundingClientRect();
+        if (!inside(pr)) window.__issues.push(`بطاقة خارج الشاشة عند ${p.at}ث`);
+        if (cap.children.length && overlap(pr, cap.getBoundingClientRect())) window.__issues.push(`بطاقة فوق الكابشن عند ${p.at}ث`);
+      }
     } else pop.style.opacity = 0;
+    if (cap.children.length && !inside(cap.getBoundingClientRect())) window.__issues.push(`كابشن خارج الشاشة عند ${t.toFixed(2)}ث`);
     bar.style.width = (100 * t / D.duration) + '%';
   };
   window.__ready = true;

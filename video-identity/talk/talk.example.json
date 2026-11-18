@@ -1,13 +1,12 @@
 {
   "source": "my-video.mp4",
   "work": "work",
-  "format": "F10 خلف الكواليس",
-  "hook": { "headline": "بنيت تطبيق في [يوم]\nوهاي {النتيجة}", "command": "explain", "sub": "من الفكرة للجوال" },
-  "hook_seconds": 3,
-  "fixes": { "الابلكيشن": "التطبيق" },
-  "emphasis": ["مجاني", "بدون"],
-  "pops": [{ "at": 12.4, "text": "{95%} أقل" }],
-  "zooms": [[8.0, 9.5]],
-  "keep": null,
+  "format": "مزاج · أجواء",
+  "title": { "text": "أجواء غزة\nالماطرة", "sub": "بدها قلب صافي", "seconds": 2.6 },
+  "fixes": { "وغرجاني": "وغرقاني" },
+  "emphasis": ["fantastic", "صافي"],
+  "pops": [{ "at": 31.4, "text": "السلامة · الصحة" }],
+  "pop_y": "22%",
+  "zooms": [[47.7, 50.5]],
   "outro": true
 }

@@ -63,4 +63,5 @@ _آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0_
 | تفضيلات ساجد (RTL، أيقونات يدوية، OKLCH، BrandConfig، schema، لا TODO) | `preferences.md` |
 | أخطاء سابقة لا تتكرر | `mistakes.md` + `rules/guards.json` |
 | قرارات وأفكار متراكمة | `ideas.md` |
+| مراجع موشن للإلهام (ارفع فيديو أو رابط Drive، يُحلَّل آلياً) | `video-identity/references/motion/notes.md` + `LEXICON.md` |
 | أي فيديو/ريل/منشور (مهارة `sajed-video`) | `video-identity/README.md` — فيروز ونحاس، "ساجد العبادلة · من غزة" |

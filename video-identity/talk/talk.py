@@ -1,26 +1,39 @@
 #!/usr/bin/env python3
-"""فيديو كلام ساجد ← نص ← ريل بهويته.
+"""فيديو كلام ساجد ← نص حرفي ← ريل بهويته وأجواء متحركة.
 
 1) python3 talk.py transcribe my-video.mp4 work/        ← work/transcript.txt + words.json
 2) اكتب talk.json (انظر talk.example.json) بعد قراءة transcript.txt فقط
 3) python3 talk.py render talk.json out.mp4 [--preview]
+
+قواعد ساجد مفروضة هنا: النص حرفي (لا حذف كلمات)، كل لغة بخطها، صوت طبيعي، كابشن أسفل بلا صندوق.
 """
 import argparse
 import datetime
 import importlib.util
 import json
 import pathlib
+import re
 import shutil
 import subprocess
 import tempfile
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parent
-FILLERS = {"يعني", "اممم", "امم", "ااه", "آآ", "ااا", "إيه", "ايه", "uh", "um", "umm", "emm"}
+BRAIN = ROOT.parent
 GAP = 0.6
-PAD = 0.12
-AUDIO = ["-c:a", "aac", "-b:a", "160k", "-ar", "48000", "-ac", "2"]
+PAD = 0.15
+PROMPT = "Hi guys، الأجواء very fantastic اليوم. English words stay in English: guys, very, fantastic, creative, okay, nice, app."
+AUDIO = ["-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2"]
 VIDEO = ["-c:v", "libx264", "-crf", "18", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-r", "30"]
+ARABIC = re.compile(r"[؀-ۿ]")
+LATIN = re.compile(r"[A-Za-z]")
+# كلمات تُطلق أجواءً تلقائياً حين لا يحدد talk.json قائمة fx
+FX_CUES = {
+    "rain": ("مطر", "ماطر", "الماطرة", "شتا", "شتاء", "rain"),
+    "steam": ("شاي", "قهوة", "كاسة", "فنجان", "tea", "coffee"),
+    "fire": ("نار", "دفا", "دفء", "حطب", "fire"),
+    "sparkle": ("يارب", "رب", "ربنا", "الله", "دعاء", "نتمنى", "يحقق"),
+}
 
 spec = importlib.util.spec_from_file_location("render", ROOT / "templates" / "render.py")
 render = importlib.util.module_from_spec(spec)
@@ -31,36 +44,48 @@ def ff(*args):
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True)
 
 
+def arabizi() -> dict:
+    p = BRAIN / "rules" / "arabizi.json"
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+
+
+def core(word: str) -> str:
+    return word.strip("،.؟!,?")
+
+
+def to_script(word: str, table: dict) -> str:
+    """يستبدل لبّ الكلمة مع إبقاء علامات الترقيم (للتعريب العكسي وتصحيحات السمع)."""
+    c = core(word)
+    return word.replace(c, table[c]) if c in table else word
+
+
 def transcribe(src: pathlib.Path, work: pathlib.Path, model: str, lang: str) -> None:
+    import wave
+    import numpy as np
     from faster_whisper import WhisperModel
 
     work.mkdir(parents=True, exist_ok=True)
     wav = work / "voice.wav"
-    # تنظيف خفيف للصوت قبل التفريغ
+    # التنظيف هنا للتفريغ فقط؛ صوت الفيديو النهائي لا يُعالج
     ff("-i", str(src), "-vn", "-ac", "1", "-ar", "16000", "-af", "highpass=f=80,afftdn=nf=-25,loudnorm", str(wav))
-    import wave
-    import numpy as np
-
-    # نمرّر الصوت مصفوفةً لتجنّب تعارض نسخ PyAV
     with wave.open(str(wav)) as f:
         audio = np.frombuffer(f.readframes(f.getnframes()), np.int16).astype(np.float32) / 32768
     m = WhisperModel(model, device="auto", compute_type="int8")
-    segs, _ = m.transcribe(audio, language=lang, word_timestamps=True, vad_filter=True)
-    words, lines = [], []
+    segs, _ = m.transcribe(audio, language=lang, initial_prompt=PROMPT, word_timestamps=True, vad_filter=True)
+    table, words, lines = arabizi(), [], []
     for s in segs:
-        lines.append(f"[{s.start:6.2f}-{s.end:6.2f}] {s.text.strip()}")
-        words += [{"w": w.word.strip(), "s": round(w.start, 3), "e": round(w.end, 3)} for w in s.words or [] if w.word.strip()]
+        ws = [{"w": to_script(w.word.strip(), table), "s": round(w.start, 3), "e": round(w.end, 3)} for w in s.words or [] if w.word.strip()]
+        words += ws
+        lines.append(f"[{s.start:6.2f}-{s.end:6.2f}] {' '.join(w['w'] for w in ws)}")
     (work / "words.json").write_text(json.dumps(words, ensure_ascii=False), encoding="utf-8")
     (work / "transcript.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(work / "transcript.txt", f"({len(words)} كلمة)")
 
 
 def auto_keep(words: list) -> list:
-    """مقاطع الكلام بعد حذف الصمت الطويل والكلمات الحشو."""
+    """مقاطع الكلام بعد حذف الصمت الطويل فقط — لا تُحذف أي كلمة."""
     spans = []
     for w in words:
-        if w["w"].strip("،.؟!,?") in FILLERS:
-            continue
         s, e = max(0, w["s"] - PAD), w["e"] + PAD
         if spans and s - spans[-1][1] < GAP:
             spans[-1][1] = e
@@ -79,55 +104,122 @@ def retime(t: float, keep: list):
     return None
 
 
+def validate(cfg: dict, words: list, keep: list) -> None:
+    """يمنع تكرار أخطاء سابقة قبل أي رندر."""
+    errs = []
+    spoken = {core(w["w"]) for w in words}
+    for k, v in cfg.get("fixes", {}).items():
+        if k not in spoken:
+            errs.append(f"fixes: «{k}» غير موجودة في التفريغ")
+        if LATIN.search(k) and ARABIC.search(v):
+            errs.append(f"fixes: «{k}» إنجليزية ولا تُكتب بحروف عربية «{v}»")
+        if "ڤ" in v:
+            errs.append(f"fixes: «{v}» تعريب لكلمة إنجليزية — اكتبها بالإنجليزي")
+    dropped = [w["w"] for w in words if retime(w["s"], keep) is None or retime(w["e"], keep) is None]
+    if dropped and not cfg.get("approved_cuts"):
+        errs.append("keep يحذف كلمات منطوقة (النص حرفي): " + " ".join(dropped[:20])
+                    + " — احذف القص أو أضف approved_cuts بموافقة ساجد")
+    if "hook" in cfg:
+        errs.append("hook (مقدمة terminal) أُلغي — استخدم title من المحتوى")
+    if errs:
+        raise SystemExit("\n".join(errs))
+
+
+def auto_fx(words: list, keep: list) -> list:
+    fx = []
+    for w in words:
+        word = core(w["w"]).lower()
+        for kind, cues in FX_CUES.items():
+            if any(c in word for c in cues):
+                t = retime(w["s"], keep)
+                if t is None:
+                    continue
+                last = next((f for f in reversed(fx) if f["type"] == kind), None)
+                if last and t - last["to"] < 3:
+                    last["to"] = t + 3
+                else:
+                    fx.append({"type": kind, "from": max(0, t - 0.4), "to": t + 3})
+    return fx
+
+
 def plan(cfg: dict, base: pathlib.Path) -> dict:
     work = (base / cfg["work"]).resolve()
     words = json.loads((work / "words.json").read_text(encoding="utf-8"))
     keep = cfg.get("keep") or auto_keep(words)
+    validate(cfg, words, keep)
     fixes = cfg.get("fixes", {})
     out = []
     for w in words:
         s, e = retime(w["s"], keep), retime(w["e"], keep)
-        if s is None or e is None or w["w"].strip("،.؟!,?") in FILLERS:
-            continue
-        out.append({"w": fixes.get(w["w"], w["w"]), "s": round(s, 3), "e": round(e, 3)})
-    pops = [{"at": retime(p["at"], keep), "text": p["text"]} for p in cfg.get("pops", [])]
-    zooms = [(retime(a, keep), retime(b, keep)) for a, b in cfg.get("zooms", [])]
+        if s is not None and e is not None:
+            out.append({"w": to_script(w["w"], fixes), "s": round(s, 3), "e": round(e, 3)})
+    rt = lambda t: retime(t, keep)
+    fx = [{**f, **{k: rt(f[k]) for k in ("from", "to", "at") if k in f}} for f in cfg["fx"]] if "fx" in cfg else auto_fx(words, keep)
+    bounds, acc = [], 0.0
+    for s, e in keep:
+        bounds.append((acc, acc + e - s))
+        acc += e - s
     return {
         "work": work,
         "keep": keep,
         "words": out,
-        "pops": [p for p in pops if p["at"] is not None],
-        "zooms": [z for z in zooms if None not in z],
-        "duration": round(sum(e - s for s, e in keep), 3),
+        "pops": [p for p in ({"at": rt(p["at"]), "text": p["text"]} for p in cfg.get("pops", [])) if p["at"] is not None],
+        "zooms": [z for z in ((rt(a), rt(b)) for a, b in cfg.get("zooms", [])) if None not in z],
+        "fx": [f for f in fx if None not in (f.get("from", 0), f.get("to", 0), f.get("at", 0))],
+        "bounds": bounds,
+        "duration": round(acc, 3),
     }
 
 
-def cut_source(src: pathlib.Path, keep: list, zooms: list, out: pathlib.Path) -> None:
-    parts, labels = [], []
+def peak_gain(src: pathlib.Path) -> float:
+    r = subprocess.run(["ffmpeg", "-i", str(src), "-af", "volumedetect", "-vn", "-f", "null", "-"], capture_output=True, text=True)
+    m = re.search(r"max_volume: (-?[\d.]+) dB", r.stderr)
+    return max(0.0, -1.5 - float(m.group(1))) if m else 0.0
+
+
+def cut_source(src: pathlib.Path, p: dict, out: pathlib.Path) -> None:
+    keep, parts, labels = p["keep"], [], []
     for i, (s, e) in enumerate(keep):
         parts.append(f"[0:v]trim={s}:{e},setpts=PTS-STARTPTS[v{i}];[0:a]atrim={s}:{e},asetpts=PTS-STARTPTS[a{i}]")
         labels.append(f"[v{i}][a{i}]")
-    z = "+".join(f"between(t,{a:.3f},{b:.3f})" for a, b in zooms) or "0"
-    # قصّ عمودي ثم دفعة زوم 12% في اللحظات المحددة
+    # قفزة زوم متناوبة عند كل قطع + دفعة إضافية في اللحظات المحددة
+    alt = "+".join(f"0.07*between(t,{a:.3f},{b:.3f})" for i, (a, b) in enumerate(p["bounds"]) if i % 2) or "0"
+    push = "+".join(f"between(t,{a:.3f},{b:.3f})" for a, b in p["zooms"]) or "0"
+    z = f"(1+{alt}+0.08*gt({push},0))"
+    gain = peak_gain(src)
     fc = ";".join(parts) + f";{''.join(labels)}concat=n={len(keep)}:v=1:a=1[cv][ca];" \
         f"[cv]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920," \
-        f"crop=w='iw/(1+0.12*gt({z},0))':h='ih/(1+0.12*gt({z},0))',scale=1080:1920,setsar=1[vo];" \
-        f"[ca]highpass=f=80,afftdn=nf=-25,loudnorm=I=-14:TP=-1.5[ao]"
+        f"crop=w='iw/{z}':h='ih/{z}',scale=1080:1920,setsar=1,eq=contrast=1.05:saturation=1.08[vo];" \
+        f"[ca]volume={gain:.2f}dB[ao]"
     ff("-i", str(src), "-filter_complex", fc, "-map", "[vo]", "-map", "[ao]", *VIDEO, *AUDIO, str(out))
 
 
-def overlay_frames(page, data: dict, folder: pathlib.Path) -> None:
-    page.add_init_script("window.__TALK = " + json.dumps(data, ensure_ascii=False))
-    page.goto((HERE / "talk.html").as_uri())
-    page.wait_for_function("window.__ready && document.fonts.status === 'loaded'")
+def open_overlay(br, data: dict):
+    pg = br.new_page(viewport={"width": 1080, "height": 1920})
+    pg.add_init_script("window.__TALK = " + json.dumps(data, ensure_ascii=False))
+    pg.goto((HERE / "talk.html").as_uri())
+    pg.wait_for_function("window.__ready && document.fonts.status === 'loaded'")
+    return pg
+
+
+def overlay_frames(br, data: dict, folder: pathlib.Path) -> None:
+    pg = open_overlay(br, data)
     for i in range(int(data["duration"] * 30)):
-        page.evaluate(f"window.__seek({i * 1000 / 30})")
-        page.screenshot(path=str(folder / f"{i:05d}.png"), omit_background=True)
+        pg.evaluate(f"window.__seek({i * 1000 / 30})")
+        pg.screenshot(path=str(folder / f"{i:05d}.png"), omit_background=True)
+    issues = sorted(set(pg.evaluate("window.__issues")))
+    if issues:
+        raise SystemExit("مشاكل عرض (لن يُسلَّم فيديو معيب):\n" + "\n".join(issues[:15]))
 
 
 def with_silence(src: pathlib.Path, out: pathlib.Path) -> None:
     ff("-i", str(src), "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-shortest",
        "-map", "0:v", "-map", "1:a", "-c:v", "copy", *AUDIO, str(out))
+
+
+def overlay_data(cfg: dict, p: dict, tokens: dict) -> dict:
+    return {"tokens": tokens, "words": p["words"], "pops": p["pops"], "fx": p["fx"], "title": cfg.get("title"),
+            "emphasis": cfg.get("emphasis", []), "duration": p["duration"], "popY": cfg.get("pop_y")}
 
 
 def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
@@ -139,45 +231,39 @@ def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
     p = plan(cfg, base)
     tokens = json.loads((ROOT / "tokens.json").read_text(encoding="utf-8"))
     icons = json.loads((ROOT / "icons" / "platforms.json").read_text(encoding="utf-8"))
-    hook = cfg["hook"]
-    brand = {
-        "tokens": tokens, "icons": icons,
-        "content": {**hook, "demo": {}, "durations": {"hook": cfg.get("hook_seconds", 3), "outro": 4}},
-        "assets": {"portrait": (ROOT / tokens["identity"]["portrait"]).as_uri(), "screenshot": None},
-    }
-    talk = {"tokens": tokens, "words": p["words"], "pops": p["pops"], "emphasis": cfg.get("emphasis", []), "duration": p["duration"], "popY": cfg.get("pop_y")}
+    data = overlay_data(cfg, p, tokens)
 
     with sync_playwright() as pw, tempfile.TemporaryDirectory() as td:
         td = pathlib.Path(td)
         br = pw.chromium.launch()
-        vp = {"width": 1080, "height": 1920}
         if preview:
-            pg = br.new_page(viewport=vp)
-            pg.add_init_script("window.__TALK = " + json.dumps(talk, ensure_ascii=False))
-            pg.goto((HERE / "talk.html").as_uri())
-            pg.wait_for_function("window.__ready && document.fonts.status === 'loaded'")
-            mid = p["words"][len(p["words"]) // 2]["s"] + 0.1 if p["words"] else 1
-            pg.evaluate(f"window.__seek({mid * 1000})")
-            pg.screenshot(path=str(out.with_suffix(".png")), omit_background=True)
-            print(out.with_suffix(".png"), f"مدة الكلام بعد القص {p['duration']}ث من {len(p['keep'])} مقطع")
+            pg = open_overlay(br, data)
+            marks = [1.2] + [w["s"] + 0.1 for w in p["words"][len(p["words"]) // 2:len(p["words"]) // 2 + 1]] + [x["at"] + 0.8 for x in p["pops"][:1]]
+            for i, t in enumerate(marks):
+                pg.evaluate(f"window.__seek({t * 1000})")
+                shot = out.with_name(f"{out.stem}-{i}.png")
+                pg.screenshot(path=str(shot), omit_background=True)
+                print(shot)
+            print(f"مدة بعد القص {p['duration']}ث · {len(p['keep'])} مقطع · أجواء: {[f['type'] for f in p['fx']]}")
             br.close()
             return
-        cut_source(src, p["keep"], p["zooms"], td / "cut.mp4")
+        cut_source(src, p, td / "cut.mp4")
         frames = td / "ov"
         frames.mkdir()
-        overlay_frames(br.new_page(viewport=vp), talk, frames)
+        overlay_frames(br, data, frames)
         ff("-i", str(td / "cut.mp4"), "-framerate", "30", "-i", str(frames / "%05d.png"),
            "-filter_complex", "[0:v][1:v]overlay=0:0:eof_action=pass[v]", "-map", "[v]", "-map", "0:a",
            *VIDEO, "-c:a", "copy", str(td / "talk.mp4"))
-        seq = []
-        for scene in ("hook", "outro") if cfg.get("outro", True) else ("hook",):
-            pg = br.new_page(viewport=vp)
+        order = [td / "talk.mp4"]
+        if cfg.get("outro", True):
+            brand = {"tokens": tokens, "icons": icons, "content": {"headline": "", "demo": {}, "durations": {"outro": 4}},
+                     "assets": {"portrait": (ROOT / tokens["identity"]["portrait"]).as_uri(), "screenshot": None}}
+            pg = br.new_page(viewport={"width": 1080, "height": 1920})
             pg.add_init_script("window.__BRAND = " + json.dumps(brand, ensure_ascii=False))
-            render.film(pg, scene, td / f"{scene}-v.mp4", 30)
-            with_silence(td / f"{scene}-v.mp4", td / f"{scene}.mp4")
-            seq.append(td / f"{scene}.mp4")
+            render.film(pg, "outro", td / "outro-v.mp4", 30)
+            with_silence(td / "outro-v.mp4", td / "outro.mp4")
+            order.append(td / "outro.mp4")
         br.close()
-        order = [seq[0], td / "talk.mp4", *seq[1:]]
         lst = td / "list.txt"
         lst.write_text("".join(f"file '{x}'\n" for x in order), encoding="utf-8")
         tmp = out.with_name(out.stem + ".part.mp4")
@@ -194,13 +280,14 @@ def archive(cfg_path: pathlib.Path, cfg: dict, p: dict, video: pathlib.Path) -> 
     folder.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(cfg_path, folder / "talk.json")
     shutil.copyfile(p["work"] / "transcript.txt", folder / "transcript.txt")
-    hook_s = cfg.get("hook_seconds", 3)
-    marks = [hook_s - 0.3, hook_s + p["duration"] / 2, hook_s + p["duration"] + 3.7]
+    d = p["duration"]
+    marks = [1.2, d / 2, d + 3.7 if cfg.get("outro", True) else d - 0.5]
     inputs = sum((["-ss", f"{m:.2f}", "-i", str(video)] for m in marks), [])
     ff(*inputs, "-filter_complex", "[0:v][1:v][2:v]hstack=3,scale=540:-2", "-frames:v", "1", "-q:v", "4", str(folder / "sheet.jpg"))
     index = render.LIBRARY / "index.md"
     text = index.read_text(encoding="utf-8") if index.exists() else render.INDEX_HEAD
-    index.write_text(text + render.index_line(date, video.stem, {"headline": cfg["hook"]["headline"], "format": cfg.get("format", "كلام")}), encoding="utf-8")
+    head = (cfg.get("title") or {}).get("text", video.stem).replace("\n", " ")
+    index.write_text(text + render.index_line(date, video.stem, {"headline": head, "format": cfg.get("format", "كلام")}), encoding="utf-8")
     return folder
 
 
