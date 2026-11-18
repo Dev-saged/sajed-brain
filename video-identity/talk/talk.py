@@ -145,7 +145,7 @@ def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
         "content": {**hook, "demo": {}, "durations": {"hook": cfg.get("hook_seconds", 3), "outro": 4}},
         "assets": {"portrait": (ROOT / tokens["identity"]["portrait"]).as_uri(), "screenshot": None},
     }
-    talk = {"tokens": tokens, "words": p["words"], "pops": p["pops"], "emphasis": cfg.get("emphasis", []), "duration": p["duration"]}
+    talk = {"tokens": tokens, "words": p["words"], "pops": p["pops"], "emphasis": cfg.get("emphasis", []), "duration": p["duration"], "popY": cfg.get("pop_y")}
 
     with sync_playwright() as pw, tempfile.TemporaryDirectory() as td:
         td = pathlib.Path(td)

@@ -111,7 +111,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - يُشار إليه من: README.md, mistakes.md
   - قريب منه: video-identity/ideas/playbook.md, video-identity/talk/README.md, docs/repo-map.md
 - **`video-identity/ideas/playbook.md`** — دليل أفكار الفيديو — مخزون الإلهام: اقرأه عند التخطيط لفيديو جديد فقط. كل فكرة هنا تُنفَّذ داخل هوية فيروز ونحاس.
-  - أقسام: قاعدة الاختيار · صيغ الفيديو (Formats) · خطّافات (أول ثانيتين) — قوالب عربية · تقنيات حركة (Motion) — مرتبة حسب القوة · قواعد المونتاج · نصوص الكابشن تحت المنشور · فيديو كلام ساجد · ما لم يُنفَّذ بعد في القوالب (أولوية)
+  - أقسام: قاعدة الاختيار · صيغ الفيديو (Formats) · خطّافات (أول ثانيتين) — قوالب عربية · تقنيات حركة (Motion) — مرتبة حسب القوة · قواعد المونتاج · نصوص الكابشن تحت المنشور · فيديو كلام ساجد · دروس من فيديوهات ساجد الحقيقية · ما لم يُنفَّذ بعد في القوالب (أولوية)
   - يشير إلى: video-identity/library/index.md
   - يُشار إليه من: docs/repo-map.md, video-identity/README.md, video-identity/talk/README.md
   - قريب منه: video-identity/README.md, video-identity/talk/README.md, playbooks/idea-to-product.md
