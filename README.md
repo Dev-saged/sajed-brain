@@ -36,6 +36,7 @@ _آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0_
 | مزامنة سريعة | نبض `sync/pulse` + فحص 45ث + عامل 6 ساعات → `features/background-sync.md` |
 | تصدير بتقدّم | foreground service + إشعار + مجلد منظم، كشف أفقي → `features/export-pipeline.md` |
 | مطابقة ملفات Excel ضخمة | قراءة xlsx متدفقة متعددة المرور بذاكرة قليلة (GRCS) → `features/national-match.md` |
+| إشعارات الرسائل | فحص نبض m/g بعامل 15د + Outbox تلقائي → `features/messages-notifications.md` |
 | CI/CD | build.yml → sign (KEYSTORE_BASE64 + SIGNING_*) → Release "latest-build" → unpack-zip.yml → repomap.yml → `features/ci-cd.md` |
 
 ---
