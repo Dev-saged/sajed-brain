@@ -31,6 +31,9 @@ jobs:
       - name: Organize
         run: python3 scripts/organize_brain.py
 
+      - name: Brain map
+        run: python3 scripts/brain_map.py --check
+
       - name: Doctor
         run: python3 scripts/brain_doctor.py
 

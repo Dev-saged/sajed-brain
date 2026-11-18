@@ -35,6 +35,7 @@ _آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0_
 | Firebase + Cloudflare | مشروع Firebase لكل عميل، Security Rules إلزامية، Cloudflare Worker للعمليات الحساسة → `features/firebase.md` |
 | مزامنة سريعة | نبض `sync/pulse` + فحص 45ث + عامل 6 ساعات → `features/background-sync.md` |
 | تصدير بتقدّم | foreground service + إشعار + مجلد منظم، كشف أفقي → `features/export-pipeline.md` |
+| مطابقة ملفات Excel ضخمة | قراءة xlsx متدفقة متعددة المرور بذاكرة قليلة (GRCS) → `features/national-match.md` |
 | CI/CD | build.yml → sign (KEYSTORE_BASE64 + SIGNING_*) → Release "latest-build" → unpack-zip.yml → repomap.yml → `features/ci-cd.md` |
 
 ---
@@ -55,6 +56,7 @@ _آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0_
 ## أين أجد ماذا (اقرأ عند الحاجة فقط)
 | الموقف | الملف |
 |---|---|
+| لا تعرف أين المعلومة | `index/MAP.md` (خريطة مولّدة يومياً لكل الملفات: أقسامها، روابطها، والملفات القريبة منها) أو `python3 scripts/brief.py --task "..."` |
 | **فكرة أو مشروع جديد أو ميزة كبيرة** | `playbooks/idea-to-product.md` — افهم ← وسّع (Core/Pro/Wow) ← كتالوج حسب النوع ← موجز ← تنفيذ كامل من أول مرة |
 | تفضيلات ساجد (RTL، أيقونات يدوية، OKLCH، BrandConfig، schema، لا TODO) | `preferences.md` |
 | أخطاء سابقة لا تتكرر | `mistakes.md` + `rules/guards.json` |

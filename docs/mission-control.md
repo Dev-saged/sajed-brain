@@ -8,7 +8,7 @@ _v2.1.0 · 2026-11-17_
 ```
 sajed-brain/
   CHARTER.md              الدستور (T0–T3، الكشّاف، بصمة بشرية، حلقة التعلّم)
-  README.md               مدخل الجلسة (صغير، <6KB)
+  README.md               مدخل الجلسة (بلا قيد حجم)
   rules/guards.json       أخطاء/تفضيلات → regex منفَّذة   (source يشير للأصل)
   rules/deprecated.json   APIs مُهملة + بديلها + Tier
   rules/synonyms.json     عربي↔إنجليزي لاسترجاع brief

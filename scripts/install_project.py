@@ -13,7 +13,7 @@ T = ROOT / "templates"
 BLOCK = re.compile(r"<!-- brain:begin -->.*?<!-- brain:end -->\n?", re.S)
 
 STUBS = {
-    "docs/repo-map.md": "# repo-map\n_تحت 5KB، بلا كود_\n\n## الميزات (ميزة → ملف → رمز)\n\n## القرارات\n\n## أخطاء محلولة\n\n## مشاكل مفتوحة\n",
+    "docs/repo-map.md": "# repo-map\n_بلا كود_\n\n## الميزات (ميزة → ملف → رمز)\n\n## القرارات\n\n## أخطاء محلولة\n\n## مشاكل مفتوحة\n",
     ".claude/session-handoff.md": "# session-handoff\n_≤25 سطراً، يُعاد كتابته كل جلسة_\n\n## الحالة\nمشروع جديد على طبقة الدماغ.\n\n## الخطوة التالية\nاقرأ CLAUDE.md ثم docs/repo-map.md وحدّد أول مهمة.\n",
 }
 

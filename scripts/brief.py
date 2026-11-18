@@ -8,6 +8,8 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SOURCES = ["preferences.md", "mistakes.md", "ideas.md", "projects/index.md"]
+# كل ملفات المعرفة تُبحث، بلا حدود حجم
+KNOWLEDGE_DIRS = ["features", "playbooks", "video-identity", "docs"]
 TOKEN = re.compile(r"[a-zA-Z0-9]{3,}|[؀-ۿ]{3,}")
 DIACRITICS = re.compile(r"[ً-ْـ]")
 STOP = {"the", "and", "for", "with", "that", "this", "من", "إلى", "على", "في", "مع", "عن", "هذا", "هذه"}
@@ -37,7 +39,7 @@ def expand(toks, groups):
 
 
 def chunks(root):
-    files = [root / s for s in SOURCES] + sorted((root / "features").glob("*.md"))
+    files = [root / s for s in SOURCES] + [f for d in KNOWLEDGE_DIRS for f in sorted((root / d).rglob("*.md")) if "library" not in f.parts]
     for f in files:
         if not f.exists():
             continue

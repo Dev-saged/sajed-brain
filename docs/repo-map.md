@@ -1,5 +1,5 @@
 # repo-map
-_تحت 5KB، بلا كود_
+_بلا كود_
 
 ## الميزات (ميزة ← ملف ← رمز للبحث)
 - فهرس رموز وفحص: scripts/scoutlib/cli.py ← `run`؛ تعريفات: symbols.py ← `extract`
@@ -18,6 +18,8 @@ _تحت 5KB، بلا كود_
 - يوميات: scripts/journal_digest.py ← `run`؛ hooks `learn --file journal`
 - sajed-kit: scripts/kit.py ← `extract`، `adopt`؛ workflows brain-kit.yml، kit-adopt.yml
 - كتابة آمنة للدماغ: .github/workflows/brain-update.yml ← scripts/update_brain.py
+- خريطة مولّدة: scripts/brain_map.py ← index/MAP.md (روابط، أقرب الملفات، مكسور، يتيم) يومياً في brain-daily؛ brief.py يبحث كل ملفات المعرفة
+- لا قيود حجم على أي ملف (قرار ساجد 2026-11-18)؛ أُزيل فحص حجم README من brain_doctor
 - فكرة جديدة: playbooks/idea-to-product.md (Core/Pro/Wow + كتالوج حسب النوع + موجز ≤40 سطراً)
 - features/: room-setup، icons، motion، firebase أُكملت (كانت روابط مكسورة في README)
 - هوية الفيديو: video-identity/tokens.json (المصدر الوحيد)، icons/platforms.json

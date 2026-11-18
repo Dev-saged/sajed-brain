@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""فحص سلامة الدماغ: روابط README، workflows المذكورة، حجم README، صحة القواعد، صيغة السجل، تكرار، أسرار."""
+"""فحص سلامة الدماغ: روابط README، workflows المذكورة، صحة القواعد، صيغة السجل، تكرار، أسرار."""
 import argparse
 import json
 import pathlib
@@ -12,7 +12,6 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from scoutlib import cli, findings  # noqa: E402
 
-README_WARN, README_ERR = 6000, 8000
 LEDGER_FILES = ("mistakes.md", "ideas.md", "preferences.md")
 ENTRY = re.compile(r"^- \[\d{4}-\d{2}-\d{2}\]")
 REQUIRED = {"id", "severity", "tier", "pattern", "message", "source"}
@@ -21,12 +20,6 @@ REQUIRED = {"id", "severity", "tier", "pattern", "message", "source"}
 def check(root=ROOT):
     errors, warns = [], []
     readme = (root / "README.md").read_text(encoding="utf-8")
-
-    size = len(readme.encode("utf-8"))
-    if size > README_ERR:
-        errors.append(f"README.md {size}B > {README_ERR}B — يُجلب كل جلسة، انقل التفاصيل لملفات فرعية")
-    elif size > README_WARN:
-        warns.append(f"README.md {size}B > {README_WARN}B")
 
     for target in sorted(set(re.findall(r"`((?:features|projects|docs)/[\w\-./]+\.md)`", readme))):
         if not (root / target).exists():
