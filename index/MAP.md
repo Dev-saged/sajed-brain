@@ -12,7 +12,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`CLAUDE.md`** — sajed-brain: مستودع الدماغ المركزي لساجد + مركز العمليات (scout، deps radar، حرّاس، خطافات).
   - أقسام: ابدأ هنا · قواعد هذا الريبو
   - يشير إلى: .claude/session-handoff.md, CHARTER.md, README.md, docs/mission-control.md, docs/repo-map.md, index/MAP.md, mistakes.md, rules/guards.json
-  - يُشار إليه من: docs/account-instructions.md, ideas.md
+  - يُشار إليه من: docs/account-instructions.md, ideas.md, mistakes.md
   - قريب منه: ideas.md, CHARTER.md, README.md
 - **`README.md`** — 🧠 sajed-brain — السياق الكامل لساجد: آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0
   - أقسام: مركز العمليات (Mission Control) · الميزات الثابتة — كل مشروع Android يجب أن يحتويها · المشاريع النشطة · أين أجد ماذا (اقرأ عند الحاجة فقط)
@@ -25,10 +25,10 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md, playbooks/idea-to-product.md
   - قريب منه: README.md, projects/index.md, docs/repo-map.md
 - **`mistakes.md`** — أخطاء حدثت — لا تكررها أبداً: يُضاف إليه فور اكتشاف خطأ جديد
-  - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0
-  - يشير إلى: CHARTER.md, video-identity/README.md
+  - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0 · Git / sajed-brain
+  - يشير إلى: CHARTER.md, CLAUDE.md, video-identity/README.md
   - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/account-instructions.md, docs/repo-map.md, video-identity/README.md
-  - قريب منه: README.md, video-identity/README.md, video-identity/talk/README.md
+  - قريب منه: README.md, video-identity/README.md, docs/repo-map.md
 - **`preferences.md`** — تفضيلات ساجد الثابتة: يُحدَّث عند ظهور تفضيل جديد
   - أقسام: اللغة والتواصل · التصميم · المعمارية · الكود · الـworkflow
   - يشير إلى: CHARTER.md
@@ -60,7 +60,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`features/background-sync.md`** — ميزة: مزامنة سريعة ومستقرة (Firestore + نبض): مطبّقة في GRCS v5.7.0
   - أقسام: المنطق · تنبيه
   - يُشار إليه من: README.md, playbooks/idea-to-product.md
-  - قريب منه: mistakes.md, projects/index.md, features/messages-notifications.md
+  - قريب منه: features/messages-notifications.md, mistakes.md, projects/index.md
 - **`features/brand-config.md`** — ميزة: BrandConfig.kt: المصدر الوحيد لكل شيء له علاقة بالعلامة التجارية
   - أقسام: القاعدة الصارمة · الهيكل الكامل · القاعدة في الـTheme
   - يُشار إليه من: README.md
@@ -79,6 +79,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - يُشار إليه من: README.md
   - قريب منه: preferences.md, README.md
 - **`features/messages-notifications.md`** — ميزة: إشعارات الرسائل المحلية (GRCS v5.8.0)
+  - أقسام: لوحة الإدارة (v5.8.1)
   - يُشار إليه من: README.md
   - قريب منه: features/background-sync.md
 - **`features/motion.md`** — ميزة: Motion & life
