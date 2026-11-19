@@ -8,19 +8,19 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: الهوية · بروتوكول الكشّاف — أثناء التنقل في أي كود · الاتساق والمتغيرات · بصمة بشرية · حلقة التعلّم · نهاية الجلسة (يفرضها خطاف Stop) · حدود صادقة
   - يشير إلى: .claude/session-handoff.md, docs/repo-map.md, ideas.md, mistakes.md, preferences.md, rules/fixes.json, rules/guards.json
   - يُشار إليه من: CLAUDE.md, README.md, docs/mission-control.md, mistakes.md, preferences.md
-  - قريب منه: docs/mission-control.md, README.md, ideas.md
+  - قريب منه: docs/mission-control.md, README.md, docs/repo-map.md
 - **`CLAUDE.md`** — sajed-brain: مستودع الدماغ المركزي لساجد + مركز العمليات (scout، deps radar، حرّاس، خطافات).
   - أقسام: ابدأ هنا · قواعد هذا الريبو
   - يشير إلى: .claude/session-handoff.md, CHARTER.md, README.md, docs/mission-control.md, docs/repo-map.md, index/MAP.md, mistakes.md, rules/guards.json
-  - يُشار إليه من: docs/account-instructions.md, ideas.md, mistakes.md
+  - يُشار إليه من: docs/account-instructions.md, ideas.md, mistakes.md, preferences.md
   - قريب منه: ideas.md, CHARTER.md, README.md
 - **`README.md`** — 🧠 sajed-brain — السياق الكامل لساجد: آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0
   - أقسام: مركز العمليات (Mission Control) · الميزات الثابتة — كل مشروع Android يجب أن يحتويها · المشاريع النشطة · أين أجد ماذا (اقرأ عند الحاجة فقط)
   - يشير إلى: CHARTER.md, docs/account-instructions.md, docs/mission-control.md, features/auto-update.md, features/background-sync.md, features/brand-config.md, features/ci-cd.md, features/export-pipeline.md, features/firebase.md, features/icons.md, features/messages-notifications.md, features/motion.md, features/national-match.md, features/room-setup.md, features/schema-engine.md, ideas.md, index/MAP.md, mistakes.md, playbooks/idea-to-product.md, preferences.md, projects/index.md, rules/fixes.json, rules/guards.json, video-identity/README.md, video-identity/references/motion/notes.md
   - يُشار إليه من: CLAUDE.md, docs/account-instructions.md, docs/mission-control.md
-  - قريب منه: projects/index.md, ideas.md, docs/repo-map.md
+  - قريب منه: projects/index.md, docs/repo-map.md, ideas.md
 - **`ideas.md`** — أفكار وقرارات متراكمة: سياق يتراكم عبر الجلسات
-  - أقسام: قرارات معمارية مهمة (Nov 2026) · نظام الذاكرة (Nov 2026) · أفكار لم تُنفَّذ بعد · ملاحظات على المشاريع · Mission Control (Nov 2026) · GRCS (Nov 2026)
+  - أقسام: قرارات معمارية مهمة (Nov 2026) · نظام الذاكرة (Nov 2026) · أفكار لم تُنفَّذ بعد · ملاحظات على المشاريع · Mission Control (Nov 2026) · GRCS (Nov 2026) · ArticleStudio v0.14.0 — Social Hub (Nov 2026)
   - يشير إلى: .claude/session-handoff.md, CLAUDE.md, docs/mission-control.md, docs/repo-map.md, rules/guards.json
   - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md, playbooks/idea-to-product.md
   - قريب منه: README.md, projects/index.md, docs/repo-map.md
@@ -28,12 +28,12 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0 · Git / sajed-brain
   - يشير إلى: CHARTER.md, CLAUDE.md, video-identity/README.md
   - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/account-instructions.md, docs/repo-map.md, video-identity/README.md
-  - قريب منه: README.md, video-identity/README.md, docs/repo-map.md
+  - قريب منه: README.md, video-identity/README.md, preferences.md
 - **`preferences.md`** — تفضيلات ساجد الثابتة: يُحدَّث عند ظهور تفضيل جديد
-  - أقسام: اللغة والتواصل · التصميم · المعمارية · الكود · الـworkflow
-  - يشير إلى: CHARTER.md
+  - أقسام: اللغة والتواصل · التصميم · المعمارية · الكود · الـworkflow · حجم الملفات والتوثيق (Nov 2026)
+  - يشير إلى: .claude/session-handoff.md, CHARTER.md, CLAUDE.md, docs/repo-map.md
   - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md
-  - قريب منه: README.md, features/brand-config.md, ideas.md
+  - قريب منه: README.md, ideas.md, mistakes.md
 
 ## docs
 - **`docs/account-instructions.md`** — Claude Instructions — ساجد العبادلة v3.3: Adaptive elite-practitioner: infer the mastery each request needs (architect, security auditor, product designer, motion designer…) and execute at that level. N
@@ -49,7 +49,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`docs/repo-map.md`** — repo-map: بلا كود
   - أقسام: الميزات (ميزة ← ملف ← رمز للبحث) · القرارات · أخطاء محلولة · مشاكل مفتوحة
   - يشير إلى: index/MAP.md, mistakes.md, playbooks/idea-to-product.md, projects.json, rules/arabizi.json, rules/deprecated.json, rules/fixes.json, rules/guards.json, rules/synonyms.json, video-identity/icons/platforms.json, video-identity/ideas/playbook.md, video-identity/library/index.md, video-identity/tokens.json
-  - يُشار إليه من: CHARTER.md, CLAUDE.md, docs/account-instructions.md, ideas.md, playbooks/idea-to-product.md
+  - يُشار إليه من: CHARTER.md, CLAUDE.md, docs/account-instructions.md, ideas.md, playbooks/idea-to-product.md, preferences.md
   - قريب منه: docs/mission-control.md, README.md, ideas.md
 
 ## features
@@ -60,7 +60,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`features/background-sync.md`** — ميزة: مزامنة سريعة ومستقرة (Firestore + نبض): مطبّقة في GRCS v5.7.0
   - أقسام: المنطق · تنبيه
   - يُشار إليه من: README.md, playbooks/idea-to-product.md
-  - قريب منه: features/messages-notifications.md, mistakes.md, projects/index.md
+  - قريب منه: features/messages-notifications.md, projects/index.md, mistakes.md
 - **`features/brand-config.md`** — ميزة: BrandConfig.kt: المصدر الوحيد لكل شيء له علاقة بالعلامة التجارية
   - أقسام: القاعدة الصارمة · الهيكل الكامل · القاعدة في الـTheme
   - يُشار إليه من: README.md
@@ -99,7 +99,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: 1) افهم — أجب داخلياً، لا تسأل ساجد · 2) وسّع الفكرة — 3 طبقات · 3) كتالوج حسب النوع · 4) الموجز قبل البناء (≤40 سطراً، شاشة واحدة) · 5) قبل التسليم
   - يشير إلى: docs/repo-map.md, features/background-sync.md, features/export-pipeline.md, features/firebase.md, ideas.md
   - يُشار إليه من: README.md, docs/account-instructions.md, docs/repo-map.md
-  - قريب منه: README.md, mistakes.md, video-identity/ideas/playbook.md
+  - قريب منه: README.md, mistakes.md, preferences.md
 
 ## projects
 - **`projects/index.md`** — فهرس المشاريع النشطة: يُحدَّث عند بدء مشروع جديد أو تغيير حالة
