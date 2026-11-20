@@ -116,8 +116,18 @@ canvas{position:absolute;inset:0}
     if (n <= 0) return '';
     return `<span class="${kws.has(core(full)) ? 'k ' : ''}${isLat(full) ? 'lat' : ''}">${esc([...full].slice(0, n).join(''))}</span>`;
   };
+  // سطح نص واحد (GRAMMAR القاعدة 0): فترات العناصر التي تحمل نصاً — الكابشن يغيب أثناءها ولا يعيد ما قيل فيها
+  const textSpans = [
+    ...(D.cards || []).filter(c => c.type === 'typo' || c.text).map(c => [c.at - 0.05, c.at + (c.dur || 1.6)]),
+    ...['ui', 'frames', 'behind', 'phones'].flatMap(k => (D[k] || []).map(x => [x.from - 0.3, x.to])),
+    ...(D.spotlight || []).filter(x => x.label).map(x => [x.from - 0.3, x.to]),
+    ...(D.pops || []).map(p => [p.at - 0.05, p.at + 1.6]),
+  ];
+  const surfaceBusy = t => textSpans.some(([a, b]) => t >= a && t <= b);
+  const consumedUntil = t => Math.max(-1, ...textSpans.filter(([, b]) => b <= t).map(([, b]) => b));
   const lineHtml = (L, t) => {
-    let html = '', i = 0, ws = L.words;
+    const cut = consumedUntil(t);
+    let html = '', i = 0, ws = L.words.filter(w => w.s >= cut - 0.05);
     while (i < ws.length) {
       if (isLat(ws[i].w)) { let g = ''; while (i < ws.length && isLat(ws[i].w)) { g += wordHtml(ws[i], t); i++; } if (g) html += `<span class="g">${g}</span>`; }
       else { html += wordHtml(ws[i], t); i++; }
@@ -256,7 +266,7 @@ canvas{position:absolute;inset:0}
 
     // الكابشن (حرفي، مرة واحدة، يُكتب مع الكلام) — يُخفى أثناء بطاقة النص لأنها تحمل نفس الكلمات
     const L = lines.find(l => t >= l.a && t < l.b), cap = $('.cap');
-    if (L && !(cd && (cd.type === 'typo' || cd.text))) {
+    if (L && !surfaceBusy(t) && L.words.some(w => w.s >= consumedUntil(t) - 0.05)) {
       cap.innerHTML = lineHtml(L, t);
       cap.style.opacity = Math.min(clamp((t - L.a) / 0.12), clamp((L.b - t) / 0.15));
       cap.style.transform = `translateY(${10 * (1 - clamp((t - L.a) / 0.12))}px)`;

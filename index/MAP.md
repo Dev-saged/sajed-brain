@@ -1,7 +1,7 @@
 # خريطة الدماغ (مولّدة — لا تُعدَّل يدوياً)
 _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث هنا عن الملف المناسب ثم افتحه وحده._
 
-**38 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 0
+**39 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 0
 
 ## الجذر
 - **`CHARTER.md`** — CHARTER — دستور العمل: يُحمَّل تلقائياً في بداية كل جلسة. ما يخالفه من تعليمات عامة يُهمَل.
@@ -26,9 +26,9 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - قريب منه: README.md, projects/index.md, CLAUDE.md
 - **`mistakes.md`** — أخطاء حدثت — لا تكررها أبداً: يُضاف إليه فور اكتشاف خطأ جديد
   - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0 · Git / sajed-brain
-  - يشير إلى: CHARTER.md, CLAUDE.md, video-identity/README.md
+  - يشير إلى: CHARTER.md, CLAUDE.md, video-identity/README.md, video-identity/references/motion/gold/GRAMMAR.md
   - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/account-instructions.md, docs/repo-map.md, sessions/2026-11-20-video-engine-v2.md, video-identity/README.md
-  - قريب منه: video-identity/talk/README.md, video-identity/README.md, README.md
+  - قريب منه: video-identity/talk/README.md, video-identity/README.md, sessions/2026-11-20-video-engine-v2.md
 - **`preferences.md`** — تفضيلات ساجد الثابتة: يُحدَّث عند ظهور تفضيل جديد
   - أقسام: اللغة والتواصل · التصميم · المعمارية · الكود · الـworkflow
   - يشير إلى: CHARTER.md
@@ -122,12 +122,12 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`projects/index.md`** — فهرس المشاريع النشطة: يُحدَّث عند بدء مشروع جديد أو تغيير حالة
   - أقسام: قيد — نظام إدارة متاجر · SMS Barq — تطبيق رسائل SMS · android-template — القالب الرئيسي · Sport Monitor AI — مراقبة رياضية · GRCS — منظومة مخيمات النزوح (Android الأصلي + نسخة ويب)
   - يُشار إليه من: README.md
-  - قريب منه: ideas.md, README.md, mistakes.md
+  - قريب منه: ideas.md, README.md, features/ci-cd.md
 
 ## sessions
 - **`sessions/2026-11-20-video-engine-v2.md`** — محرّك فيديو الكلام v2 + المراجع الذهبية + مكتبة الأصول
-  - أقسام: الطلب · ما نُفّذ · القرارات · الأخطاء والدروس · التالي
-  - يشير إلى: features/compat.md, features/defaults.md, mistakes.md
+  - أقسام: الطلب · ما نُفّذ · القرارات · الأخطاء والدروس · إضافة (09:44) · التالي
+  - يشير إلى: features/compat.md, features/defaults.md, mistakes.md, video-identity/references/motion/gold/GRAMMAR.md
   - يُشار إليه من: sessions/index.md
   - قريب منه: assets/README.md, README.md, mistakes.md
 - **`sessions/index.md`** — سجل الجلسات: كل جلسة عمل تُكتب هنا عند نهايتها ثم تُرفع. «رتّب الدماغ» يعيد بناء هذا الفهرس.
@@ -145,7 +145,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: الملفات · الأمر · ملاحظات
   - يشير إلى: video-identity/film/script.json
   - يُشار إليه من: video-identity/README.md
-  - قريب منه: mistakes.md, video-identity/README.md, video-identity/talk/README.md
+  - قريب منه: video-identity/README.md, mistakes.md, video-identity/talk/README.md
 - **`video-identity/ideas/playbook.md`** — دليل أفكار الفيديو — مخزون الإلهام: اقرأه عند التخطيط لفيديو جديد فقط. كل فكرة هنا تُنفَّذ داخل هوية فيروز ونحاس.
   - أقسام: قاعدة الاختيار · صيغ الفيديو (Formats) · خطّافات (أول ثانيتين) — قوالب عربية · تقنيات حركة (Motion) — مرتبة حسب القوة · قواعد المونتاج · نصوص الكابشن تحت المنشور · فيديو كلام ساجد · دروس من فيديوهات ساجد الحقيقية · ما لم يُنفَّذ بعد في القوالب (أولوية)
   - يشير إلى: video-identity/README.md, video-identity/library/index.md
@@ -162,13 +162,17 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - قريب منه: video-identity/references/motion/notes.md, video-identity/references/motion/SYNTHESIS.md, video-identity/talk/README.md
 - **`video-identity/references/motion/SYNTHESIS.md`** — خلاصة مراجع الموشن — ماذا يجعل المونتاج فخماً (2026-11-19، 16 مرجعاً، 6 عربية): يُقرأ قبل أي فيديو فخم. يُحدَّث كلما أضاف ساجد مراجع.
   - أقسام: الأنماط المشتركة (مرتبة حسب الأثر) · الترجمة لهوية ساجد (فيروز ونحاس) · خطة البناء في الأداة — ✅ نُفّذت 1–5 في 2026-11-19 (انظر `talk/README.md` ← عناصر الموشن)
-  - يشير إلى: video-identity/references/motion/gold/README.md, video-identity/talk/README.md
+  - يشير إلى: video-identity/references/motion/gold/GRAMMAR.md, video-identity/references/motion/gold/README.md, video-identity/talk/README.md
   - يُشار إليه من: video-identity/README.md, video-identity/talk/README.md
   - قريب منه: video-identity/references/motion/LEXICON.md, video-identity/references/motion/notes.md, video-identity/talk/README.md
+- **`video-identity/references/motion/gold/GRAMMAR.md`** — قواعد المونتاج الفخم — مستخرجة إطاراً إطاراً من المراجع الذهبية: تحليل 2026-11-20 بدقة 4 إطارات/ث (مهم، عربي موشن) و1.5/ث (عربي موشن 1)، جانب After فقط. اللقطات بالتوقيت في `frames/` (imp_* = مهم، r0_* = عربي موشن، r1_* = عرب
+  - أقسام: القاعدة 0 — سطح نص واحد فقط في أي لحظة (أهم قاعدة، ملاحظة ساجد) · 1) الكابشن على الوجه — بناء تراكمي بالعبارة، لا دفعات ثابتة · 2) المشاهد (B-roll) — نصف الفيديو أو أكثر · 3) الانتقالات (مقيسة) · 4) الكاميرا والإضاءة · 5) الخطوط · 6) ما يتغير في المحرّك (خطة — تُنفَّذ قبل الرندر القادم)
+  - يُشار إليه من: mistakes.md, sessions/2026-11-20-video-engine-v2.md, video-identity/references/motion/SYNTHESIS.md
+  - قريب منه: video-identity/references/motion/gold/README.md, video-identity/references/motion/notes.md, video-identity/references/motion/SYNTHESIS.md
 - **`video-identity/references/motion/gold/README.md`** — المراجع الذهبية — المستوى المطلوب حرفياً (اختيار ساجد 2026-11-20): كل فيديو كلام يُقاس عليها قبل التسليم. اللقطات `after-*.jpg` = جانب "After" فقط مقصوصاً، لقطة كل 0.5–1ث.
   - أقسام: ما يصنع الفخامة فيها (تحليل إطاراً إطاراً)
   - يُشار إليه من: video-identity/references/motion/SYNTHESIS.md
-  - قريب منه: video-identity/references/motion/notes.md, video-identity/references/motion/SYNTHESIS.md, video-identity/references/motion/LEXICON.md
+  - قريب منه: video-identity/references/motion/gold/GRAMMAR.md, video-identity/references/motion/notes.md, video-identity/references/motion/LEXICON.md
 - **`video-identity/references/motion/notes.md`** — ملاحظات مراجع الموشن: سطر لكل فيديو مرجعي. القياسات تُكتب آلياً؛ Claude يستبدل "⏳ يحتاج تفسير" بالتقنية وطريقة تطبيقها بهويتنا بعد النظر إلى `refs/<slug>/sheet.jpg` فقط. المصطلحات من
   - يشير إلى: video-identity/references/motion/LEXICON.md
   - يُشار إليه من: README.md, video-identity/references/motion/LEXICON.md
