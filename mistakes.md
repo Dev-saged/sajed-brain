@@ -87,3 +87,5 @@ _يُضاف إليه فور اكتشاف خطأ جديد_
 
 - **TypeScript + vitest (Nov 2026):** vitest لا يفحص الأنواع؛ نجاح الاختبارات محلياً لا يعني نجاح `tsc` في CI ← سكربت `check` يجمع typecheck + الاختبارات + التحزيم ويُشغَّل قبل كل commit.
 - **npm 10 و vitest 4 (Nov 2026):** خطأ `Cannot read properties of null (reading edgesOut)` ← `legacy-peer-deps=true` في `.npmrc` المشروع.
+
+- **معاملات متداخلة (Nov 2026):** لا تلف دالة تفتح معاملة داخل معاملة أخرى (idempotent يلف createAccount) — تعليق أو دلالات خاطئة ← مرّر كتابة مفتاح منع التكرار إلى معاملة العملية نفسها.
