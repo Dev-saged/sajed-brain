@@ -126,10 +126,10 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 
 ## sessions
 - **`sessions/2026-11-20-video-engine-v2.md`** — محرّك فيديو الكلام v2 + المراجع الذهبية + مكتبة الأصول
-  - أقسام: الطلب · ما نُفّذ · القرارات · الأخطاء والدروس · إضافة (09:44) · التالي
+  - أقسام: الطلب · ما نُفّذ · القرارات · الأخطاء والدروس · إضافة (09:44) · إضافة (09:52) · التالي
   - يشير إلى: features/compat.md, features/defaults.md, mistakes.md, video-identity/references/motion/gold/GRAMMAR.md
   - يُشار إليه من: sessions/index.md
-  - قريب منه: assets/README.md, README.md, mistakes.md
+  - قريب منه: assets/README.md, mistakes.md, README.md
 - **`sessions/index.md`** — سجل الجلسات: كل جلسة عمل تُكتب هنا عند نهايتها ثم تُرفع. «رتّب الدماغ» يعيد بناء هذا الفهرس.
   - يشير إلى: sessions/2026-11-20-video-engine-v2.md
   - يُشار إليه من: README.md
@@ -168,7 +168,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`video-identity/references/motion/gold/GRAMMAR.md`** — قواعد المونتاج الفخم — مستخرجة إطاراً إطاراً من المراجع الذهبية: تحليل 2026-11-20 بدقة 4 إطارات/ث (مهم، عربي موشن) و1.5/ث (عربي موشن 1)، جانب After فقط. اللقطات بالتوقيت في `frames/` (imp_* = مهم، r0_* = عربي موشن، r1_* = عرب
   - أقسام: القاعدة 0 — سطح نص واحد فقط في أي لحظة (أهم قاعدة، ملاحظة ساجد) · 1) الكابشن على الوجه — بناء تراكمي بالعبارة، لا دفعات ثابتة · 2) المشاهد (B-roll) — نصف الفيديو أو أكثر · 3) الانتقالات (مقيسة) · 4) الكاميرا والإضاءة · 5) الخطوط · 6) ما يتغير في المحرّك (خطة — تُنفَّذ قبل الرندر القادم)
   - يُشار إليه من: mistakes.md, sessions/2026-11-20-video-engine-v2.md, video-identity/references/motion/SYNTHESIS.md
-  - قريب منه: video-identity/references/motion/gold/README.md, video-identity/references/motion/notes.md, video-identity/references/motion/SYNTHESIS.md
+  - قريب منه: video-identity/references/motion/gold/README.md, video-identity/talk/README.md, video-identity/references/motion/SYNTHESIS.md
 - **`video-identity/references/motion/gold/README.md`** — المراجع الذهبية — المستوى المطلوب حرفياً (اختيار ساجد 2026-11-20): كل فيديو كلام يُقاس عليها قبل التسليم. اللقطات `after-*.jpg` = جانب "After" فقط مقصوصاً، لقطة كل 0.5–1ث.
   - أقسام: ما يصنع الفخامة فيها (تحليل إطاراً إطاراً)
   - يُشار إليه من: video-identity/references/motion/SYNTHESIS.md
@@ -185,4 +185,4 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: المسار (أرخص بالتوكنز) · ما يحدث في الرندر · المتطلبات · ما تفرضه الأداة الآن (قواعد ساجد 2026-11-18) · عناصر الموشن (من خلاصة المراجع — `../references/motion/SYNTHESIS.md`)
   - يشير إلى: rules/arabizi.json, video-identity/references/motion/SYNTHESIS.md
   - يُشار إليه من: video-identity/README.md, video-identity/references/motion/SYNTHESIS.md
-  - قريب منه: video-identity/README.md, video-identity/references/motion/LEXICON.md, mistakes.md
+  - قريب منه: video-identity/README.md, video-identity/references/motion/LEXICON.md, video-identity/references/motion/gold/GRAMMAR.md

@@ -20,6 +20,7 @@ Gumroad: اكتب 0 في خانة السعر ثم بريدك ← يصل رابط
 | 4 | MyCreativeFX — 500+ Overlays & Transitions https://mycreativefx.com/blog/335-500-free-overlays-transitions-download-100-free-video-effects-mycreativefx | تسريبات ضوئية، حرق فيلم، غبار، دخان، انتقالات flash/glitch/zoom | متعدد | 6-انتقالات-وإضاءة |
 | 5 | Editors Keys — Cinematic Whoosh pack https://editorskeys.com/products/cinematic-transition-sound-effects | whoosh/swoosh للانتقالات | صغير | 3-مؤثرات-صوتية |
 | 6 | موسيقى: Pixabay Music https://pixabay.com/music/ | لا توجد حزمة مجانية واحدة قانونية جيدة؛ اختر 10 مقاطع: هادئ، روحاني، تقني، حماسي، أمل | — | 4-موسيقى |
+| 8 (مع كل فيديو) | صورك أنت: لقطات شاشة تطبيقاتك، صور حقيقية من غزة، أي صورة تريدها بطلاً لمشهد | ما يخص الفيديو فقط | 8-صور-للمشاهد |
 | 7 (اختياري) | Sonniss GDC 2026 https://gdc.sonniss.com/ | 347 ملفاً احترافياً royalty-free | 7.5GB | 3-مؤثرات-صوتية — فقط إن سمح النت |
 
 ## لا يلزم تنزيله

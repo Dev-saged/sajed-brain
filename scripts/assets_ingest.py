@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """يفهرس ما يرفعه ساجد في assets/incoming/<نوع>/ (من Drive «sajed-brain مكتبة المونتاج» أو مباشرة للريبو).
-الأنواع: fonts · icons · sfx · music · text-motion · transitions · refs
+الأنواع: fonts · icons · sfx · music · text-motion · transitions · refs · images (صور أبطال المشاهد)
 لكل ملف سطر في assets/incoming/meta.json: {"اسم الملف": {"ar": ["كلمات"], "desc": "وصف عربي", "mood": "cozy"}}
 يُكتب الوصف بعد مشاهدة/سماع الملف. بعدها:
 python3 scripts/assets_ingest.py        ← يحوّل وينقل ويضيف للفهرس ويُفرغ incoming
@@ -57,6 +57,11 @@ def ingest_one(kind: str, f: pathlib.Path, meta: dict) -> dict:
         ff("-i", str(f), "-c:a", "libvorbis", "-q:a", "5", str(dest))
         return {**base, "type": kind, "file": str(dest.relative_to(ASSETS)), "duration": duration(dest),
                 "sync": m.get("sync", 0.0), "mood": m.get("mood"), "category": "custom"}
+    if kind == "images" and ext in {".png", ".jpg", ".jpeg", ".webp"}:
+        dest = ASSETS / "images" / f"{sid}.webp"
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        ff("-i", str(f), "-vf", "scale='min(1600,iw)':-2", "-q:v", "85", str(dest))
+        return {**base, "type": "image", "file": str(dest.relative_to(ASSETS))}
     if kind in ("text-motion", "transitions", "refs") and ext in VIDEO:
         REFS.mkdir(parents=True, exist_ok=True)
         dest = REFS / f"{kind}-{sid}{ext}"

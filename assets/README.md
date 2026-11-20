@@ -30,6 +30,6 @@ python3 assets/find.py انتقال --type sfx
 
 ## رفع ساجد لأصوله (الطريق الأساسي — يوفّر البحث والتوكنز)
 1. يرفع إلى Drive: مجلد **«sajed-brain مكتبة المونتاج»** https://drive.google.com/drive/folders/1YHP-lxsaWe4uIWyB2mQHbiZPXiaZDhG4
-   (1-خطوط · 2-أيقونات · 3-مؤثرات-صوتية · 4-موسيقى · 5-حركات-نصوص · 6-انتقالات-وإضاءة · 7-مراجع-فيديو) — zip مقبول.
-2. يقول «فهرس الجديد» ← Claude ينزّلها إلى `assets/incoming/<fonts|icons|sfx|music|text-motion|transitions|refs>/`، يشاهد/يسمع كل ملف ويكتب له وصفاً وكلمات عربية في ملف meta.json داخل incoming.
+   (1-خطوط · 2-أيقونات · 3-مؤثرات-صوتية · 4-موسيقى · 5-حركات-نصوص · 6-انتقالات-وإضاءة · 7-مراجع-فيديو · 8-صور-للمشاهد) — zip مقبول.
+2. يقول «فهرس الجديد» ← Claude ينزّلها إلى `assets/incoming/<fonts|icons|sfx|music|text-motion|transitions|refs|images>/`، يشاهد/يسمع كل ملف ويكتب له وصفاً وكلمات عربية في ملف meta.json داخل incoming.
 3. `python3 scripts/assets_ingest.py` ← تحويل (OGG للصوت، SVG بلون currentColor للأيقونات، الخطوط للقوالب، الفيديو لمراجع الموشن) وإضافة للفهرس بمصدر `sajed`؛ ما رفعه ساجد يتقدّم في البحث تلقائياً.

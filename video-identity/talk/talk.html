@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box;margin:0}
 html,body{width:1080px;height:1920px;overflow:clip;background:#000}
-.cap,.paper,.pills,.ringlabel,.pop,.card,#behind{direction:rtl}
+.cap,.paper,.pills,.ringlabel,.pop,.card,#behind,.quote{direction:rtl}
 body{font-family:'IBM Plex Sans Arabic',sans-serif;color:#fff}
 :root{--title:'El Messiri'}
 .layer{position:absolute;inset:0}
@@ -48,8 +48,32 @@ canvas{position:absolute;inset:0}
 .card .typo{position:absolute;left:70px;right:70px;top:620px;text-align:center;font-family:var(--title);font-weight:700;font-size:170px;line-height:1.2;color:var(--accent);text-shadow:0 0 50px var(--accentGlow)}
 .card img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 /* الكابشن: سطر 3-4 كلمات يُكتب حرفاً حرفاً مع الكلام، يظهر مرة واحدة */
-.cap{position:absolute;left:90px;right:150px;bottom:420px;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 18px;font-size:62px;font-weight:600;line-height:1.35;text-align:center;text-shadow:0 3px 14px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.9)}
-.cap .k{font-family:var(--title);font-size:96px;font-weight:700;line-height:1.1;background:linear-gradient(180deg,#fff 0%,var(--accent) 70%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 16px var(--accentGlow)) drop-shadow(0 3px 6px rgba(0,0,0,.55))}
+/* كابشن العبارة (GRAMMAR §1): صفوف بهرمية، الكلمات تتراكم في مكانها، صف الذروة أكبر بتدرج ذهبي */
+.cap{position:absolute;left:80px;width:920px;top:1180px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:58px;font-weight:700;line-height:1.3;text-align:center;text-shadow:0 3px 14px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.9)}
+.cap .row{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 16px}
+.cap .w{display:inline-block}
+.cap .big{font-family:var(--title);font-size:104px;line-height:1.12}
+.cap .big .w{background:linear-gradient(180deg,#fff 0%,var(--accent) 72%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 16px var(--accentGlow)) drop-shadow(0 3px 6px rgba(0,0,0,.55))}
+.cap .big .lat{font-family:'Inter',sans-serif;font-weight:800}
+/* مشهد (GRAMMAR §2): خلفية المزاج + عنصر متوهج + كلمة باهتة ضخمة + عنوان الكلام نفسه يتراكم أعلاه */
+.scene,.flow{position:absolute;inset:0;opacity:0;overflow:hidden;direction:rtl}
+.scene .sbg,.flow .sbg{position:absolute;inset:-6%;background:radial-gradient(85% 55% at 50% 52%,color-mix(in oklab,var(--b1) 80%,var(--accent) 20%),var(--b2) 75%)}
+.scene .ghost{position:absolute;left:-40px;right:-40px;top:520px;text-align:center;font-family:var(--title);font-weight:700;font-size:340px;line-height:1;white-space:nowrap;color:var(--accent);opacity:.18}
+.scene .hero{position:absolute;left:50%;top:1010px;width:600px;height:600px;margin:-300px 0 0 -300px}
+.scene .hero.tile svg{width:56%;height:56%}
+.scene img.hero{object-fit:contain;filter:drop-shadow(0 0 60px var(--accentGlow))}
+.scene .stitle{position:absolute;left:60px;right:60px;top:230px;display:flex;flex-wrap:wrap;justify-content:center;gap:0 22px;font-family:var(--title);font-weight:700;font-size:108px;line-height:1.25;text-shadow:0 6px 30px rgba(0,0,0,.6)}
+.scene .stitle .g{display:inline-flex;gap:0 20px;direction:ltr;unicode-bidi:isolate}
+.scene .stitle .lat{font-family:'Inter',sans-serif;font-weight:800}
+.scene .stitle .a,.flow .a{color:var(--accent)}
+.flow .stack{position:absolute;left:60px;right:60px;top:0;height:1920px}
+.flow .ph{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;text-shadow:0 0 28px rgba(255,255,255,.25),0 6px 24px rgba(0,0,0,.6)}
+.flow .sm{font-size:62px;font-weight:600;opacity:.85}
+.flow .bg2{font-family:var(--title);font-weight:700;font-size:150px;line-height:1.1;color:#fff;text-shadow:0 0 40px var(--accentGlow),0 0 12px rgba(255,255,255,.5)}
+/* كبسولة اقتباس/آية بخط نسخي مشكول */
+.quote{position:absolute;left:110px;right:110px;top:1240px;padding:22px 34px;border-radius:28px;background:rgba(8,12,16,.55);border:2px solid color-mix(in oklab,var(--accent) 45%,transparent);backdrop-filter:blur(14px);font-family:'Amiri',serif;font-size:56px;line-height:1.6;text-align:center;opacity:0;direction:rtl}
+#flash{background:#fff;opacity:0}
+#orb{opacity:0;background:radial-gradient(circle at 50% 46%,#fff 0,#fff var(--r,0%),rgba(255,255,255,.0) calc(var(--r,0%) + 14%))}
 .cap .g{display:inline-flex;gap:0 16px;direction:ltr;unicode-bidi:isolate}
 .cap .lat{font-family:'Inter','IBM Plex Sans Arabic',sans-serif;font-weight:600}
 .pop{position:absolute;left:50%;top:22%;max-width:900px;width:max-content;background:var(--b2);border:3px solid var(--accent);border-radius:36px;padding:26px 46px;font-size:72px;font-weight:700;line-height:1.25;text-align:center}
@@ -70,9 +94,14 @@ canvas{position:absolute;inset:0}
 <div class="phone"><img alt=""></div>
 <div class="prop tile"></div>
 <div class="card"></div>
+<div class="scene"></div>
+<div class="flow"><div class="sbg"></div><div class="stack"></div></div>
+<div class="quote"></div>
 <div class="pop" style="opacity:0"></div>
 <div class="cap"></div>
 <div id="leak" class="layer"></div>
+<div id="orb" class="layer"></div>
+<div id="flash" class="layer"></div>
 <div class="bar"></div>
 <script>
 (() => {
@@ -102,38 +131,46 @@ canvas{position:absolute;inset:0}
   const isLat = w => { const c = core(w); return /[A-Za-z]/.test(c) && !/[؀-ۿ]/.test(c); };
   const kws = new Set([...(D.keywords || []), ...(D.emphasis || [])]);
 
-  // أسطر الكابشن: حتى 4 كلمات، تنكسر عند وقفة أو نهاية جملة
-  const lines = [];
+  // عبارات الكابشن (GRAMMAR §1): تنكسر عند الوقفات ونهايات الجمل، 2–6 كلمات، كلماتها تتراكم في أماكنها مع الكلام
+  const phrases = [];
   for (const w of D.words) {
-    const L = lines[lines.length - 1], prev = L && L.words[L.words.length - 1];
-    if (!L || L.words.length >= 4 || w.s - prev.e > 0.45 || /[.؟!?]$/.test(prev.w)) lines.push({ words: [w] }); else L.words.push(w);
+    const P = phrases[phrases.length - 1], prev = P && P.words[P.words.length - 1];
+    const brk = P && (P.words.length >= 6 || w.s - prev.e > 0.28 || (/[.؟!?،,]$/.test(prev.w) && P.words.length >= 2));
+    if (!P || brk) phrases.push({ words: [w] }); else P.words.push(w);
   }
-  lines.forEach(L => { L.a = L.words[0].s - 0.05; });
-  lines.forEach((L, i) => { const nx = lines[i + 1]; L.b = Math.min(nx ? nx.a : Infinity, L.words[L.words.length - 1].e + 0.9); });
+  phrases.forEach(P => { P.a = P.words[0].s - 0.06; });
+  phrases.forEach((P, i) => { const nx = phrases[i + 1]; P.b = Math.min(nx ? nx.a : Infinity, P.words[P.words.length - 1].e + 0.7); });
+  // صفوف العبارة: كلمة الذروة (keywords/emphasis) صف كبير مستقل؛ بدونها آخر كلمة في عبارة ≥3 كلمات
+  const rowsOf = ws => {
+    let k = ws.findIndex(w => kws.has(core(w.w)));
+    if (k < 0 && ws.length >= 3 && [...core(ws[ws.length - 1].w)].length >= 3) k = ws.length - 1;
+    if (k < 0) return [{ big: false, ws }];
+    return [{ big: false, ws: ws.slice(0, k) }, { big: true, ws: [ws[k]] }, { big: false, ws: ws.slice(k + 1) }].filter(r => r.ws.length);
+  };
   const wordHtml = (w, t) => {
-    const full = w.w, dur = Math.max(0.12, Math.min(w.e - w.s, 0.3));
-    const n = t >= w.s + dur ? [...full].length : Math.floor([...full].length * clamp((t - w.s) / dur));
-    if (n <= 0) return '';
-    return `<span class="${kws.has(core(full)) ? 'k ' : ''}${isLat(full) ? 'lat' : ''}">${esc([...full].slice(0, n).join(''))}</span>`;
+    const q = clamp((t - w.s + 0.04) / 0.22);
+    const st = q <= 0 ? 'opacity:0' : q >= 1 ? '' : `opacity:${q.toFixed(2)};filter:blur(${(10 * (1 - q)).toFixed(1)}px);transform:translateY(${(8 * (1 - q)).toFixed(1)}px)`;
+    return `<span class="w${isLat(w.w) ? ' lat' : ''}" style="${st}">${esc(w.w)}</span>`;
+  };
+  const rowHtml = (ws, t) => {
+    let html = '', i = 0;
+    while (i < ws.length) {
+      if (isLat(ws[i].w)) { let g = ''; while (i < ws.length && isLat(ws[i].w)) { g += wordHtml(ws[i], t); i++; } html += `<span class="g">${g}</span>`; }
+      else { html += wordHtml(ws[i], t); i++; }
+    }
+    return html;
   };
   // سطح نص واحد (GRAMMAR القاعدة 0): فترات العناصر التي تحمل نصاً — الكابشن يغيب أثناءها ولا يعيد ما قيل فيها
   const textSpans = [
-    ...(D.cards || []).filter(c => c.type === 'typo' || c.text).map(c => [c.at - 0.05, c.at + (c.dur || 1.6)]),
+    ...(D.cards || []).filter(c => ['typo', 'scene', 'flow'].includes(c.type) || c.text).map(c => [c.at - 0.05, c.at + (c.dur || 1.6)]),
+    ...(D.quotes || []).map(x => [x.from - 0.2, x.to]),
     ...['ui', 'frames', 'behind', 'phones'].flatMap(k => (D[k] || []).map(x => [x.from - 0.3, x.to])),
     ...(D.spotlight || []).filter(x => x.label).map(x => [x.from - 0.3, x.to]),
     ...(D.pops || []).map(p => [p.at - 0.05, p.at + 1.6]),
   ];
   const surfaceBusy = t => textSpans.some(([a, b]) => t >= a && t <= b);
   const consumedUntil = t => Math.max(-1, ...textSpans.filter(([, b]) => b <= t).map(([, b]) => b));
-  const lineHtml = (L, t) => {
-    const cut = consumedUntil(t);
-    let html = '', i = 0, ws = L.words.filter(w => w.s >= cut - 0.05);
-    while (i < ws.length) {
-      if (isLat(ws[i].w)) { let g = ''; while (i < ws.length && isLat(ws[i].w)) { g += wordHtml(ws[i], t); i++; } if (g) html += `<span class="g">${g}</span>`; }
-      else { html += wordHtml(ws[i], t); i++; }
-    }
-    return html;
-  };
+  const phraseHtml = (P, t) => rowsOf(P.words.filter(w => w.s >= consumedUntil(t) - 0.05)).map(r => `<div class="row${r.big ? ' big' : ''}">${rowHtml(r.ws, t)}</div>`).join('');
 
   // الأجواء + تدرج سفلي ناعم لوضوح الكابشن
   const cv = $('#fx'), g = cv.getContext('2d');
@@ -166,15 +203,78 @@ canvas{position:absolute;inset:0}
   };
 
   const cardEl = $('.card'), propEl = $('.prop');
+  const sceneEl = $('.scene'), flowEl = $('.flow');
+  const spokenIn = (a, b) => D.words.filter(w => w.s >= a - 0.1 && w.s < b);
+  const accentWord = (c, w) => kws.has(core(w.w)) || (c.accent || []).includes(core(w.w));
+  const buildScene = c => {
+    const hero = c.src ? `<img class="hero" src="${esc(c.src)}" alt="">` : `<div class="hero tile">${c.svg || ''}</div>`;
+    sceneEl.innerHTML = `<div class="sbg"></div>${c.ghost ? `<div class="ghost">${esc(K(c.ghost))}</div>` : ''}${hero}<div class="stitle"></div>`;
+    const gh = sceneEl.querySelector('.ghost');
+    if (gh) { gh.style.fontSize = '340px'; const r = document.createRange(); r.selectNodeContents(gh); const wd = r.getBoundingClientRect().width; if (wd > 1040) gh.style.fontSize = Math.floor(340 * 1040 / wd) + 'px'; }
+  };
+  // عنوان المشهد = الكلام نفسه يتراكم بتوقيته (أو title صريح يُوزَّع على أول 1.2ث)
+  const sceneWords = c => c.title ? c.title.split(' ').map((w, i, a) => ({ w, s: c.at + 0.1 + i * Math.min(0.35, 1.2 / a.length), e: 0 })) : spokenIn(c.at, cardEnd(c));
+  const renderScene = (c, t) => {
+    const p = clamp((t - c.at) / (cardEnd(c) - c.at)), lit = 0.35 + 0.65 * out3(clamp((t - c.at) / 0.3));
+    sceneEl.querySelector('.sbg').style.transform = `scale(${1 + 0.07 * p})`;
+    sceneEl.querySelector('.sbg').style.filter = `brightness(${lit.toFixed(2)})`;
+    const hero = sceneEl.querySelector('.hero'); hero.style.transform = `translateY(${(Math.sin(t * 1.8) * 10).toFixed(1)}px) scale(${(0.92 + 0.12 * p).toFixed(3)})`; hero.style.opacity = lit.toFixed(2);
+    const gh = sceneEl.querySelector('.ghost'); if (gh) gh.style.transform = `translateX(${(-40 * p).toFixed(1)}px)`;
+    // العنوان يعرض العبارة الجارية فقط (2–5 كلمات كالمراجع) ويُكمَّل بتوقيت الكلام
+    const sw = sceneWords(c), ph = [];
+    for (const w of sw) { const C = ph[ph.length - 1]; if (!C || w.s - C[C.length - 1].s > 0.9 || C.length >= 5) ph.push([w]); else C.push(w); }
+    const curP = ph.filter(C => C[0].s - 0.06 <= t).pop() || ph[0] || [];
+    sceneEl.querySelector('.stitle').innerHTML = rowHtml(curP, t).replace(/class="w([^"]*)"([^>]*)>([^<]*)</g, (m, cl, st, txt) => `class="w${cl}${kws.has(core(txt)) || (c.accent || []).includes(core(txt)) ? ' a' : ''}"${st}>${txt}<`);
+  };
+  // تدفق نص على خلفية فارغة يتمرر عمودياً (عربي موشن 7.75–10.25)
+  const renderFlow = (c, t) => {
+    const ws = spokenIn(c.at, cardEnd(c)), chunks = [];
+    // دفعات من كلمتين: صغيرة ثم كبيرة (شركهم / بالله، سيكون / سبباً)، وكلمة الذروة دائماً كبيرة
+    for (const w of ws) { const C = chunks[chunks.length - 1]; if (!C || w.s - C[C.length - 1].e > 0.25 || C.length >= 2 || kws.has(core(C[C.length - 1].w))) chunks.push([w]); else C.push(w); }
+    let cur = 0; chunks.forEach((C, i) => { if (C[0].s - 0.06 <= t) cur = i; });
+    const since = chunks.length ? clamp((t - chunks[cur][0].s + 0.06) / 0.3) : 1, shift = cur - 1 + out3(since);
+    flowEl.querySelector('.stack').innerHTML = chunks.map((C, i) => {
+      const d = i - shift, y = 820 + d * 300, op = i > cur ? 0 : i === cur ? 1 : cur - i === 1 ? 0.35 * (1 - out3(since)) : 0;
+      const rows = C.length === 1 ? `<div class="bg2">${wordHtml(C[0], t)}</div>` : `<div class="sm">${wordHtml(C[0], t)}</div><div class="bg2">${wordHtml(C[1], t)}</div>`;
+      return `<div class="ph" style="top:${y.toFixed(0)}px;opacity:${op.toFixed(2)};filter:blur(${i < cur ? 3 : 0}px)">${rows}</div>`;
+    }).join('');
+  };
   const buildCard = c => {
     if (c.type === 'image') cardEl.innerHTML = `<img class="photo" src="${esc(c.src)}" alt="">`;
     else if (c.type === 'typo') cardEl.innerHTML = `<div class="halo"></div><div class="typo"></div>`;
     else cardEl.innerHTML = `<div class="halo"></div>${c.text ? `<div class="ghost">${esc(K(c.text))}</div>` : ''}<div class="obj tile">${c.svg || ''}</div>`;
   };
-  // لحظات الانتقال: تسريب ضوئي يعبر الشاشة + عودة ضبابية للوجه
+  // الانتقالات المقيسة من المراجع (GRAMMAR §3): لكل بطاقة دخول وخروج حسب نوعها أو in/out صريحة
   const cardEnd = c => c.at + (c.dur || 1.6);
-  const shifts = [...(D.cards || []).filter(c => c.type !== 'prop').flatMap(c => [c.at, cardEnd(c)]), ...(D.frames || []).flatMap(f => [f.from, f.to]), ...(D.behind || []).map(b => b.from)];
-  const returns = [...(D.cards || []).filter(c => c.type !== 'prop').map(cardEnd), ...(D.frames || []).map(f => f.to)];
+  const big = (D.cards || []).filter(c => c.type !== 'prop');
+  const TR = { scene: ['streak', 'whiteframe'], image: ['streak', 'whiteframe'], icon: ['defocus', 'flash'], typo: ['defocus', 'flash'], flow: ['flash', 'flash'] };
+  const trOf = c => [c.in || (TR[c.type] || TR.icon)[0], c.out || (TR[c.type] || TR.icon)[1]];
+  const shifts = [...(D.frames || []).flatMap(f => [f.from, f.to]), ...(D.behind || []).map(b => b.from)];
+  const transit = t => {
+    const o = { flash: 0, orb: 0, leak: null, wblur: 0, wdark: 0, wbright: 1, alpha: 1, cblur: 0, pip: 0, clip: null };
+    for (const c of big) {
+      const a = c.at, b = cardEnd(c), [ki, ko] = trOf(c);
+      if (ki === 'streak' && Math.abs(t - a) < 0.2) o.leak = clamp((t - a + 0.2) / 0.4);
+      if (ki === 'flash' && Math.abs(t - a) < 0.12) o.flash = Math.max(o.flash, 0.85 * (1 - Math.abs(t - a) / 0.12));
+      if (ki === 'whiteframe' && Math.abs(t - a) < 0.034) o.flash = 1;
+      if (ki === 'defocus') {
+        if (t >= a - 0.3 && t < a) { const q = (t - a + 0.3) / 0.3; o.wblur = 16 * q; o.wdark = q; }
+        if (t >= a && t < a + 0.35) { const q = (t - a) / 0.35; o.alpha = Math.min(o.alpha, out3(q)); o.cblur = 14 * (1 - q); }
+      }
+      if (ki === 'orb') {
+        if (t >= a - 0.45 && t < a) o.orb = (t - a + 0.45) / 0.45;
+        if (t >= a && t < a + 0.3) o.flash = Math.max(o.flash, 1 - (t - a) / 0.3);
+      }
+      if (ki === 'burn' && t >= a && t < a + 0.6) { o.clip = `circle(${(out3((t - a) / 0.6) * 150).toFixed(1)}% at 85% 92%)`; o.leak = clamp((t - a) / 0.6); }
+      if (ki === 'pip' && t >= a - 0.5 && t < a) o.pip = out3((t - a + 0.5) / 0.5);
+      if (ko === 'whiteframe' && Math.abs(t - b) < 0.034) o.flash = 1;
+      if (ko === 'flash' && Math.abs(t - b) < 0.12) o.flash = Math.max(o.flash, 0.85 * (1 - Math.abs(t - b) / 0.12));
+      if (ko === 'streak' && Math.abs(t - b) < 0.2) o.leak = clamp((t - b + 0.2) / 0.4);
+      if (ko === 'defocus' && t >= b - 0.25 && t <= b) { const q = (b - t) / 0.25; o.alpha = Math.min(o.alpha, q); o.cblur = Math.max(o.cblur, 14 * (1 - q)); }
+      if (t > b && t < b + 0.4 && ko !== 'whiteframe') { const q = (t - b) / 0.4; o.wblur = Math.max(o.wblur, 14 * (1 - out3(q))); if (ko === 'flash') o.wbright = 1 + 0.6 * (1 - q); }
+    }
+    return o;
+  };
   const lc = $('#light').getContext('2d');
   const relight = (f, on) => {
     lc.clearRect(0, 0, 1080, 1920);
@@ -197,10 +297,13 @@ canvas{position:absolute;inset:0}
     const cd = (D.cards || []).find(c => c.type !== 'prop' && t >= c.at - 0.05 && t <= c.at + (c.dur || 1.6));
     drawFx(t, !!cd);
     relight(D.face, !cd);
-    const sh = shifts.find(e => t >= e - 0.25 && t <= e + 0.3), lk = $('#leak');
-    if (sh !== undefined) { const p = clamp((t - sh + 0.25) / 0.55); lk.style.opacity = Math.sin(Math.PI * p) * 0.85; lk.style.transform = `translateX(${(p * 2 - 1) * 110}%)`; } else lk.style.opacity = 0;
-    const rt = returns.find(e => t >= e && t <= e + 0.45);
-    wrap.style.filter = rt !== undefined ? `blur(${(16 * (1 - out3(clamp((t - rt) / 0.45)))).toFixed(1)}px)` : 'none';
+    const tr = transit(t), lk = $('#leak');
+    const sh = shifts.find(e => t >= e - 0.25 && t <= e + 0.3);
+    const lp = tr.leak !== null ? tr.leak : sh !== undefined ? clamp((t - sh + 0.25) / 0.55) : null;
+    if (lp !== null) { lk.style.opacity = Math.sin(Math.PI * lp) * 0.95; lk.style.transform = `translateX(${(lp * 2 - 1) * 110}%)`; } else lk.style.opacity = 0;
+    $('#flash').style.opacity = tr.flash.toFixed(2);
+    $('#orb').style.opacity = tr.orb ? 1 : 0; $('#orb').style.setProperty('--r', `${(tr.orb * 110).toFixed(1)}%`);
+    wrap.style.filter = tr.wblur || tr.wdark || tr.wbright !== 1 ? `blur(${tr.wblur.toFixed(1)}px) brightness(${((1 - 0.85 * tr.wdark) * tr.wbright).toFixed(2)})` : 'none';
     // نافذة الفيديو + رأس ورقي يُكتب
     const fr = active(D.frames, t, 0.45), fk = fr ? out3(io(t, fr.from, fr.to, 0.45)) : 0;
     $('#bg').style.opacity = fk;
@@ -208,6 +311,7 @@ canvas{position:absolute;inset:0}
     wrap.style.transform = `translateY(${250 * fk}px) scale(${sc})`;
     wrap.style.borderRadius = `${56 * fk / sc}px`;
     wrap.style.boxShadow = fk ? `0 60px 120px -20px rgba(0,0,0,${0.7 * fk})` : 'none';
+    if (tr.pip) { const p = tr.pip; wrap.style.transform = `translateY(${-560 * p}px) scale(${1 - 0.68 * p})`; wrap.style.borderRadius = `${90 * p / (1 - 0.68 * p)}px`; wrap.style.boxShadow = `0 0 0 ${(14 * p).toFixed(1)}px ${M.accent},0 40px 80px rgba(0,0,0,.6)`; $('#bg').style.opacity = p; }
     paper.style.opacity = fk; paper.style.transform = `translateY(${-60 * (1 - fk)}px)`;
     if (fr) { paper.querySelector('.num').textContent = fr.num ? `0${fr.num}`.slice(-2) : ''; paper.querySelector('h2').textContent = typed(fr.title || '', t, fr.from + 0.3); paper.querySelector('p').textContent = typed(fr.sub || '', t, fr.from + 0.3 + [...(fr.title || '')].length / 28); }
 
@@ -253,23 +357,39 @@ canvas{position:absolute;inset:0}
       Object.assign(propEl.style, { left: x + 'px', top: y + 'px', opacity: Math.min(1, q * 2) * o, transform: `translateY(${Math.sin(t * 2.4) * 12}px) scale(${0.3 + 0.7 * back(q)}) rotate(${side * (12 - 12 * q)}deg)` });
     } else propEl.style.opacity = 0;
 
-    // بطاقة كاملة
-    if (cd !== cardShown) { if (cd) buildCard(cd); cardShown = cd; }
-    if (cd) {
-      const end = cd.at + (cd.dur || 1.6), k = io(t, cd.at, end, 0.3), ent = out3(clamp((t - cd.at) / 0.5));
-      cardEl.style.opacity = 1; cardEl.style.clipPath = `circle(${(out3(k) * 125).toFixed(1)}% at 50% 40%)`;
+    // بطاقة كاملة / مشهد / تدفق نص
+    const isScene = cd && cd.type === 'scene', isFlow = cd && cd.type === 'flow', plain = cd && !isScene && !isFlow;
+    if (cd !== cardShown) { if (plain) buildCard(cd); if (isScene) buildScene(cd); if (isFlow) flowEl.dataset.k = ''; cardShown = cd; }
+    for (const [el, on] of [[cardEl, plain], [sceneEl, isScene], [flowEl, isFlow]]) {
+      el.style.opacity = on ? tr.alpha.toFixed(2) : 0;
+      el.style.filter = on && tr.cblur ? `blur(${tr.cblur.toFixed(1)}px)` : 'none';
+      el.style.clipPath = on && tr.clip ? tr.clip : 'none';
+    }
+    if (plain) {
+      const end = cardEnd(cd), ent = out3(clamp((t - cd.at) / 0.5));
       const ob = cardEl.querySelector('.obj'), ty = cardEl.querySelector('.typo'), ph2 = cardEl.querySelector('.photo');
-      if (ob) { ob.style.transform = `translateY(${Math.sin(t * 2.2) * 16}px) scale(${0.7 + 0.3 * back(ent)})`; ob.style.filter = `blur(${(12 * (1 - ent)).toFixed(1)}px)`; }
+      if (ob) ob.style.transform = `translateY(${Math.sin(t * 2.2) * 16}px) scale(${0.85 + 0.15 * ent + 0.04 * clamp((t - cd.at) / (end - cd.at))})`;
       if (ty) ty.textContent = typed(K(cd.text || ''), t, cd.at + 0.15, 22);
       if (ph2) ph2.style.transform = `scale(${1.12 - 0.08 * clamp((t - cd.at) / (end - cd.at))})`;
-    } else cardEl.style.opacity = 0;
+    }
+    if (isScene) renderScene(cd, t);
+    if (isFlow) renderFlow(cd, t);
 
-    // الكابشن (حرفي، مرة واحدة، يُكتب مع الكلام) — يُخفى أثناء بطاقة النص لأنها تحمل نفس الكلمات
-    const L = lines.find(l => t >= l.a && t < l.b), cap = $('.cap');
-    if (L && !surfaceBusy(t) && L.words.some(w => w.s >= consumedUntil(t) - 0.05)) {
-      cap.innerHTML = lineHtml(L, t);
-      cap.style.opacity = Math.min(clamp((t - L.a) / 0.12), clamp((L.b - t) / 0.15));
-      cap.style.transform = `translateY(${10 * (1 - clamp((t - L.a) / 0.12))}px)`;
+    const qt = active(D.quotes, t, 0.2), qel = $('.quote');
+    if (qt) { if (qel.dataset.k !== String(qt.from)) { qel.textContent = qt.text || spokenIn(qt.from, qt.to).map(w => w.w).join(' '); qel.dataset.k = qt.from; } const k = io(t, qt.from, qt.to, 0.25); qel.style.opacity = k; qel.style.filter = `blur(${(8 * (1 - k)).toFixed(1)}px)`; } else qel.style.opacity = 0;
+
+    // الكابشن: عبارة تتراكم كلماتها، تظهر فقط إن لم يحمل الكلامَ عنصرٌ آخر (القاعدة 0)
+    const P = phrases.find(x => t >= x.a && t < x.b), cap = $('.cap');
+    if (P && !surfaceBusy(t) && P.words.some(w => w.s >= consumedUntil(t) - 0.05)) {
+      cap.innerHTML = phraseHtml(P, t);
+      const o = clamp((P.b - t) / 0.2);
+      cap.style.opacity = o.toFixed(2); cap.style.filter = o < 1 ? `blur(${(10 * (1 - o)).toFixed(1)}px)` : 'none';
+      const f = D.face;
+      // بجانب الرأس على الجهة الفارغة إن كان الوجه منزاحاً، وإلا على الصدر تحت الذقن
+      const side = f && Math.abs(f.cx - 540) > 150;
+      cap.style.width = side ? '560px' : '920px';
+      cap.style.left = side ? (f.cx > 540 ? '40px' : '480px') : '80px';
+      cap.style.top = (f ? Math.min(1420, Math.max(side ? 760 : 1000, side ? f.cy - f.w * 0.1 : f.cy + f.w * 0.62)) : 1180) + 'px';
       if (cap.children.length && !inside(cap.getBoundingClientRect())) window.__issues.push(`كابشن خارج الشاشة عند ${t.toFixed(2)}ث`);
       for (const el of [pills, $('.phone'), propEl]) if (+getComputedStyle(el).opacity > 0.99 && cap.children.length && overlap(el.getBoundingClientRect(), cap.getBoundingClientRect())) window.__issues.push(`عنصر فوق الكابشن عند ${t.toFixed(2)}ث`);
     } else cap.innerHTML = '';

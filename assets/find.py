@@ -70,7 +70,7 @@ def find(query: str, kind: str = None, n: int = 5) -> list:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("query")
-    ap.add_argument("--type", choices=["icon", "sfx", "music", "font", "text-motion", "transitions", "refs"])
+    ap.add_argument("--type", choices=["icon", "sfx", "music", "font", "image", "text-motion", "transitions", "refs"])
     ap.add_argument("-n", type=int, default=5)
     a = ap.parse_args()
     for r in find(a.query, a.type, a.n):

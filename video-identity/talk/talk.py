@@ -183,7 +183,8 @@ def plan(cfg: dict, base: pathlib.Path) -> dict:
     }
 
 
-SPANS = ("frames", "behind", "spotlight", "ui", "phones")
+SPANS = ("frames", "behind", "spotlight", "ui", "phones", "quotes")
+TRANSITIONS = ("streak", "defocus", "flash", "whiteframe", "orb", "burn", "pip", "cut")
 
 
 def timeline(cfg: dict, rt, base: pathlib.Path) -> dict:
@@ -195,14 +196,21 @@ def timeline(cfg: dict, rt, base: pathlib.Path) -> dict:
         if at is None:
             errs.append(f"cards: الزمن {c['at']} في جزء محذوف")
             continue
-        if c.get("type") not in ("typo", "icon", "prop", "image"):
-            errs.append(f"cards: النوع {c.get('type')} غير معروف (typo/icon/prop/image)")
+        if c.get("type") not in ("typo", "icon", "prop", "image", "scene", "flow"):
+            errs.append(f"cards: النوع {c.get('type')} غير معروف (typo/icon/prop/image/scene/flow)")
+        if c.get("in") not in (None, *TRANSITIONS) or c.get("out") not in (None, *TRANSITIONS):
+            errs.append(f"cards: انتقال غير معروف عند {c['at']} ({'/'.join(TRANSITIONS)})")
         if c.get("style") == "3d":
             errs.append("cards: style 3d (إيموجي) ممنوع — أيقونات تصميم فقط")
-        if c.get("type") in ("icon", "prop"):
-            # الأيقونة: اسم ملف أو كلمة عربية/إنجليزية تُحل من مكتبة assets
-            # أيقونة تصميم (Phosphor) — الإيموجي ممنوع بقرار ساجد
-            path = compose.resolve_icon(c.get("icon") or c.get("text", ""), "fill" if c.get("style") == "fill" else "icon")
+        if c.get("type") == "scene" and c.get("src"):
+            src = (base / c["src"]).resolve()
+            if not src.is_file():
+                errs.append(f"cards: صورة المشهد غير موجودة {src}")
+            c = {**c, "src": src.as_uri()}
+        elif c.get("type") in ("icon", "prop", "scene"):
+            # أيقونة تصميم بالمعنى العربي من assets — الإيموجي ممنوع بقرار ساجد
+            q = c.get("icon") or c.get("text") or c.get("ghost") or c.get("title", "")
+            path = compose.resolve_icon(q, "fill" if c.get("style") == "fill" else "icon")
             c = {**c, "svg": compose.svg_markup(path)}
         if c.get("type") == "image":
             src = (base / c["src"]).resolve()
