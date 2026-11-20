@@ -20,20 +20,20 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - يُشار إليه من: CLAUDE.md, docs/account-instructions.md, docs/mission-control.md
   - قريب منه: projects/index.md, docs/repo-map.md, ideas.md
 - **`ideas.md`** — أفكار وقرارات متراكمة: سياق يتراكم عبر الجلسات
-  - أقسام: قرارات معمارية مهمة (Nov 2026) · نظام الذاكرة (Nov 2026) · أفكار لم تُنفَّذ بعد · ملاحظات على المشاريع · Mission Control (Nov 2026) · GRCS (Nov 2026) · ArticleStudio v0.14.0 — Social Hub (Nov 2026)
+  - أقسام: قرارات معمارية مهمة (Nov 2026) · نظام الذاكرة (Nov 2026) · أفكار لم تُنفَّذ بعد · ملاحظات على المشاريع · Mission Control (Nov 2026) · GRCS (Nov 2026) · ArticleStudio v0.14.0 — Social Hub (Nov 2026) · ArticleStudio v0.14.1 — Social Hub (Nov 2026)
   - يشير إلى: .claude/session-handoff.md, CLAUDE.md, docs/mission-control.md, docs/repo-map.md, rules/guards.json
   - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md, playbooks/idea-to-product.md
-  - قريب منه: README.md, projects/index.md, docs/repo-map.md
+  - قريب منه: README.md, docs/repo-map.md, projects/index.md
 - **`mistakes.md`** — أخطاء حدثت — لا تكررها أبداً: يُضاف إليه فور اكتشاف خطأ جديد
   - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0 · Git / sajed-brain
   - يشير إلى: CHARTER.md, CLAUDE.md, video-identity/README.md
   - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/account-instructions.md, docs/repo-map.md, video-identity/README.md
-  - قريب منه: README.md, video-identity/README.md, preferences.md
+  - قريب منه: README.md, video-identity/README.md, ideas.md
 - **`preferences.md`** — تفضيلات ساجد الثابتة: يُحدَّث عند ظهور تفضيل جديد
   - أقسام: اللغة والتواصل · التصميم · المعمارية · الكود · الـworkflow · حجم الملفات والتوثيق (Nov 2026)
   - يشير إلى: .claude/session-handoff.md, CHARTER.md, CLAUDE.md, docs/repo-map.md
   - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md
-  - قريب منه: README.md, ideas.md, mistakes.md
+  - قريب منه: README.md, ideas.md, features/brand-config.md
 
 ## docs
 - **`docs/account-instructions.md`** — Claude Instructions — ساجد العبادلة v3.3: Adaptive elite-practitioner: infer the mastery each request needs (architect, security auditor, product designer, motion designer…) and execute at that level. N
@@ -64,7 +64,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`features/brand-config.md`** — ميزة: BrandConfig.kt: المصدر الوحيد لكل شيء له علاقة بالعلامة التجارية
   - أقسام: القاعدة الصارمة · الهيكل الكامل · القاعدة في الـTheme
   - يُشار إليه من: README.md
-  - قريب منه: preferences.md, ideas.md, features/auto-update.md
+  - قريب منه: preferences.md, features/auto-update.md, ideas.md
 - **`features/ci-cd.md`** — ميزة: CI/CD — GitHub Actions: كل push → بناء + توقيع + نشر APK تلقائياً
   - أقسام: Workflows الموجودة في كل مشروع · أسرار التوقيع المطلوبة في كل repo · VERSION_NAME وVERSION_CODE · رفع zip من الهاتف
   - يُشار إليه من: README.md
@@ -99,7 +99,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: 1) افهم — أجب داخلياً، لا تسأل ساجد · 2) وسّع الفكرة — 3 طبقات · 3) كتالوج حسب النوع · 4) الموجز قبل البناء (≤40 سطراً، شاشة واحدة) · 5) قبل التسليم
   - يشير إلى: docs/repo-map.md, features/background-sync.md, features/export-pipeline.md, features/firebase.md, ideas.md
   - يُشار إليه من: README.md, docs/account-instructions.md, docs/repo-map.md
-  - قريب منه: README.md, mistakes.md, preferences.md
+  - قريب منه: README.md, ideas.md, preferences.md
 
 ## projects
 - **`projects/index.md`** — فهرس المشاريع النشطة: يُحدَّث عند بدء مشروع جديد أو تغيير حالة
