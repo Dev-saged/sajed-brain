@@ -23,7 +23,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: قرارات معمارية مهمة (Nov 2026) · نظام الذاكرة (Nov 2026) · أفكار لم تُنفَّذ بعد · ملاحظات على المشاريع · Mission Control (Nov 2026) · GRCS (Nov 2026) · ArticleStudio v0.14.0 — Social Hub (Nov 2026) · ArticleStudio v0.14.1 — Social Hub (Nov 2026) · ArticleStudio v0.15.0 — إنستغرام (Nov 2026) · ArticleStudio v0.16.0 — طابور المشاركة (Nov 2026) · ArticleStudio — إعادة تصميم الواجهة (Nov 2026)
   - يشير إلى: .claude/session-handoff.md, CLAUDE.md, docs/mission-control.md, docs/repo-map.md, rules/guards.json
   - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md, playbooks/idea-to-product.md
-  - قريب منه: README.md, docs/repo-map.md, mistakes.md
+  - قريب منه: README.md, mistakes.md, docs/repo-map.md
 - **`mistakes.md`** — أخطاء حدثت — لا تكررها أبداً: يُضاف إليه فور اكتشاف خطأ جديد
   - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0 · Git / sajed-brain
   - يشير إلى: CHARTER.md, CLAUDE.md, video-identity/README.md
@@ -105,7 +105,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`projects/index.md`** — فهرس المشاريع النشطة: يُحدَّث عند بدء مشروع جديد أو تغيير حالة
   - أقسام: قيد — نظام إدارة متاجر · SMS Barq — تطبيق رسائل SMS · android-template — القالب الرئيسي · Sport Monitor AI — مراقبة رياضية · GRCS — منظومة مخيمات النزوح (Android الأصلي + نسخة ويب)
   - يُشار إليه من: README.md
-  - قريب منه: README.md, ideas.md, mistakes.md
+  - قريب منه: README.md, ideas.md, features/ci-cd.md
 
 ## video-identity
 - **`video-identity/README.md`** — هوية فيديوهات ساجد: إلزامي: أي فيديو أو ريل أو منشور بصري لحسابات ساجد يبدأ بقراءة هذا الملف. المحتوى يتغيّر، الهوية ثابتة.
