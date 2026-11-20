@@ -188,8 +188,13 @@ def timeline(cfg: dict, rt, base: pathlib.Path) -> dict:
         if at is None:
             errs.append(f"cards: الزمن {c['at']} في جزء محذوف")
             continue
-        if c.get("type") not in ("typo", "icon", "image"):
-            errs.append(f"cards: النوع {c.get('type')} غير معروف (typo/icon/image)")
+        if c.get("type") not in ("typo", "icon", "prop", "image"):
+            errs.append(f"cards: النوع {c.get('type')} غير معروف (typo/icon/prop/image)")
+        if c.get("type") in ("icon", "prop"):
+            # الأيقونة: اسم ملف أو كلمة عربية/إنجليزية تُحل من مكتبة assets
+            kind = "icon" if c.get("style") == "line" else "icon3d"
+            path = compose.resolve_icon(c.get("icon") or c.get("text", ""), kind)
+            c = {**c, "src": path.as_uri()} if kind == "icon3d" else {**c, "svg": compose.svg_markup(path)}
         if c.get("type") == "image":
             src = (base / c["src"]).resolve()
             if not src.is_file():
@@ -222,7 +227,7 @@ def peak_gain(src: pathlib.Path) -> float:
     return max(0.0, -1.5 - float(m.group(1))) if m else 0.0
 
 
-def cut_source(src: pathlib.Path, p: dict, out: pathlib.Path, grade: str = "teal") -> None:
+def cut_source(src: pathlib.Path, p: dict, out: pathlib.Path, grade: str) -> None:
     keep, parts, labels = p["keep"], [], []
     for i, (s, e) in enumerate(keep):
         parts.append(f"[0:v]trim={s}:{e},setpts=PTS-STARTPTS[v{i}];[0:a]atrim={s}:{e},asetpts=PTS-STARTPTS[a{i}]")
@@ -234,7 +239,7 @@ def cut_source(src: pathlib.Path, p: dict, out: pathlib.Path, grade: str = "teal
     gain = peak_gain(src)
     fc = ";".join(parts) + f";{''.join(labels)}concat=n={len(keep)}:v=1:a=1[cv][ca];" \
         f"[cv]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920," \
-        f"crop=w='iw/{z}':h='ih/{z}',scale=1080:1920,setsar=1,{compose.GRADES[grade]}[vo];" \
+        f"crop=w='iw/{z}':h='ih/{z}',scale=1080:1920,setsar=1,{grade}[vo];" \
         f"[ca]volume={gain:.2f}dB[ao]"
     ff("-i", str(src), "-filter_complex", fc, "-map", "[vo]", "-map", "[ao]", *VIDEO, *AUDIO, str(out))
 
@@ -244,12 +249,24 @@ def with_silence(src: pathlib.Path, out: pathlib.Path) -> None:
        "-map", "0:v", "-map", "1:a", "-c:v", "copy", *AUDIO, str(out))
 
 
+def mood_of(cfg: dict, p: dict) -> tuple:
+    name = cfg.get("mood") or compose.detect_mood(p["words"], (cfg.get("cover") or cfg.get("title") or {}).get("text", ""))
+    if name not in compose.MOODS:
+        raise SystemExit(f"mood: {name} غير معروف ({'/'.join(compose.MOODS)})")
+    return name, compose.MOODS[name]
+
+
 def overlay_data(cfg: dict, p: dict, tokens: dict) -> dict:
-    names = {c["icon"] for c in p["cards"] if c.get("type") == "icon"}
-    return {"tokens": tokens, "words": p["words"], "pops": p["pops"], "fx": p["fx"], "title": cfg.get("title"),
+    name, m = mood_of(cfg, p)
+    return {"tokens": tokens, "words": p["words"], "pops": p["pops"], "fx": p["fx"], "mood": {**m, "name": name},
             "emphasis": cfg.get("emphasis", []), "keywords": cfg.get("keywords", []), "kashida": cfg.get("kashida", True),
-            "duration": p["duration"], "popY": cfg.get("pop_y"), "grade": cfg.get("grade", "teal"),
-            "icons": compose.icons_markup(names), **{k: p[k] for k in ("cards", *SPANS)}}
+            "duration": p["duration"], **{k: p[k] for k in ("cards", *SPANS)}}
+
+
+def cover_data(cfg: dict, data: dict) -> dict:
+    t = cfg.get("cover") or cfg.get("title") or {}
+    return {"mood": data["mood"], "title": t.get("text", ""), "sub": t.get("sub", ""), "kashida": cfg.get("kashida", True),
+            "byline": "ساجد العبادلة · من غزة"}
 
 
 def extract_frames(video: pathlib.Path, folder: pathlib.Path) -> list:
@@ -264,13 +281,11 @@ def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
     cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
     base = cfg_path.parent
     src = (base / cfg["source"]).resolve()
-    grade = cfg.get("grade", "teal")
-    if grade not in compose.GRADES:
-        raise SystemExit(f"grade: {grade} غير معروف ({'/'.join(compose.GRADES)})")
     p = plan(cfg, base)
     tokens = json.loads((ROOT / "tokens.json").read_text(encoding="utf-8"))
     icons = json.loads((ROOT / "icons" / "platforms.json").read_text(encoding="utf-8"))
     data = overlay_data(cfg, p, tokens)
+    grade = data["mood"]["grade"]
 
     with sync_playwright() as pw, tempfile.TemporaryDirectory() as td:
         td = pathlib.Path(td)
@@ -295,14 +310,20 @@ def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
                 shot = out.with_name(f"{out.stem}-{n}.jpg")
                 pg.screenshot(path=str(shot), type="jpeg", quality=88)
                 print(shot)
-            print(f"مدة {p['duration']}ث · بطاقات {len(p['cards'])} · أجواء {[f['type'] for f in p['fx']]} · لون {grade}")
+            cover = out.with_name(out.stem + "-غلاف.jpg")
+            compose.make_cover(br, cover_data(cfg, data), frames[compose.best_cover_frame(frames)], td, cover)
+            print(cover)
+            print(f"مدة {p['duration']}ث · بطاقات {len(p['cards'])} · أجواء {[f['type'] for f in p['fx']]} · مزاج {data['mood']['name']}")
             br.close()
             return
         cutouts, faces = compose.vision(frames, span("behind"), span("spotlight"), td / "cut")
         compose.composite(br, data, frames, cutouts, faces, td / "out")
         ff("-i", str(td / "cut.mp4"), "-vn", "-c:a", "pcm_s16le", str(td / "voice.wav"))
         music = (base / cfg["music"]).resolve() if cfg.get("music") else None
-        compose.mix_audio(td / "voice.wav", compose.sfx_events(p, cfg), music, p["duration"], td / "mix.m4a", td)
+        compose.mix_audio(td / "voice.wav", compose.sfx_events(p, cfg), music, p["duration"], td / "mix.m4a")
+        cover = out.with_name(out.stem + "-غلاف.jpg")
+        compose.make_cover(br, cover_data(cfg, data), frames[compose.best_cover_frame(frames)], td, cover)
+        print(cover)
         ff("-framerate", "30", "-i", str(td / "out" / "%05d.jpg"), "-i", str(td / "mix.m4a"),
            "-map", "0:v", "-map", "1:a", *VIDEO, "-c:a", "copy", "-shortest", str(td / "talk.mp4"))
         order = [td / "talk.mp4"]
@@ -337,7 +358,7 @@ def archive(cfg_path: pathlib.Path, cfg: dict, p: dict, video: pathlib.Path) -> 
     ff(*inputs, "-filter_complex", "[0:v][1:v][2:v]hstack=3,scale=540:-2", "-frames:v", "1", "-q:v", "4", str(folder / "sheet.jpg"))
     index = render.LIBRARY / "index.md"
     text = index.read_text(encoding="utf-8") if index.exists() else render.INDEX_HEAD
-    head = (cfg.get("title") or {}).get("text", video.stem).replace("\n", " ")
+    head = (cfg.get("cover") or cfg.get("title") or {}).get("text", video.stem).replace("\n", " ")
     index.write_text(text + render.index_line(date, video.stem, {"headline": head, "format": cfg.get("format", "كلام")}), encoding="utf-8")
     return folder
 

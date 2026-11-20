@@ -22,7 +22,8 @@ _بلا كود_
 - لا قيود حجم على أي ملف (قرار ساجد 2026-11-18)؛ أُزيل فحص حجم README من brain_doctor
 - مراجع موشن: scripts/motion_refs.py ← `analyze`، `contact_sheet`، `motion_energy`؛ workflow brain-motion؛ references/motion/{notes,LEXICON}.md
 - talk.py يفرض قواعد ساجد: `validate` (نص حرفي، لا تعريب، لا hook)، `auto_fx`، `to_script` + rules/arabizi.json؛ talk.html يفشل الرندر عند قص/تراكب
-- مُركِّب فيديو الكلام: talk/compose.py ← `vision` (MediaPipe)، `composite` (إطار بإطار في talk.html)، `mix_audio`، `sfx_events`، `GRADES`؛ talk.py ← `timeline`
+- مُركِّب فيديو الكلام v2: talk/compose.py ← `MOODS`، `detect_mood`، `resolve_icon`، `sfx_events` (assets/sfx)، `mix_audio`، `Vision`، `best_cover_frame`، `make_cover` (cover.html)؛ talk.py ← `timeline`، `mood_of`، `cover_data`؛ كابشن كتابي في talk.html
+- مكتبة الأصول: assets/ (أيقونات + مجسمات 3D + sfx) ← assets/find.py `find`، بناء scripts/assets_build.py؛ ميزات افتراضية features/defaults.md، توافق features/compat.md، روابط references/libraries.md
 - فكرة جديدة: playbooks/idea-to-product.md (Core/Pro/Wow + كتالوج حسب النوع + موجز ≤40 سطراً)
 - features/: room-setup، icons، motion، firebase أُكملت (كانت روابط مكسورة في README)
 - هوية الفيديو: video-identity/tokens.json (المصدر الوحيد)، icons/platforms.json

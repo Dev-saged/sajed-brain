@@ -2,286 +2,250 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>Talk compositor</title>
+<title>Talk compositor v2</title>
 <link rel="stylesheet" href="../templates/fonts.css">
 <style>
 *{box-sizing:border-box;margin:0}
 html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
-body{font-family:'Alexandria',sans-serif;color:#fff}
+body{font-family:'IBM Plex Sans Arabic',sans-serif;color:#fff}
+:root{--title:'El Messiri'}
 .layer{position:absolute;inset:0}
-/* خلفية مصممة تظهر عند تصغير الفيديو لنافذة */
-#bg{background:radial-gradient(120% 80% at 50% 20%,var(--m1),var(--m2));opacity:0}
-#bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 2px,transparent 2px),linear-gradient(90deg,rgba(255,255,255,.05) 2px,transparent 2px);background-size:90px 90px}
-#vid,#person{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:50% 50%;object-fit:cover}
-#vidwrap{position:absolute;inset:0;overflow:hidden;transform-origin:50% 62%}
+#bg{background:radial-gradient(120% 80% at 50% 20%,var(--b1),var(--b2));opacity:0}
+#vidwrap{position:absolute;inset:0;overflow:hidden;transform-origin:50% 60%}
+#vid,#person{position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover}
 #person{display:none}
-#behind{position:absolute;left:0;right:0;top:300px;text-align:center;font-weight:800;font-size:300px;line-height:1;opacity:0;background:linear-gradient(180deg,#fff3d6,var(--accent) 60%,#8a5a1c);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 20px 40px rgba(0,0,0,.45))}
+#behind{position:absolute;left:0;right:0;text-align:center;font-family:var(--title);font-weight:700;font-size:300px;line-height:1.05;white-space:nowrap;opacity:0;color:var(--accent);text-shadow:0 20px 50px rgba(0,0,0,.45)}
 canvas{position:absolute;inset:0}
-.ftitle{position:absolute;left:80px;right:80px;top:150px;text-align:center;opacity:0}
-.ftitle .num{font-family:'Inter',sans-serif;font-weight:700;font-size:170px;line-height:1;color:var(--accent);text-shadow:0 0 40px rgba(212,166,74,.55)}
-.ftitle h2{font-size:96px;font-weight:800;line-height:1.2;text-shadow:0 0 30px rgba(212,166,74,.35)}
-.ftitle p{font-family:'Readex Pro',sans-serif;font-size:46px;color:rgba(255,255,255,.75);margin-top:10px}
-.ring{position:absolute;border-radius:50%;border:6px solid var(--accent);box-shadow:0 0 40px rgba(212,166,74,.6),inset 0 0 30px rgba(212,166,74,.35);opacity:0}
-.ring::before{content:'';position:absolute;inset:-26px;border-radius:50%;border:3px dashed rgba(255,236,190,.7)}
-.ringlabel{position:absolute;background:var(--accent);color:#0b2a2b;font-weight:800;font-size:46px;padding:12px 30px;border-radius:30px;white-space:nowrap;opacity:0;transform:translateX(-50%)}
-.ui{position:absolute;left:56px;top:300px;width:560px;padding:34px;border-radius:40px;background:rgba(10,40,41,.55);border:2px solid rgba(255,255,255,.18);backdrop-filter:blur(22px);box-shadow:0 40px 80px -30px rgba(0,0,0,.6);opacity:0}
-.ui h3{font-size:50px;font-weight:800;color:var(--accent);margin-bottom:18px}
-.ui li{list-style:none;display:flex;align-items:center;gap:18px;font-size:42px;font-weight:600;padding:14px 0;border-top:1px solid rgba(255,255,255,.12)}
-.ui li i{width:40px;height:40px;border-radius:50%;background:var(--accent);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+/* رأس ورقي يُكتب فيه العنوان عند تصغير الفيديو لنافذة */
+.paper{position:absolute;left:90px;right:90px;top:120px;padding:44px 50px;border-radius:36px;background:#f6f1e7;color:#141414;box-shadow:0 40px 80px -30px rgba(0,0,0,.6);opacity:0;text-align:center}
+.paper .num{font-family:'Inter',sans-serif;font-weight:700;font-size:40px;color:var(--accentDark);letter-spacing:2px}
+.paper h2{font-family:var(--title);font-size:84px;font-weight:700;line-height:1.25;min-height:105px}
+.paper p{font-size:40px;font-weight:500;color:#555;margin-top:6px;min-height:52px}
+.ring{position:absolute;border-radius:50%;border:5px solid var(--accent);box-shadow:0 0 40px var(--accentGlow),inset 0 0 30px var(--accentGlow);opacity:0}
+.ring::before{content:'';position:absolute;inset:-24px;border-radius:50%;border:3px dashed rgba(255,255,255,.55)}
+.ringlabel{position:absolute;background:var(--accent);color:#111;font-weight:700;font-size:42px;padding:10px 28px;border-radius:28px;white-space:nowrap;opacity:0;transform:translateX(-50%)}
+/* أقراص معلومات بيضاء تتمدد بتوهج ثم يُكتب نصها */
+.pills{position:absolute;left:60px;right:60px;bottom:600px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.pills .t{font-family:var(--title);font-size:56px;font-weight:700;color:var(--accent);text-shadow:0 4px 18px rgba(0,0,0,.6);min-height:70px}
+.pill{position:relative;background:#fbfaf7;color:#111;border-radius:999px;padding:16px 36px;font-size:44px;font-weight:600;white-space:nowrap;box-shadow:0 18px 40px -16px rgba(0,0,0,.6);overflow:hidden;min-height:78px;min-width:60px}
+.pill::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,var(--accentGlow) 50%,transparent 70%);transform:translateX(var(--sweep,120%))}
 .phone{position:absolute;left:70px;top:330px;width:470px;height:960px;border-radius:72px;background:#0b0f10;padding:18px;box-shadow:0 60px 120px -30px rgba(0,0,0,.75),0 0 0 3px #2b3a3b;opacity:0}
 .phone img{width:100%;height:100%;object-fit:cover;border-radius:56px;display:block}
 .phone::before{content:'';position:absolute;top:34px;left:50%;width:140px;height:36px;margin-left:-70px;border-radius:20px;background:#000;z-index:1}
-/* الكابشن: أسفل الشاشة، حد وظل، كلمة الذروة متوهجة أكبر */
-.cap{position:absolute;left:70px;right:150px;bottom:390px;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 24px;font-size:88px;font-weight:800;line-height:1.25;text-align:center}
-.w{display:inline-block;color:#fff;-webkit-text-stroke:14px rgba(6,24,25,.92);paint-order:stroke fill;text-shadow:0 10px 26px rgba(0,0,0,.55)}
-.w.on{color:var(--accent)}
-.w.em{color:var(--accent)}
-.w.kw:not(.lat){flex-basis:100%}
-.w.kw{font-size:150px;line-height:1.1;color:transparent;-webkit-text-stroke:0;background:linear-gradient(180deg,#fff6dc 10%,var(--accent) 55%,#a06a22);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 0 22px rgba(212,166,74,.7)) drop-shadow(0 8px 0 rgba(6,24,25,.9))}
-.g{display:inline-flex;gap:0 22px;direction:ltr;unicode-bidi:isolate}
-.lat{font-family:'Inter','Alexandria',sans-serif;font-weight:700}
-.title{position:absolute;left:80px;right:80px;top:640px;text-align:center}
-.title h1{font-size:132px;font-weight:800;line-height:1.15;-webkit-text-stroke:16px rgba(6,24,25,.9);paint-order:stroke fill;text-shadow:0 14px 40px rgba(0,0,0,.5)}
-.title h1 span{display:inline-block}
-.title p{font-family:'Readex Pro',sans-serif;font-size:54px;font-weight:600;margin-top:22px;color:var(--accent);-webkit-text-stroke:10px rgba(6,24,25,.9);paint-order:stroke fill}
-.pop{position:absolute;left:50%;top:22%;max-width:900px;width:max-content;background:var(--bgDark);border:4px solid var(--accent);color:var(--ink);border-radius:40px;padding:30px 52px;font-size:84px;font-weight:800;line-height:1.25;text-align:center;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
-.pop .a,.card .a{color:var(--accent)}.pop .n,.card .n{color:var(--numbers)}
-.ltr{direction:ltr;unicode-bidi:isolate}
-/* بطاقات كاملة الشاشة: نص أو أيقونة أو صورة */
-.card{position:absolute;inset:0;opacity:0;overflow:hidden;background:radial-gradient(110% 70% at 50% 35%,var(--m1),var(--m2))}
-.card .rays{position:absolute;left:50%;top:560px;width:1800px;height:1800px;margin:-900px 0 0 -900px;background:repeating-conic-gradient(rgba(212,166,74,.10) 0 6deg,transparent 6deg 18deg);border-radius:50%;-webkit-mask:radial-gradient(circle,#000 20%,transparent 62%);mask:radial-gradient(circle,#000 20%,transparent 62%)}
-.card .halo{position:absolute;left:50%;top:560px;width:760px;height:760px;margin:-380px 0 0 -380px;border-radius:50%;background:radial-gradient(circle,rgba(212,166,74,.38),transparent 65%)}
-.card .ic{position:absolute;left:50%;top:560px;width:460px;height:460px;margin:-230px 0 0 -230px;color:var(--accent);filter:drop-shadow(0 0 40px rgba(212,166,74,.65)) drop-shadow(0 30px 40px rgba(0,0,0,.5))}
-.card .ic svg{width:100%;height:100%}
-.card .ic svg path[opacity]{opacity:.35}
-/* نص البطاقة ينتهي قبل منطقة الكابشن */
-.card .txt{position:absolute;left:70px;right:70px;top:860px;text-align:center}
-.card.typo .txt{top:620px}
-.card .txt h2{font-size:128px;font-weight:800;line-height:1.15;background:linear-gradient(180deg,#fff6dc 10%,var(--accent) 60%,#a06a22);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 30px rgba(212,166,74,.55))}
-.card.typo .txt h2{font-size:190px}
-.card .txt p{font-family:'Readex Pro',sans-serif;font-size:56px;font-weight:600;color:rgba(255,255,255,.85);margin-top:24px}
+/* مجسم ثلاثي الأبعاد بجانب الوجه */
+.prop{position:absolute;width:300px;height:300px;opacity:0;filter:drop-shadow(0 30px 30px rgba(0,0,0,.45))}
+.prop img{width:100%;height:100%}
+.card{position:absolute;inset:0;opacity:0;overflow:hidden;background:radial-gradient(110% 70% at 50% 38%,var(--b1),var(--b2))}
+.card .halo{position:absolute;left:50%;top:760px;width:900px;height:900px;margin:-450px 0 0 -450px;border-radius:50%;background:radial-gradient(circle,var(--accentGlow),transparent 62%)}
+.card .obj{position:absolute;left:50%;top:760px;width:560px;height:560px;margin:-280px 0 0 -280px;filter:drop-shadow(0 50px 50px rgba(0,0,0,.55))}
+.card .obj img,.card .obj svg{width:100%;height:100%}
+.card .obj svg{color:var(--accent)}
+.card .typo{position:absolute;left:70px;right:70px;top:620px;text-align:center;font-family:var(--title);font-weight:700;font-size:170px;line-height:1.2;color:var(--accent);text-shadow:0 0 50px var(--accentGlow)}
 .card img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.card .shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.75))}
-.bar{position:absolute;bottom:0;right:0;height:10px;background:var(--accent)}
+/* الكابشن: سطر 3-4 كلمات يُكتب حرفاً حرفاً مع الكلام، يظهر مرة واحدة */
+.cap{position:absolute;left:90px;right:150px;bottom:430px;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 18px;font-size:68px;font-weight:600;line-height:1.35;text-align:center;text-shadow:0 3px 14px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.9)}
+.cap .k{color:var(--accent)}
+.cap .g{display:inline-flex;gap:0 16px;direction:ltr;unicode-bidi:isolate}
+.cap .lat{font-family:'Inter','IBM Plex Sans Arabic',sans-serif;font-weight:600}
+.pop{position:absolute;left:50%;top:22%;max-width:900px;width:max-content;background:var(--b2);border:3px solid var(--accent);border-radius:36px;padding:26px 46px;font-size:72px;font-weight:700;line-height:1.25;text-align:center}
+.pop .a{color:var(--accent)}.pop .n{color:var(--accent2)}
+.ltr{direction:ltr;unicode-bidi:isolate}
+.bar{position:absolute;bottom:0;right:0;height:8px;background:var(--accent)}
 </style>
 </head>
 <body>
 <div id="bg" class="layer"></div>
 <div id="vidwrap"><img id="vid" alt=""><div id="behind"></div><img id="person" alt=""></div>
 <canvas id="fx" width="1080" height="1920"></canvas>
-<div class="ftitle"><div class="num"></div><h2></h2><p></p></div>
+<div class="paper"><div class="num"></div><h2></h2><p></p></div>
 <div class="ring"></div><div class="ringlabel"></div>
-<div class="ui"><h3></h3><ul></ul></div>
+<div class="pills"></div>
 <div class="phone"><img alt=""></div>
+<div class="prop"><img alt=""></div>
 <div class="card"></div>
-<div class="title" style="opacity:0"><h1></h1><p></p></div>
 <div class="pop" style="opacity:0"></div>
 <div class="cap"></div>
 <div class="bar"></div>
 <script>
 (() => {
-  const D = window.__TALK, T = D.tokens, $ = s => document.querySelector(s);
-  const root = document.documentElement.style;
-  for (const [k, v] of Object.entries(T.color)) root.setProperty('--' + k, v);
-  const MOODS = { teal: ['#164b4c', '#051617'], wine: ['#4a1220', '#12040a'], amber: ['#4a2c0c', '#140a03'], natural: ['#1f3536', '#0a1414'] };
-  const mood = MOODS[D.grade] || MOODS.teal;
-  root.setProperty('--m1', mood[0]); root.setProperty('--m2', mood[1]);
+  const D = window.__TALK, M = D.mood, $ = s => document.querySelector(s), root = document.documentElement.style;
+  const hex2rgba = (h, a) => { const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+  root.setProperty('--b1', M.bg[0]); root.setProperty('--b2', M.bg[1]); root.setProperty('--accent', M.accent); root.setProperty('--accent2', M.accent2);
+  root.setProperty('--accentGlow', hex2rgba(M.accent, 0.45)); root.setProperty('--accentDark', M.bg[0]); root.setProperty('--title', `'${M.title}'`);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const mark = s => esc(s).replace(/\[([^\]]+)\]/g, '<span class="n ltr">$1</span>').replace(/\{([^}]+)\}/g, '<span class="a">$1</span>');
   const clamp = v => Math.min(1, Math.max(0, v));
   const back = x => 1 + 2.4 * Math.pow(x - 1, 3) + 1.4 * Math.pow(x - 1, 2);
   const out3 = x => 1 - Math.pow(1 - x, 3);
   const io = (t, a, b, f = 0.35) => Math.min(clamp((t - a) / f), clamp((b - t) / f));
+  const typed = (s, t, a, cps = 28) => { const ch = [...s]; return ch.slice(0, Math.max(0, Math.min(ch.length, Math.floor((t - a) * cps)))).join(''); };
   window.__issues = [];
 
-  // مطّ بالكشيدة: تطويل بعد حرف يتصل بما بعده في منتصف الكلمة
   const NOJOIN = 'اأإآدذرزوؤةى';
-  const kashida = (w, n = 4) => {
+  const kashida = (w, n = 3) => {
     const ch = [...w], ok = [];
-    for (let i = 0; i < ch.length - 1; i++)
-      if (/[ء-ي]/.test(ch[i]) && /[ء-ي]/.test(ch[i + 1]) && !NOJOIN.includes(ch[i]) && ch[i] !== 'ء') ok.push(i);
+    for (let i = 0; i < ch.length - 1; i++) if (/[ء-ي]/.test(ch[i]) && /[ء-ي]/.test(ch[i + 1]) && !NOJOIN.includes(ch[i]) && ch[i] !== 'ء') ok.push(i);
     if (!ok.length) return w;
     const k = ok[Math.floor(ok.length / 2)];
     return ch.slice(0, k + 1).join('') + 'ـ'.repeat(n) + ch.slice(k + 1).join('');
   };
+  const K = s => D.kashida ? s.split(' ').map((w, i, a) => i === a.length - 1 ? kashida(w) : w).join(' ') : s;
   const core = w => w.replace(/[،؟.!,?]/g, '');
   const isLat = w => { const c = core(w); return /[A-Za-z]/.test(c) && !/[؀-ۿ]/.test(c); };
-  const em = new Set(D.emphasis || []), kws = new Set(D.keywords || []);
+  const kws = new Set([...(D.keywords || []), ...(D.emphasis || [])]);
 
-  const chunks = [];
+  // أسطر الكابشن: حتى 4 كلمات، تنكسر عند وقفة أو نهاية جملة
+  const lines = [];
   for (const w of D.words) {
-    const last = chunks[chunks.length - 1];
-    if (!last || last.length >= 3 || w.s - last[last.length - 1].e > 0.35) chunks.push([w]); else last.push(w);
+    const L = lines[lines.length - 1], prev = L && L.words[L.words.length - 1];
+    if (!L || L.words.length >= 4 || w.s - prev.e > 0.45 || /[.؟!?]$/.test(prev.w)) lines.push({ words: [w] }); else L.words.push(w);
   }
-  const span = (w, k) => {
-    const c = core(w.w), kw = kws.has(c);
-    const text = kw && D.kashida && !isLat(w.w) ? w.w.replace(c, kashida(c)) : w.w;
-    return `<span class="w${isLat(w.w) ? ' lat' : ''}${em.has(c) ? ' em' : ''}${kw ? ' kw' : ''}" data-i="${k}">${esc(text)}</span>`;
+  lines.forEach(L => { L.a = L.words[0].s - 0.05; });
+  lines.forEach((L, i) => { const nx = lines[i + 1]; L.b = Math.min(nx ? nx.a : Infinity, L.words[L.words.length - 1].e + 0.9); });
+  const wordHtml = (w, t) => {
+    const full = w.w, dur = Math.max(0.12, Math.min(w.e - w.s, 0.3));
+    const n = t >= w.s + dur ? [...full].length : Math.floor([...full].length * clamp((t - w.s) / dur));
+    if (n <= 0) return '';
+    return `<span class="${kws.has(core(full)) ? 'k ' : ''}${isLat(full) ? 'lat' : ''}">${esc([...full].slice(0, n).join(''))}</span>`;
   };
-  // كلمة الذروة أولاً في سطر مستقل، والإنجليزي المتتالي LTR داخل السطر
-  const chunkHtml = ch => {
-    let top = '', html = '', i = 0;
-    while (i < ch.length) {
-      // العربي المفتاحي يصعد لسطر مستقل؛ الإنجليزي يبقى في مجموعته حتى لا ينقلب ترتيب الجملة
-      if (kws.has(core(ch[i].w)) && !isLat(ch[i].w)) { top += span(ch[i], i); i++; continue; }
-      if (isLat(ch[i].w)) { let g = ''; while (i < ch.length && isLat(ch[i].w)) { g += span(ch[i], i); i++; } html += `<span class="g">${g}</span>`; }
-      else { html += span(ch[i], i); i++; }
+  const lineHtml = (L, t) => {
+    let html = '', i = 0, ws = L.words;
+    while (i < ws.length) {
+      if (isLat(ws[i].w)) { let g = ''; while (i < ws.length && isLat(ws[i].w)) { g += wordHtml(ws[i], t); i++; } if (g) html += `<span class="g">${g}</span>`; }
+      else { html += wordHtml(ws[i], t); i++; }
     }
-    return top + html;
+    return html;
   };
 
-  const cap = $('.cap'), pop = $('.pop'), bar = $('.bar'), title = $('.title');
-  if (D.popY) pop.style.top = D.popY;
-  if (D.title) {
-    $('.title h1').innerHTML = D.title.text.split('\n').map(l => l.split(' ').map(w => `<span>${esc(w)}</span>`).join(' ')).join('<br>');
-    $('.title p').textContent = D.title.sub || '';
-  }
-  const titleDur = D.title ? (D.title.seconds || 2.6) : 0;
-
-  // طبقة الأجواء
+  // الأجواء + تدرج سفلي ناعم لوضوح الكابشن
   const cv = $('#fx'), g = cv.getContext('2d');
   let seed = 7;
   const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-  const rain = Array.from({ length: 170 }, () => ({ x: rnd() * 1300 - 110, y: rnd() * 1920, l: 40 + rnd() * 70, v: 1500 + rnd() * 900, a: 0.12 + rnd() * 0.22 }));
+  const rain = Array.from({ length: 150 }, () => ({ x: rnd() * 1300 - 110, y: rnd() * 1920, l: 40 + rnd() * 70, v: 1500 + rnd() * 900, a: 0.1 + rnd() * 0.2 }));
   const motes = Array.from({ length: 60 }, () => ({ x: rnd() * 1080, y: rnd() * 1920, r: 2 + rnd() * 5, v: 30 + rnd() * 60, p: rnd() * 6.28 }));
   const steam = Array.from({ length: 26 }, () => ({ x: 380 + rnd() * 320, o: rnd() * 3, r: 60 + rnd() * 70 }));
-  const env = (t, f) => { const a = f.from ?? f.at, b = f.to ?? (f.at + (f.dur || 3)); return io(t, a, b, 0.6); };
-  const drawFx = t => {
+  const acc = M.accent;
+  const drawFx = (t, cardOn) => {
     g.clearRect(0, 0, 1080, 1920);
     for (const f of D.fx || []) {
-      const k = env(t, f); if (!k) continue;
+      const k = io(t, f.from ?? f.at, f.to ?? (f.at + (f.dur || 3)), 0.6); if (!k) continue;
       if (f.type === 'rain') {
-        g.fillStyle = `rgba(40,70,90,${0.18 * k})`; g.fillRect(0, 0, 1080, 1920); g.lineCap = 'round';
-        for (const d of rain) {
-          const y = (d.y + t * d.v) % 2100 - 120, x = d.x + (y + 120) * 0.18;
-          g.strokeStyle = `rgba(220,235,245,${d.a * k})`; g.lineWidth = 2.4; g.beginPath(); g.moveTo(x, y); g.lineTo(x + d.l * 0.18, y + d.l); g.stroke();
-        }
+        g.lineCap = 'round';
+        for (const d of rain) { const y = (d.y + t * d.v) % 2100 - 120, x = d.x + (y + 120) * 0.18; g.strokeStyle = `rgba(225,238,248,${d.a * k})`; g.lineWidth = 2.2; g.beginPath(); g.moveTo(x, y); g.lineTo(x + d.l * 0.18, y + d.l); g.stroke(); }
       } else if (f.type === 'steam') {
-        for (const s of steam) {
-          const life = ((t * 0.45 + s.o) % 3) / 3, y = 1500 - life * 900, x = s.x + Math.sin(t * 1.3 + s.o * 4) * 60 * life;
-          const grd = g.createRadialGradient(x, y, 0, x, y, s.r * (1 + life));
-          grd.addColorStop(0, `rgba(255,255,255,${0.16 * (1 - life) * k})`); grd.addColorStop(1, 'rgba(255,255,255,0)');
-          g.fillStyle = grd; g.beginPath(); g.arc(x, y, s.r * (1 + life), 0, 6.283); g.fill();
-        }
+        for (const s of steam) { const life = ((t * 0.45 + s.o) % 3) / 3, y = 1500 - life * 900, x = s.x + Math.sin(t * 1.3 + s.o * 4) * 60 * life, r = s.r * (1 + life); const grd = g.createRadialGradient(x, y, 0, x, y, r); grd.addColorStop(0, `rgba(255,255,255,${0.14 * (1 - life) * k})`); grd.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = grd; g.beginPath(); g.arc(x, y, r, 0, 6.283); g.fill(); }
       } else if (f.type === 'fire') {
         const fl = 0.75 + 0.25 * Math.sin(t * 9) * Math.sin(t * 5.3), grd = g.createRadialGradient(540, 2100, 100, 540, 2100, 1300);
-        grd.addColorStop(0, `rgba(255,140,40,${0.42 * k * fl})`); grd.addColorStop(1, 'rgba(255,90,20,0)'); g.fillStyle = grd; g.fillRect(0, 0, 1080, 1920);
-        for (const m of motes) { const y = 1920 - ((m.y + t * m.v * 3) % 1920), x = m.x + Math.sin(t * 2 + m.p) * 30; g.fillStyle = `rgba(255,${150 + (m.r * 15 | 0)},60,${0.55 * k * (y / 1920)})`; g.beginPath(); g.arc(x, y, m.r * 0.8, 0, 6.283); g.fill(); }
+        grd.addColorStop(0, `rgba(255,140,40,${0.35 * k * fl})`); grd.addColorStop(1, 'rgba(255,90,20,0)'); g.fillStyle = grd; g.fillRect(0, 0, 1080, 1920);
       } else if (f.type === 'sparkle') {
-        for (const m of motes) { const y = 1920 - ((m.y + t * m.v) % 1920), tw = 0.5 + 0.5 * Math.sin(t * 3 + m.p); g.fillStyle = `rgba(232,200,120,${0.6 * k * tw})`; g.beginPath(); g.arc(m.x, y, m.r, 0, 6.283); g.fill(); }
-      } else if (f.type === 'flash') { g.fillStyle = `rgba(255,236,200,${0.55 * k * k})`; g.fillRect(0, 0, 1080, 1920); }
+        for (const m of motes) { const y = 1920 - ((m.y + t * m.v) % 1920), tw = 0.5 + 0.5 * Math.sin(t * 3 + m.p); g.fillStyle = hex2rgba(acc, 0.55 * k * tw); g.beginPath(); g.arc(m.x, y, m.r, 0, 6.283); g.fill(); }
+      }
     }
-    const v = g.createRadialGradient(540, 860, 520, 540, 960, 1250);
-    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.42)'); g.fillStyle = v; g.fillRect(0, 0, 1080, 1920);
-    if (t < titleDur) { g.fillStyle = `rgba(6,24,25,${0.38 * Math.min(1, (titleDur - t) / 0.4)})`; g.fillRect(0, 0, 1080, 1920); }
+    if (!cardOn) {
+      const v = g.createRadialGradient(540, 820, 520, 540, 960, 1250); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.38)'); g.fillStyle = v; g.fillRect(0, 0, 1080, 1920);
+      const b = g.createLinearGradient(0, 1150, 0, 1920); b.addColorStop(0, 'rgba(0,0,0,0)'); b.addColorStop(1, 'rgba(0,0,0,.55)'); g.fillStyle = b; g.fillRect(0, 1150, 1080, 770);
+    }
   };
 
-  // بطاقة كاملة الشاشة
-  const cardEl = $('.card');
+  const cardEl = $('.card'), propEl = $('.prop');
   const buildCard = c => {
-    cardEl.className = 'card ' + c.type;
-    if (c.type === 'image') cardEl.innerHTML = `<img class="photo" src="${esc(c.src)}" alt=""><div class="shade"></div><div class="txt"><h2>${mark(c.text || '')}</h2><p>${esc(c.sub || '')}</p></div>`;
-    else cardEl.innerHTML = `<div class="rays"></div><div class="halo"></div>${c.type === 'icon' ? `<div class="ic">${D.icons[c.icon] || ''}</div>` : ''}<div class="txt"><h2>${mark(c.kashida ? kashida(c.text || '') : (c.text || ''))}</h2><p>${esc(c.sub || '')}</p></div>`;
+    if (c.type === 'image') cardEl.innerHTML = `<img class="photo" src="${esc(c.src)}" alt="">`;
+    else if (c.type === 'typo') cardEl.innerHTML = `<div class="halo"></div><div class="typo"></div>`;
+    else cardEl.innerHTML = `<div class="halo"></div><div class="obj">${c.svg || `<img src="${esc(c.src)}" alt="">`}</div>`;
   };
-  const vid = $('#vid'), person = $('#person'), wrap = $('#vidwrap'), behind = $('#behind');
+  const vid = $('#vid'), person = $('#person'), wrap = $('#vidwrap'), behind = $('#behind'), paper = $('.paper'), pills = $('.pills');
   const overlap = (a, b) => !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
   const inside = r => r.left >= 0 && r.right <= 1080 && r.top >= 0 && r.bottom <= 1920;
   const active = (list, t, pre = 0) => (list || []).find(x => t >= x.from - pre && t <= x.to + pre);
-  let shown = null, cardShown = null, uiShown = null, phoneShown = null, frameShown = null;
+  let cardShown = null, uiShown = null, phoneShown = null;
 
   const render = t => {
-    drawFx(t);
-    // نافذة الفيديو (frame-in-frame)
-    const fr = active(D.frames, t, 0.4);
-    const fk = fr ? out3(io(t, fr.from, fr.to, 0.4)) : 0;
+    const cd = (D.cards || []).find(c => c.type !== 'prop' && t >= c.at - 0.05 && t <= c.at + (c.dur || 1.6));
+    drawFx(t, !!cd);
+    // نافذة الفيديو + رأس ورقي يُكتب
+    const fr = active(D.frames, t, 0.45), fk = fr ? out3(io(t, fr.from, fr.to, 0.45)) : 0;
     $('#bg').style.opacity = fk;
-    const sc = 1 - 0.3 * fk;
-    wrap.style.transform = `translateY(${210 * fk}px) scale(${sc})`;
-    wrap.style.borderRadius = `${60 * fk / sc}px`;
+    const sc = 1 - 0.32 * fk;
+    wrap.style.transform = `translateY(${250 * fk}px) scale(${sc})`;
+    wrap.style.borderRadius = `${56 * fk / sc}px`;
     wrap.style.boxShadow = fk ? `0 60px 120px -20px rgba(0,0,0,${0.7 * fk})` : 'none';
-    const ft = $('.ftitle');
-    if (fr !== frameShown) { if (fr) { ft.querySelector('.num').textContent = fr.num || ''; ft.querySelector('h2').textContent = D.kashida ? kashida(fr.title || '') : (fr.title || ''); ft.querySelector('p').textContent = fr.sub || ''; } frameShown = fr; }
-    ft.style.opacity = fk; ft.style.transform = `translateY(${-40 * (1 - fk)}px)`;
+    paper.style.opacity = fk; paper.style.transform = `translateY(${-60 * (1 - fk)}px)`;
+    if (fr) { paper.querySelector('.num').textContent = fr.num ? `0${fr.num}`.slice(-2) : ''; paper.querySelector('h2').textContent = typed(fr.title || '', t, fr.from + 0.3); paper.querySelector('p').textContent = typed(fr.sub || '', t, fr.from + 0.3 + [...(fr.title || '')].length / 28); }
 
-    // نص خلف الشخص
     const bh = active(D.behind, t, 0.4), bk = bh ? out3(io(t, bh.from, bh.to, 0.45)) : 0;
     if (bh && behind.dataset.k !== String(bh.from)) {
-      behind.textContent = D.kashida ? kashida(bh.text) : bh.text; behind.style.top = (bh.y || 300) + 'px'; behind.dataset.k = bh.from;
-      // يصغر الخط حتى يتسع النص لعرض الشاشة
-      behind.style.fontSize = '300px'; behind.style.whiteSpace = 'nowrap';
+      behind.textContent = K(bh.text); behind.style.top = (bh.y || 120) + 'px'; behind.dataset.k = bh.from; behind.style.fontSize = '300px';
       const wd = behind.scrollWidth; if (wd > 1000) behind.style.fontSize = Math.floor(300 * 1000 / wd) + 'px';
     }
-    behind.style.opacity = bk; behind.style.transform = `translateY(${80 * (1 - bk)}px) scale(${0.9 + 0.1 * bk})`;
+    behind.style.opacity = bk; behind.style.transform = `translateY(${60 * (1 - bk)}px)`;
     person.style.display = bk > 0 && D.person ? 'block' : 'none';
 
-    // حلقة ضوء حول الوجه
     const sp = active(D.spotlight, t, 0.3), ring = $('.ring'), rl = $('.ringlabel');
     if (sp && D.face) {
-      const k = out3(io(t, sp.from, sp.to, 0.35)), f = { cx: D.face.cx, cy: D.face.cy - D.face.w * 0.08, w: D.face.w }, r = Math.min(470, f.w * 0.62);
-      Object.assign(ring.style, { left: (f.cx - r) + 'px', top: (f.cy - r) + 'px', width: 2 * r + 'px', height: 2 * r + 'px', opacity: k, transform: `scale(${0.7 + 0.3 * back(Math.min(1, k * 1.2))}) rotate(${t * 40}deg)` });
-      rl.textContent = sp.label || ''; Object.assign(rl.style, { left: f.cx + 'px', top: (f.cy - r - 110) + 'px', opacity: sp.label ? k : 0 });
+      const k = out3(io(t, sp.from, sp.to, 0.35)), f = D.face, cy = f.cy - f.w * 0.08, r = Math.min(470, f.w * 0.62);
+      Object.assign(ring.style, { left: (f.cx - r) + 'px', top: (cy - r) + 'px', width: 2 * r + 'px', height: 2 * r + 'px', opacity: k, transform: `scale(${0.8 + 0.2 * out3(k)}) rotate(${t * 30}deg)` });
+      rl.textContent = typed(sp.label || '', t, sp.from + 0.2); Object.assign(rl.style, { left: f.cx + 'px', top: (cy - r - 100) + 'px', opacity: sp.label ? k : 0 });
     } else { ring.style.opacity = 0; rl.style.opacity = 0; }
 
-    // بطاقة زجاجية بقائمة
-    const ui = active(D.ui, t, 0.3), uel = $('.ui');
-    if (ui !== uiShown) { if (ui) { uel.querySelector('h3').textContent = ui.title || ''; uel.querySelector('ul').innerHTML = (ui.items || []).map(x => `<li><i></i>${mark(x)}</li>`).join(''); } uiShown = ui; }
+    // أقراص المعلومات
+    const ui = active(D.ui, t, 0.3);
+    if (ui !== uiShown) { pills.innerHTML = ui ? `<div class="t"></div>` + (ui.items || []).map(() => `<div class="pill"><span></span></div>`).join('') : ''; uiShown = ui; }
     if (ui) {
-      const k = out3(io(t, ui.from, ui.to, 0.4)); uel.style.opacity = k; uel.style.transform = `translateX(${-120 * (1 - k)}px) rotateY(${12 * (1 - k)}deg)`;
-      uel.querySelectorAll('li').forEach((li, i) => { const q = out3(clamp((t - ui.from - 0.25 - i * 0.18) / 0.35)); li.style.opacity = Math.min(q, k); li.style.transform = `translateX(${-40 * (1 - q)}px)`; });
-    } else uel.style.opacity = 0;
+      const k = io(t, ui.from, ui.to, 0.3); pills.style.opacity = k;
+      pills.querySelector('.t').textContent = typed(ui.title || '', t, ui.from);
+      pills.querySelectorAll('.pill').forEach((el, i) => {
+        const a = ui.from + 0.15 + i * 0.22, q = out3(clamp((t - a) / 0.3));
+        el.style.transform = `scaleX(${0.2 + 0.8 * q})`; el.style.opacity = q; el.style.transformOrigin = '50% 50%';
+        el.style.setProperty('--sweep', `${120 - 240 * clamp((t - a) / 0.6)}%`);
+        el.querySelector('span').innerHTML = mark(typed(ui.items[i], t, a + 0.25, 34));
+      });
+    } else pills.style.opacity = 0;
 
-    // جوال يعرض شاشة
     const ph = active(D.phones, t, 0.4), pel = $('.phone');
     if (ph !== phoneShown) { if (ph) pel.querySelector('img').src = ph.src; phoneShown = ph; }
-    if (ph) { const k = out3(io(t, ph.from, ph.to, 0.45)); pel.style.opacity = k; pel.style.transform = `translateY(${300 * (1 - k)}px) rotate(${-8 + 4 * k}deg) perspective(1600px) rotateY(${18 * (1 - k)}deg)`; }
-    else pel.style.opacity = 0;
+    if (ph) { const k = out3(io(t, ph.from, ph.to, 0.45)); pel.style.opacity = k; pel.style.transform = `translateY(${300 * (1 - k)}px) rotate(${-8 + 4 * k}deg)`; } else pel.style.opacity = 0;
+
+    // مجسم بجانب الوجه
+    const pr = (D.cards || []).find(c => c.type === 'prop' && t >= c.at && t <= c.at + (c.dur || 1.6));
+    if (pr) {
+      if (propEl.dataset.k !== String(pr.at)) { propEl.querySelector('img').src = pr.src; propEl.dataset.k = pr.at; }
+      const end = pr.at + (pr.dur || 1.6), q = clamp((t - pr.at) / 0.45), o = clamp((end - t) / 0.25), f = D.face || { cx: 540, cy: 760, w: 520 };
+      const side = pr.side === 'left' ? -1 : 1, x = 540 + side * 330 - 150, y = (pr.y || 360);
+      Object.assign(propEl.style, { left: x + 'px', top: y + 'px', opacity: Math.min(1, q * 2) * o, transform: `translateY(${Math.sin(t * 2.4) * 12}px) scale(${0.3 + 0.7 * back(q)}) rotate(${side * (12 - 12 * q)}deg)` });
+    } else propEl.style.opacity = 0;
 
     // بطاقة كاملة
-    const cd = (D.cards || []).find(c => t >= c.at - 0.05 && t <= c.at + (c.dur || 1.8));
     if (cd !== cardShown) { if (cd) buildCard(cd); cardShown = cd; }
     if (cd) {
-      const end = cd.at + (cd.dur || 1.8), k = io(t, cd.at, end, 0.28), ent = out3(clamp((t - cd.at) / 0.45));
-      cardEl.style.opacity = 1;
-      cardEl.style.clipPath = `circle(${150 * k}% at 50% 40%)`;
-      const ic = cardEl.querySelector('.ic'), tx = cardEl.querySelector('.txt'), ry = cardEl.querySelector('.rays'), ph2 = cardEl.querySelector('.photo');
-      if (ic) ic.style.transform = `translateY(${Math.sin(t * 2.2) * 14}px) scale(${0.5 + 0.5 * back(ent)}) rotate(${-10 * (1 - ent)}deg)`;
-      if (ry) ry.style.transform = `rotate(${t * 18}deg)`;
+      const end = cd.at + (cd.dur || 1.6), k = io(t, cd.at, end, 0.3), ent = out3(clamp((t - cd.at) / 0.5));
+      cardEl.style.opacity = 1; cardEl.style.clipPath = `inset(${(1 - out3(k)) * 50}% 0 ${(1 - out3(k)) * 50}% 0 round 40px)`;
+      const ob = cardEl.querySelector('.obj'), ty = cardEl.querySelector('.typo'), ph2 = cardEl.querySelector('.photo');
+      if (ob) ob.style.transform = `translateY(${Math.sin(t * 2.2) * 16}px) scale(${0.6 + 0.4 * back(ent)}) rotate(${-8 * (1 - ent)}deg)`;
+      if (ty) ty.textContent = typed(K(cd.text || ''), t, cd.at + 0.15, 22);
       if (ph2) ph2.style.transform = `scale(${1.12 - 0.08 * clamp((t - cd.at) / (end - cd.at))})`;
-      if (tx) { const q = out3(clamp((t - cd.at - 0.18) / 0.4)); tx.style.opacity = q; tx.style.transform = `translateY(${50 * (1 - q)}px)`; }
     } else cardEl.style.opacity = 0;
 
-    // العنوان الافتتاحي
-    if (D.title && t < titleDur + 0.3) {
-      title.querySelectorAll('h1 span').forEach((el, i) => { const k = out3(clamp((t - i * 0.14) / 0.45)); el.style.opacity = k; el.style.transform = `translateY(${40 * (1 - k)}px)`; });
-      title.style.opacity = Math.min(1, (titleDur + 0.3 - t) / 0.3); title.querySelector('p').style.opacity = out3(clamp((t - 0.6) / 0.4));
-    } else title.style.opacity = 0;
+    // الكابشن (حرفي، مرة واحدة، يُكتب مع الكلام) — يُخفى أثناء بطاقة النص لأنها تحمل نفس الكلمات
+    const L = lines.find(l => t >= l.a && t < l.b), cap = $('.cap');
+    if (L && !(cd && cd.type === 'typo')) {
+      cap.innerHTML = lineHtml(L, t);
+      cap.style.opacity = Math.min(clamp((t - L.a) / 0.12), clamp((L.b - t) / 0.15));
+      cap.style.transform = `translateY(${10 * (1 - clamp((t - L.a) / 0.12))}px)`;
+      if (cap.children.length && !inside(cap.getBoundingClientRect())) window.__issues.push(`كابشن خارج الشاشة عند ${t.toFixed(2)}ث`);
+      for (const el of [pills, $('.phone'), propEl]) if (+getComputedStyle(el).opacity > 0.99 && cap.children.length && overlap(el.getBoundingClientRect(), cap.getBoundingClientRect())) window.__issues.push(`عنصر فوق الكابشن عند ${t.toFixed(2)}ث`);
+    } else cap.innerHTML = '';
 
-    // الكابشن (حرفي دائماً)
-    const c = chunks.find(ch => t >= ch[0].s - 0.05 && t <= ch[ch.length - 1].e + 0.25);
-    if (c !== shown) { cap.innerHTML = c ? chunkHtml(c) : ''; shown = c; }
-    if (c) cap.querySelectorAll('.w').forEach(el => {
-      const w = c[+el.dataset.i], k = clamp((t - w.s) / 0.16);
-      el.classList.toggle('on', t >= w.s && t <= w.e + 0.05);
-      el.style.transform = `scale(${t < w.s ? 0.94 : 0.94 + 0.06 * back(k)})`; el.style.opacity = t < w.s - 0.05 ? 0.6 : 1;
-    });
-
-    const p = (D.pops || []).find(x => t >= x.at && t <= x.at + 1.6);
-    if (p) {
-      if (pop.dataset.at != p.at) { pop.innerHTML = mark(p.text); pop.dataset.at = p.at; }
-      const k = clamp((t - p.at) / 0.35), o = clamp((p.at + 1.6 - t) / 0.2);
-      pop.style.opacity = Math.min(k * 2, o); pop.style.transform = `translate(-50%,-50%) scale(${0.7 + 0.3 * back(k)})`;
-      if (k >= 1 && o >= 1) { const pr = pop.getBoundingClientRect(); if (!inside(pr)) window.__issues.push(`بطاقة خارج الشاشة عند ${p.at}ث`); if (cap.children.length && overlap(pr, cap.getBoundingClientRect())) window.__issues.push(`بطاقة فوق الكابشن عند ${p.at}ث`); }
-    } else pop.style.opacity = 0;
-    if (cap.children.length && !inside(cap.getBoundingClientRect())) window.__issues.push(`كابشن خارج الشاشة عند ${t.toFixed(2)}ث`);
-    for (const el of [$('.ui'), $('.phone')]) if (+el.style.opacity > 0.99 && cap.children.length && overlap(el.getBoundingClientRect(), cap.getBoundingClientRect())) window.__issues.push(`عنصر فوق الكابشن عند ${t.toFixed(2)}ث`);
-    bar.style.width = (100 * t / D.duration) + '%';
+    const pop = $('.pop'), p = (D.pops || []).find(x => t >= x.at && t <= x.at + 1.6);
+    if (p) { if (pop.dataset.at != p.at) { pop.innerHTML = mark(p.text); pop.dataset.at = p.at; } const k = clamp((t - p.at) / 0.35), o = clamp((p.at + 1.6 - t) / 0.2); pop.style.opacity = Math.min(k * 2, o); pop.style.transform = `translate(-50%,-50%) scale(${0.8 + 0.2 * back(k)})`; }
+    else pop.style.opacity = 0;
+    $('.bar').style.width = (100 * t / D.duration) + '%';
   };
 
-  const load = (img, src) => new Promise(res => { if (!src) { res(); return; } if (img.getAttribute('src') === src) { res(); return; } img.onload = img.onerror = () => res(); img.src = src; });
+  const load = (img, src) => new Promise(res => { if (!src || img.getAttribute('src') === src) { res(); return; } img.onload = img.onerror = () => res(); img.src = src; });
   window.__seek = async (ms, frame, cutout, face) => {
     if (face) D.face = face;
-    await Promise.all([load(vid, frame), load(person, cutout)]);
     D.person = !!cutout;
+    await Promise.all([load(vid, frame), load(person, cutout)]);
     render(ms / 1000);
     const imgs = [...document.images].filter(i => i.src && !i.complete);
     await Promise.all(imgs.map(i => new Promise(r => { i.onload = i.onerror = r; })));

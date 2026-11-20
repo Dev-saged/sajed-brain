@@ -1,0 +1,550 @@
+{
+ "_": "كلمة عربية ← كلمات إنجليزية (أسماء/وسوم أيقونات Phosphor أو وسوم أصوات). أضف كلمة جديدة كلما احتجت؛ assets_build.py يدمجها في الفهرس.",
+ "قلب": [
+  "heart"
+ ],
+ "حب": [
+  "heart",
+  "love"
+ ],
+ "صحة": [
+  "heartbeat",
+  "health",
+  "first-aid"
+ ],
+ "مرض": [
+  "first-aid",
+  "pill",
+  "virus"
+ ],
+ "دواء": [
+  "pill"
+ ],
+ "مستشفى": [
+  "hospital",
+  "first-aid"
+ ],
+ "عقل": [
+  "brain"
+ ],
+ "دماغ": [
+  "brain"
+ ],
+ "تفكير": [
+  "brain",
+  "lightbulb",
+  "thought"
+ ],
+ "فكرة": [
+  "lightbulb",
+  "idea"
+ ],
+ "إبداع": [
+  "lightbulb",
+  "magic-wand",
+  "sparkle"
+ ],
+ "ذكاء": [
+  "brain",
+  "robot"
+ ],
+ "ذكاء اصطناعي": [
+  "robot",
+  "brain",
+  "sparkle",
+  "ai"
+ ],
+ "دعاء": [
+  "folded-hands",
+  "hands-praying",
+  "palms-up-together"
+ ],
+ "صلاة": [
+  "hands-praying",
+  "mosque"
+ ],
+ "مسجد": [
+  "mosque"
+ ],
+ "الله": [
+  "hands-praying",
+  "sparkle",
+  "star-and-crescent"
+ ],
+ "رمضان": [
+  "moon-stars",
+  "star-and-crescent"
+ ],
+ "إيمان": [
+  "folded-hands",
+  "hands-praying",
+  "palms-up-together"
+ ],
+ "شاي": [
+  "coffee",
+  "tea",
+  "hot-beverage",
+  "teacup-without-handle"
+ ],
+ "قهوة": [
+  "coffee",
+  "hot-beverage"
+ ],
+ "كاسة": [
+  "coffee",
+  "hot-beverage",
+  "teacup-without-handle"
+ ],
+ "أكل": [
+  "fork-knife",
+  "bowl-food",
+  "food"
+ ],
+ "خبز": [
+  "bread"
+ ],
+ "رغيف": [
+  "bread"
+ ],
+ "طبخ": [
+  "cooking-pot",
+  "chef-hat"
+ ],
+ "ماء": [
+  "drop",
+  "water"
+ ],
+ "نار": [
+  "fire",
+  "flame"
+ ],
+ "دفء": [
+  "fire",
+  "sun"
+ ],
+ "برد": [
+  "snowflake",
+  "thermometer-cold"
+ ],
+ "مطر": [
+  "cloud-rain",
+  "rain"
+ ],
+ "ماطرة": [
+  "cloud-rain",
+  "umbrella"
+ ],
+ "شتاء": [
+  "snowflake",
+  "cloud-rain",
+  "umbrella"
+ ],
+ "صيف": [
+  "sun",
+  "sun-horizon"
+ ],
+ "شمس": [
+  "sun"
+ ],
+ "قمر": [
+  "moon"
+ ],
+ "ليل": [
+  "moon",
+  "moon-stars"
+ ],
+ "نجوم": [
+  "star",
+  "moon-stars"
+ ],
+ "غيم": [
+  "cloud"
+ ],
+ "رياح": [
+  "wind"
+ ],
+ "برق": [
+  "lightning"
+ ],
+ "طبيعة": [
+  "tree",
+  "leaf",
+  "plant"
+ ],
+ "شجرة": [
+  "tree"
+ ],
+ "بحر": [
+  "waves",
+  "anchor"
+ ],
+ "مال": [
+  "money",
+  "coins",
+  "wallet"
+ ],
+ "فلوس": [
+  "money",
+  "coins"
+ ],
+ "رزق": [
+  "coins",
+  "hand-coins"
+ ],
+ "تجارة": [
+  "storefront",
+  "shopping-cart"
+ ],
+ "متجر": [
+  "storefront"
+ ],
+ "بيع": [
+  "tag",
+  "storefront"
+ ],
+ "شراء": [
+  "shopping-cart",
+  "bag"
+ ],
+ "ربح": [
+  "chart-line-up",
+  "trend-up"
+ ],
+ "خسارة": [
+  "chart-line-down",
+  "trend-down"
+ ],
+ "ديون": [
+  "receipt",
+  "hand-coins"
+ ],
+ "استثمار": [
+  "chart-line-up",
+  "piggy-bank"
+ ],
+ "توفير": [
+  "piggy-bank"
+ ],
+ "سلامة": [
+  "shield",
+  "shield-check"
+ ],
+ "أمان": [
+  "shield",
+  "shield-check",
+  "lock"
+ ],
+ "حماية": [
+  "shield",
+  "shield-check"
+ ],
+ "قفل": [
+  "lock"
+ ],
+ "كلمة سر": [
+  "password",
+  "key"
+ ],
+ "مفتاح": [
+  "key"
+ ],
+ "بيت": [
+  "house"
+ ],
+ "عائلة": [
+  "users-three"
+ ],
+ "أصحاب": [
+  "users-three",
+  "users"
+ ],
+ "حبايب": [
+  "users-three",
+  "heart"
+ ],
+ "ناس": [
+  "users",
+  "users-three"
+ ],
+ "مستخدم": [
+  "user"
+ ],
+ "فريق": [
+  "users-three"
+ ],
+ "مدير": [
+  "user-gear",
+  "crown"
+ ],
+ "موظف": [
+  "identification-badge",
+  "user"
+ ],
+ "تطبيق": [
+  "device-mobile",
+  "app-window"
+ ],
+ "جوال": [
+  "device-mobile"
+ ],
+ "هاتف": [
+  "phone",
+  "device-mobile"
+ ],
+ "حاسوب": [
+  "laptop",
+  "desktop"
+ ],
+ "برمجة": [
+  "code",
+  "terminal"
+ ],
+ "كود": [
+  "code",
+  "brackets-curly"
+ ],
+ "موقع": [
+  "globe",
+  "browser"
+ ],
+ "إنترنت": [
+  "wifi-high",
+  "globe"
+ ],
+ "تحديث": [
+  "arrows-clockwise",
+  "download"
+ ],
+ "تحميل": [
+  "download",
+  "download-simple"
+ ],
+ "رفع": [
+  "upload"
+ ],
+ "نسخ احتياطي": [
+  "cloud-arrow-up",
+  "database"
+ ],
+ "بيانات": [
+  "database",
+  "chart-bar"
+ ],
+ "إشعار": [
+  "bell",
+  "bell-ringing"
+ ],
+ "رسالة": [
+  "chat-circle",
+  "envelope"
+ ],
+ "رسائل": [
+  "chat-circle-dots",
+  "envelope"
+ ],
+ "بحث": [
+  "magnifying-glass"
+ ],
+ "إعدادات": [
+  "gear"
+ ],
+ "تقرير": [
+  "file-text",
+  "chart-bar"
+ ],
+ "لوحة": [
+  "squares-four",
+  "chart-pie"
+ ],
+ "وقت": [
+  "clock",
+  "timer"
+ ],
+ "ساعة": [
+  "clock"
+ ],
+ "يوم": [
+  "calendar",
+  "sun"
+ ],
+ "تاريخ": [
+  "calendar"
+ ],
+ "سرعة": [
+  "lightning",
+  "rocket",
+  "gauge"
+ ],
+ "بطء": [
+  "hourglass"
+ ],
+ "انتظار": [
+  "hourglass",
+  "timer"
+ ],
+ "نجاح": [
+  "trophy",
+  "check-circle",
+  "medal"
+ ],
+ "فوز": [
+  "trophy",
+  "crown"
+ ],
+ "هدف": [
+  "target"
+ ],
+ "خطوة": [
+  "footprints",
+  "stairs"
+ ],
+ "تعلم": [
+  "graduation-cap",
+  "book-open"
+ ],
+ "كتاب": [
+  "book-open",
+  "book"
+ ],
+ "قراءة": [
+  "book-open"
+ ],
+ "كتابة": [
+  "pen-nib",
+  "pencil"
+ ],
+ "سؤال": [
+  "question"
+ ],
+ "تحذير": [
+  "warning"
+ ],
+ "خطأ": [
+  "x-circle",
+  "warning"
+ ],
+ "صح": [
+  "check-circle",
+  "check"
+ ],
+ "سفر": [
+  "airplane",
+  "suitcase"
+ ],
+ "سيارة": [
+  "car"
+ ],
+ "طريق": [
+  "path",
+  "road-horizon"
+ ],
+ "مكان": [
+  "map-pin"
+ ],
+ "خريطة": [
+  "map-trifold"
+ ],
+ "صورة": [
+  "image",
+  "camera"
+ ],
+ "كاميرا": [
+  "camera"
+ ],
+ "فيديو": [
+  "video-camera",
+  "film-strip"
+ ],
+ "صوت": [
+  "microphone",
+  "speaker-high"
+ ],
+ "موسيقى": [
+  "music-notes"
+ ],
+ "تصميم": [
+  "paint-brush",
+  "palette",
+  "pen-nib"
+ ],
+ "ألوان": [
+  "palette"
+ ],
+ "رسم": [
+  "paint-brush",
+  "pencil"
+ ],
+ "هدية": [
+  "gift"
+ ],
+ "احتفال": [
+  "confetti",
+  "party"
+ ],
+ "فرح": [
+  "smiley",
+  "confetti"
+ ],
+ "ضحك": [
+  "smiley"
+ ],
+ "حزن": [
+  "smiley-sad"
+ ],
+ "غضب": [
+  "smiley-angry"
+ ],
+ "تعب": [
+  "smiley-meh",
+  "battery-low"
+ ],
+ "طاقة": [
+  "lightning",
+  "battery-charging"
+ ],
+ "قوة": [
+  "barbell",
+  "lightning"
+ ],
+ "انتقال": [
+  "whoosh",
+  "transition"
+ ],
+ "ظهور": [
+  "appear",
+  "pop",
+  "shimmer"
+ ],
+ "اختفاء": [
+  "vanish",
+  "zip-out"
+ ],
+ "نقرة": [
+  "click",
+  "tap"
+ ],
+ "كتابة سريعة": [
+  "typing",
+  "keyboard"
+ ],
+ "ضربة": [
+  "impact",
+  "hit"
+ ],
+ "تشويق": [
+  "riser"
+ ],
+ "لمعة": [
+  "shimmer",
+  "sparkle"
+ ],
+ "نجمة": [
+  "star"
+ ],
+ "تاج": [
+  "crown"
+ ],
+ "ماسة": [
+  "diamond"
+ ]
+}

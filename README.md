@@ -26,6 +26,9 @@ _آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0_
 ## الميزات الثابتة — كل مشروع Android يجب أن يحتويها
 | الميزة | التفاصيل |
 |--------|----------|
+| ميزات افتراضية | أدوار/دخول/استعادة/تذكرني، تحديث مخزّن يُحذف بعد التثبيت، نسخ يومي 3 أيام، إشعارات، صلاحيات → `features/defaults.md` |
+| توافق كامل | خط النظام المكبّر بلا تداخل، كل المتصفحات والشاشات، PWA آيفون بنافذة تثبيت → `features/compat.md` |
+| مكتبة الأصول | 1512 أيقونة + 1563 مجسم 3D مفرغ + 320 مؤثر صوتي، بحث عربي بالمعنى → `assets/README.md` · `python3 assets/find.py قلب` |
 | auto-update | GitHub Release API → قارن versionCode → بانر RTL إذا يوجد إصدار أحدث → `features/auto-update.md` |
 | BrandConfig.kt | مصدر الحقيقة الوحيد: OKLCH palette، fonts، modules، Firebase config، license expiry → `features/brand-config.md` |
 | Room + migrations | SQLite مع WAL، migrations مرقّمة append-only، JSON export/import → `features/room-setup.md` |

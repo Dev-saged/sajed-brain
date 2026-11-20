@@ -68,23 +68,33 @@ class TalkTest(unittest.TestCase):
         self.assertEqual(len(p["cards"]), 1)
         self.assertEqual(len(p["frames"]), 1)
 
-    def test_sfx_events_and_icons(self):
-        p = plan({"cards": [{"at": 1.5, "type": "typo", "text": "x"}]})
-        kinds = [k for _, k in talk.compose.sfx_events(p, {"title": {"text": "x"}})]
-        self.assertIn("impact", kinds)
-        self.assertIn("whoosh", kinds)
+    def test_sfx_from_library_with_sync(self):
+        p = plan({"cards": [{"at": 1.5, "type": "typo", "text": "x"}], "frames": [{"from": 0.2, "to": 1.8, "title": "t"}]})
+        ev = talk.compose.sfx_events(p, {})
+        self.assertEqual(len(ev), 2)
+        for start, path, _ in ev:
+            self.assertTrue(path.is_file())
+            self.assertGreaterEqual(start, 0)
         self.assertEqual(talk.compose.sfx_events(p, {"sfx": False}), [])
-        self.assertIn("<svg", talk.compose.icons_markup(["heart"])["heart"])
-        with self.assertRaises(SystemExit):
-            talk.compose.icons_markup(["not-an-icon"])
+        cat = talk.compose.sfx_catalog()
+        self.assertTrue(set(talk.compose.SFX_FOR.values()) <= set(cat))
 
-    def test_grades_known(self):
-        self.assertTrue({"teal", "wine", "amber", "natural"} <= set(talk.compose.GRADES))
+    def test_icons_resolve_from_arabic(self):
+        self.assertEqual(talk.compose.resolve_icon("كاسة شاي").stem, "hot-beverage")
+        self.assertEqual(talk.compose.resolve_icon("heart", "icon").suffix, ".svg")
+        p = plan({"cards": [{"at": 1.5, "type": "prop", "icon": "قلب"}]})
+        self.assertTrue(p["cards"][0]["src"].endswith(".webp"))
+
+    def test_mood_from_content(self):
+        self.assertEqual(talk.compose.detect_mood([{"w": "مطر"}, {"w": "شاي"}]), "cozy")
+        self.assertEqual(talk.compose.detect_mood([{"w": "x"}]), "tech")
+        for m in talk.compose.MOODS.values():
+            self.assertEqual(len(m["bg"]), 2)
 
     def test_example_valid_keys(self):
         ex = json.loads((ROOT / "talk.example.json").read_text(encoding="utf-8"))
         self.assertNotIn("hook", ex)
-        for k in ("source", "work", "title"):
+        for k in ("source", "work", "cover"):
             self.assertIn(k, ex)
 
 

@@ -1,25 +1,22 @@
-# session-handoff — 2026-11-17 (هوية الفيديو)
+# session-handoff — 2026-11-20 (محرّك فيديو الكلام v2 + مكتبة الأصول + الميزات الافتراضية)
 
 ## الحالة
-- هوية فيديو ساجد معتمدة: فيروز ونحاس (`video-identity/tokens.json`)، خطوط Alexandria/Readex Pro/Inter محلية.
-- قوالب جاهزة: `video-identity/templates/render.py content.json out.mp4` يركّب hook+demo+outro (13ث، 1080×1920).
-- فيديو كلام: `video-identity/talk/talk.py transcribe` ← talk.json ← `render` (اختُبر على مقطع تجريبي، لم يُجرَّب بعد على فيديو عربي حقيقي لساجد).
-- مكتبة الفيديوهات `video-identity/library/index.md` ودليل الأفكار `ideas/playbook.md`.
-- لوحة التصميم: https://claude.ai/artifact/1chGnVF6z8etrynxrpEX9L
-- v2.1 (auto-maintain، kit، journal…) مدموج في main عبر PR #1.
+- مكتبة أصول مفهرسة بالعربي: `assets/` — 1512 أيقونة Phosphor، 1563 مجسم Fluent 3D مفرغ، 320 مؤثر صوتي CC0. بحث: `python3 assets/find.py "كاسة شاي" --type icon3d`. إعادة بناء: `scripts/assets_build.py`.
+- خطوط جديدة في `video-identity/templates/fonts.css`: IBM Plex Sans Arabic، Noto Kufi، Reem Kufi، El Messiri، Aref Ruqaa Ink، Changa، Lalezar.
+- talk v2: مزاج من المحتوى (MOODS: cozy/spiritual/tech/energy/hope/serious)، كابشن كتابي سطر ≤4 كلمات بلا تكرار/تكبير/وميض، بطاقات prop/icon/typo/image من المكتبة بالعربي، أقراص ui، رأس ورقي للـframes، أصوات حقيقية بنقطة تزامن، غلاف مصمم `<اسم>-غلاف.jpg` (cover.html).
+- `features/defaults.md` (أدوار/دخول/استعادة/تذكرني، تحديث مخزّن يُحذف بعد التثبيت، نسخ يومي 3 أيام، إشعارات، صلاحيات) و`features/compat.md` (خط مكبّر، كل المتصفحات، PWA آيفون) — مربوطان في playbook وREADME.
+- روابط المكتبات للتنزيل اليدوي: `video-identity/references/libraries.md`.
 
 ## القرارات
-- كل مقدمة: "ساجد العبادلة · مطوّر من غزة"؛ الخاتمة 6 بلاطات حسابات بارزة (أيقونة داكنة على نحاسي، يوزر أبيض Inter 700).
-- ذوق الألوان: لوحات Color Hunt هادئة من 4 ألوان؛ المرفوضة مسجّلة في video-identity/README.md.
-- لا ذيول أدوات في commits.
+- العنوان لا يظهر داخل الفيديو؛ يذهب للغلاف (`cover`). `title` القديم يُقبل كبديل للغلاف.
+- الكابشن دائماً IBM Plex Sans Arabic؛ خط العناوين يتبع المزاج.
+- talk/icons حُذف (حلّت محله assets/icons).
 
 ## مفتوح
-- 2026-11-19: بُنيت عناصر الموشن الخمسة (keyword-glow، kashida، cards بأيقونات Phosphor، grade، sfx، frame-in-frame، ui، phones، behind، spotlight). ريل اختبار "أجواء غزة موشن" أُرسل لساجد — بانتظار رأيه.
-- ريل أجواء غزة: الأداة طُوّرت حسب ملاحظات ساجد (test-v2 أُرسل كتجربة أداة، لم يُؤرشف). بانتظار رأيه ومراجع الموشن.
-- أول جلسة فيديو: فسّر أسطر ⏳ في references/motion/notes.md.
-- لم يُشغَّل شيء على GitHub: يلزم GH_PAT وتفعيل "Allow Actions to create PRs".
-- features/{room-setup,icons,motion,firebase}.md مفقودة.
-- لا موسيقى/صوت في القالب بعد؛ لا مشاهد إضافية (قائمة ميزات، مقارنة).
+- ريل "أجواء غزة" v2 أُرسل لساجد — بانتظار رأيه.
+- لا موسيقى خلفية في المكتبة بعد (يحتاج تنزيل ساجد من Pixabay/Mixkit إلى assets/incoming/).
+- "تسجيل كل المحادثات" لا يحدث تلقائياً: المتاح يوميات الجلسة + استيراد تصدير بيانات claude.ai (conversations.json) عند رفعه.
+- GH_PAT وتشغيل الـworkflows على GitHub ما زالا معلّقين.
 
 ## الخطوة التالية
-أول فيديو كلام حقيقي من ساجد عبر talk/، أو لقطة شاشة أداة حقيقية → content.json → render. ثم GH_PAT وinstall_project على qayd وSMS-Barq.
+ملاحظات ساجد على v2 ← تعديلات محددة فقط؛ فهرسة ما يرفعه في assets/incoming/.

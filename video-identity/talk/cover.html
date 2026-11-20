@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Talk cover</title>
+<link rel="stylesheet" href="../templates/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+body{font-family:'IBM Plex Sans Arabic',sans-serif;color:#fff}
+.l{position:absolute;inset:0}
+#blur{width:100%;height:100%;object-fit:cover;filter:blur(38px) saturate(1.2) brightness(.55);transform:scale(1.15)}
+#tint{background:radial-gradient(90% 60% at 50% 30%,color-mix(in oklab,var(--b1) 70%,transparent),var(--b2) 92%)}
+#glow{background:radial-gradient(42% 26% at 50% 34%,var(--glow),transparent 70%)}
+#title{position:absolute;left:40px;right:40px;top:150px;text-align:center;font-family:var(--title);font-weight:700;line-height:1.02;color:var(--accent);text-shadow:0 18px 50px rgba(0,0,0,.5);white-space:pre-line}
+#person{position:absolute;left:0;bottom:0;width:1080px;height:1920px;object-fit:cover;transform:scale(.8);transform-origin:50% 100%;filter:drop-shadow(0 -10px 40px rgba(0,0,0,.45))}
+#shade{background:linear-gradient(180deg,transparent 58%,rgba(0,0,0,.78) 100%)}
+.sub{position:absolute;left:80px;right:80px;bottom:300px;display:flex;justify-content:center}
+.sub span{background:#fbfaf7;color:#121212;font-weight:700;font-size:58px;line-height:1.3;padding:18px 44px;border-radius:999px;box-shadow:0 0 0 6px var(--glow),0 30px 60px -20px rgba(0,0,0,.7);text-align:center}
+.by{position:absolute;bottom:150px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:18px;font-size:40px;font-weight:600;color:#f3f3f3}
+.by i{width:56px;height:6px;border-radius:3px;background:var(--accent)}
+.frame{position:absolute;inset:36px;border-radius:48px;border:3px solid color-mix(in oklab,var(--accent) 55%,transparent)}
+</style>
+</head>
+<body>
+<div class="l"><img id="blur" alt=""></div>
+<div id="tint" class="l"></div>
+<div id="glow" class="l"></div>
+<div id="title"></div>
+<img id="person" alt="">
+<div id="shade" class="l"></div>
+<div class="frame"></div>
+<div class="sub"><span></span></div>
+<div class="by"><i></i><b></b><i></i></div>
+<script>
+(async () => {
+  const C = window.__COVER, M = C.mood, r = document.documentElement.style, $ = s => document.querySelector(s);
+  const rgba = (h, a) => { const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+  r.setProperty('--b1', M.bg[0]); r.setProperty('--b2', M.bg[1]); r.setProperty('--accent', M.accent);
+  r.setProperty('--glow', rgba(M.accent, 0.4)); r.setProperty('--title', `'${M.title}'`);
+  const NOJOIN = 'اأإآدذرزوؤةى';
+  const kashida = w => { const ch = [...w], ok = []; for (let i = 0; i < ch.length - 1; i++) if (/[ء-ي]/.test(ch[i]) && /[ء-ي]/.test(ch[i + 1]) && !NOJOIN.includes(ch[i]) && ch[i] !== 'ء') ok.push(i); if (!ok.length) return w; const k = ok[Math.floor(ok.length / 2)]; return ch.slice(0, k + 1).join('') + 'ـــ' + ch.slice(k + 1).join(''); };
+  const lines = (C.title || '').split('\n').map(l => C.kashida ? l.split(' ').map((w, i, a) => i === a.length - 1 ? kashida(w) : w).join(' ') : l);
+  const t = $('#title');
+  t.textContent = lines.join('\n');
+  const load = (img, src) => new Promise(res => { img.onload = img.onerror = res; img.src = src; });
+  await Promise.all([load($('#blur'), C.frame), load($('#person'), C.cut || C.frame), document.fonts.ready]);
+  // حجم العنوان يملأ العرض ولا يتجاوز ثلث الشاشة، ويبقى فوق الوجه خلف الشخص
+  let fs = 320; t.style.fontSize = fs + 'px';
+  const maxH = C.face ? Math.max(420, 384 + 0.8 * (C.face.cy - C.face.w * 0.45) - 130) : 620;
+  while (fs > 90 && (t.scrollWidth > 1000 || t.scrollHeight > maxH || [...t.childNodes].length && t.getBoundingClientRect().width > 1000)) { fs -= 6; t.style.fontSize = fs + 'px'; }
+  $('.sub span').textContent = C.sub || '';
+  if (!C.sub) $('.sub').remove();
+  $('.by b').textContent = C.byline;
+  window.__ready = true;
+})();
+</script>
+</body>
+</html>
