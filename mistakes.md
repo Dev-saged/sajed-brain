@@ -89,3 +89,7 @@ _يُضاف إليه فور اكتشاف خطأ جديد_
 - **npm 10 و vitest 4 (Nov 2026):** خطأ `Cannot read properties of null (reading edgesOut)` ← `legacy-peer-deps=true` في `.npmrc` المشروع.
 
 - **معاملات متداخلة (Nov 2026):** لا تلف دالة تفتح معاملة داخل معاملة أخرى (idempotent يلف createAccount) — تعليق أو دلالات خاطئة ← مرّر كتابة مفتاح منع التكرار إلى معاملة العملية نفسها.
+- **Vite 7 و plugin-react 6 (Nov 2026):** خطأ `Package subpath './internal' is not defined` ← plugin-react 6 يتطلب vite 8؛ ثبّت `@vitejs/plugin-react@^5` مع vite 7.
+- **CORS ناقص (Nov 2026):** مسارات PUT تعمل في الاختبارات (نفس الأصل) وتفشل من المتصفح ← قائمة allow-methods يجب أن تغطي كل أفعال الموجّه + اختبار preflight يتحقق منها.
+- **حقول المال في النماذج (Nov 2026):** قيمة افتراضية "0.00" + كتابة المستخدم = "0.0012.5" مرفوضة ← حقل السعر فارغ للعنصر الجديد، والتحويل نص→أغورة بتعبير نمطي بلا float.
+- **Web Animations في jsdom (Nov 2026):** `element.animate` غير موجود ← افحص `Element.prototype.animate` قبل التفاعل التوقيعي (تحسين حقيقي للمتصفحات القديمة أيضاً).
