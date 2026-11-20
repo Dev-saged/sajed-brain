@@ -63,7 +63,7 @@ def resolve_icon(q: str, weight: str = "icon") -> pathlib.Path:
     hit = assetfind.find(q, "icon", 1)
     if not hit:
         raise SystemExit(f"لا أيقونة تطابق «{q}» — جرّب: python3 assets/find.py \"{q}\" --type icon")
-    return pathlib.Path(hit[0]["path"]) if hit[0].get("source") == "sajed" else folder / f"{hit[0]['id']}.svg"
+    return folder / f"{hit[0]['id']}.svg" if hit[0]["file"].startswith("icons/duotone/") else pathlib.Path(hit[0]["path"])
 
 
 def sfx_catalog() -> dict:

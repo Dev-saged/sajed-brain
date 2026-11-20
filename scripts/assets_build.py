@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """يبني مكتبة الأصول المفهرسة في assets/ من مصادر مجانية (يُعاد تشغيله لتحديثها):
-- icons/   Phosphor (MIT) بوزنين duotone وfill — 1500+ أيقونة خطية
-- icons3d/ Fluent Emoji 3D من Microsoft (MIT) — 1500+ مجسم ثلاثي الأبعاد مفرغ (WebP شفاف 256px)
+- icons/   Phosphor (MIT) duotone وfill + Hugeicons (MIT) + MingCute (Apache-2.0) — أيقونات تصميم
 - sfx/     SFX Kit (CC0) — 320 مؤثراً صوتياً بنقطة تزامن لكل صوت
-- index.json فهرس موحّد: اسم، وصف، وسوم إنجليزية، كلمات عربية (CLDR + ar-concepts.json)
+- index.json فهرس موحّد: اسم، وصف، وسوم إنجليزية، كلمات عربية (ar-concepts.json)
+لا إيموجي إطلاقاً (قرار ساجد 2026-11-20).
 python3 scripts/assets_build.py
 يتطلب: npm, node, git, ffmpeg"""
 import json
@@ -82,33 +82,6 @@ def build_icons(tmp: pathlib.Path, rev) -> list:
     return entries
 
 
-def build_icons3d(tmp: pathlib.Path, rev) -> list:
-    pkg = npm_unpack("@lobehub/fluent-emoji-3d", tmp)
-    cldr = npm_unpack("cldr-annotations-full", tmp, ["package/annotations/ar/", "package/annotations/en/"])
-    ann = {lang: json.loads((cldr / "annotations" / lang / "annotations.json").read_text(encoding="utf-8"))["annotations"]["annotations"] for lang in ("ar", "en")}
-    (OUT / "icons3d").mkdir(parents=True, exist_ok=True)
-    entries, used = [], set()
-    for f in sorted((pkg / "assets").glob("*.webp")):
-        cps = f.stem.lower().split("-")
-        if SKIN & set(cps) or not all(re.fullmatch(r"[0-9a-f]{2,6}", c) and int(c, 16) < 0x110000 for c in cps):
-            continue
-        ch = "".join(chr(int(c, 16)) for c in cps)
-        key = ch.replace("️", "")
-        en = ann["en"].get(key) or ann["en"].get(ch)
-        if not en:
-            continue
-        name = slug(en["tts"][0])
-        if not name or name in used:
-            continue
-        used.add(name)
-        shutil.copyfile(f, OUT / "icons3d" / f"{name}.webp")
-        ar = ann["ar"].get(key) or ann["ar"].get(ch) or {"default": [], "tts": []}
-        terms = [name, *en.get("default", [])]
-        entries.append({"id": name, "type": "icon3d", "file": f"icons3d/{name}.webp", "emoji": ch,
-                        "en": terms, "ar": sorted(set(ar.get("tts", []) + ar.get("default", [])) | set(arabic_for(terms, rev)))})
-    return entries
-
-
 def build_sfx(tmp: pathlib.Path, rev) -> list:
     sh("git", "clone", "-q", "--depth", "1", "https://github.com/wyzowl/sfx-kit", str(tmp / "sfx-kit"))
     data = json.loads((tmp / "sfx-kit" / "sounds.json").read_text(encoding="utf-8"))["sounds"]
@@ -125,13 +98,61 @@ def build_sfx(tmp: pathlib.Path, rev) -> list:
     return entries
 
 
+KENNEY_AR = {"click": ["نقرة", "زر"], "mouseclick": ["نقرة"], "mouserelease": ["نقرة"], "rollover": ["مرور", "تحويم"], "switch": ["مفتاح", "تبديل"],
+             "toggle": ["تبديل"], "tick": ["تكة", "عداد"], "select": ["اختيار"], "confirmation": ["تأكيد", "نجاح"], "error": ["خطأ", "تنبيه"],
+             "question": ["سؤال"], "open": ["فتح", "ظهور"], "close": ["إغلاق", "اختفاء"], "maximize": ["تكبير", "ظهور"], "minimize": ["تصغير", "اختفاء"],
+             "drop": ["إسقاط"], "glass": ["زجاج", "لمعة"], "glitch": ["تشويش", "رقمي"], "scratch": ["خدش"], "scroll": ["تمرير"], "back": ["رجوع"],
+             "bong": ["رنة"], "pluck": ["نقرة وتر"]}
+
+
+def build_kenney(tmp: pathlib.Path, rev) -> list:
+    """Kenney Interface Sounds + UI Audio (CC0) — نقرات وأصوات واجهة لعناصر UI والكتابة."""
+    entries = []
+    for repo in ("kenney-interface-sounds", "kenney-ui-audio"):
+        sh("git", "clone", "-q", "--depth", "1", f"https://github.com/Calinou/{repo}", str(tmp / repo))
+        for f in sorted((tmp / repo).rglob("*")):
+            if f.suffix.lower() not in (".wav", ".ogg"):
+                continue
+            base = re.sub(r"[_\d]+$", "", f.stem)
+            sid = f"kenney-{slug(f.stem)}"
+            dest = OUT / "sfx" / "interface-kenney" / f"{sid}.ogg"
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            sh("ffmpeg", "-y", "-loglevel", "error", "-i", str(f), "-c:a", "libvorbis", "-q:a", "5", str(dest))
+            dur = float(sh("ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(dest)).strip() or 0)
+            entries.append({"id": sid, "type": "sfx", "file": f"sfx/interface-kenney/{sid}.ogg", "category": "interface-kenney",
+                            "desc": f"Kenney UI sound: {base}", "use_for": [], "avoid_for": [], "duration": round(dur, 3), "sync": 0.0,
+                            "en": [sid, base, "ui", "interface"], "ar": sorted(set(KENNEY_AR.get(base, ["واجهة"])) | set(arabic_for([base], rev)))})
+    return entries
+
+
+ICONIFY = {"hugeicons": "MIT", "mingcute": "Apache-2.0"}
+
+
+def build_iconify(tmp: pathlib.Path, rev) -> list:
+    """مجموعات أيقونات تصميم حديثة (Iconify JSON): Hugeicons (خطية حديثة) وMingCute (مصمتة وخطية)."""
+    entries = []
+    for name, lic in ICONIFY.items():
+        pkg = npm_unpack(f"@iconify-json/{name}", tmp)
+        data = json.loads((pkg / "icons.json").read_text(encoding="utf-8"))
+        w, h = data.get("width", 24), data.get("height", 24)
+        out = OUT / "icons" / name
+        out.mkdir(parents=True, exist_ok=True)
+        for icon, body in data["icons"].items():
+            svg = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {body.get("width", w)} {body.get("height", h)}">{body["body"]}</svg>'
+            (out / f"{icon}.svg").write_text(svg, encoding="utf-8")
+            terms = [icon, *[t for t in icon.split("-") if not t.isdigit()]]
+            entries.append({"id": f"{name}-{icon}", "type": "icon", "set": name, "license": lic, "file": f"icons/{name}/{icon}.svg",
+                            "en": terms, "ar": arabic_for(terms, rev)})
+    return entries
+
+
 def main() -> None:
     rev = concepts()
-    for d in ("icons", "icons3d", "sfx"):
+    for d in ("icons", "sfx"):
         shutil.rmtree(OUT / d, ignore_errors=True)
     with tempfile.TemporaryDirectory() as td:
         tmp = pathlib.Path(td)
-        entries = build_icons(tmp, rev) + build_icons3d(tmp, rev) + build_sfx(tmp, rev)
+        entries = build_icons(tmp, rev) + build_sfx(tmp, rev) + build_kenney(tmp, rev) + build_iconify(tmp, rev)
     (OUT / "index.json").write_text(json.dumps(entries, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     counts = {}
     for e in entries:

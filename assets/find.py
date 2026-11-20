@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """ابحث في مكتبة الأصول بالعربي أو الإنجليزي — بلا قراءة الفهرس كاملاً.
 python3 assets/find.py قلب                 ← أفضل الأيقونات/المجسمات/الأصوات
-python3 assets/find.py "كاسة شاي" --type icon3d -n 3
+python3 assets/find.py "كاسة شاي" --type icon -n 3
 python3 assets/find.py انتقال --type sfx
-الأنواع: icon (Phosphor خطية) · icon3d (مجسمات Fluent 3D مفرغة) · sfx (مؤثرات صوتية)"""
+الأنواع: icon (Phosphor + ما رفعه ساجد) · sfx · music · font (لا إيموجي إطلاقاً)"""
 import argparse
 import json
 import pathlib
@@ -63,13 +63,14 @@ def find(query: str, kind: str = None, n: int = 5) -> list:
     # ما رفعه ساجد يتقدّم عند التطابق
     mine = lambda e: 5 if e.get("source") == "sajed" else 0
     ranked = sorted(((score(e, words) + boost(e) + mine(e) * (score(e, words) > 0), e) for e in entries if not kind or e["type"] == kind), key=lambda x: (-x[0], len(x[1]["id"])))
-    return [dict(e, score=s, path=str(HERE / e["file"])) for s, e in ranked[:n] if s > 0]
+    root = lambda f: (HERE.parent if f.startswith("video-identity/") else HERE) / f
+    return [dict(e, score=s, path=str(root(e["file"]))) for s, e in ranked[:n] if s > 0]
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("query")
-    ap.add_argument("--type", choices=["icon", "icon3d", "sfx"])
+    ap.add_argument("--type", choices=["icon", "sfx", "music", "font", "text-motion", "transitions", "refs"])
     ap.add_argument("-n", type=int, default=5)
     a = ap.parse_args()
     for r in find(a.query, a.type, a.n):

@@ -1,18 +1,21 @@
 # مكتبة الأصول المفهرسة (assets/)
 
-مكتبة مجانية مرخّصة للاستخدام التجاري، مفهرسة بالعربي والإنجليزي حتى يُختار الأصل الصحيح فوراً بالمعنى (قلب ← قلب).
+مكتبة مجانية مرخّصة (بلا إيموجي إطلاقاً) للاستخدام التجاري، مفهرسة بالعربي والإنجليزي حتى يُختار الأصل الصحيح فوراً بالمعنى (قلب ← قلب).
 
 | المجلد | المحتوى | العدد | الترخيص |
 |---|---|---|---|
-| `icons/duotone`, `icons/fill` | Phosphor — أيقونات خطية SVG | 1512 | MIT |
-| `icons3d/` | Fluent Emoji 3D — **إيموجي، ممنوع في الفيديو والتصميم بقرار ساجد (2026-11-20)**؛ المحرّك يرفضه. بانتظار قراره بالحذف | 1563 | MIT |
+| `icons/duotone`, `icons/fill` | Phosphor — أيقونات SVG | 1512 | MIT |
+| `icons/hugeicons` | Hugeicons — خطية حديثة | 6140 | MIT |
+| `icons/mingcute` | MingCute — مصمتة وخطية | 4542 | Apache-2.0 |
 | `sfx/<فئة>/` | SFX Kit (wyzowl) — مؤثرات صوتية OGG بنقطة تزامن | 320 | CC0 |
+| `sfx/interface-kenney/` | Kenney Interface + UI Audio — نقرات وأصوات واجهة | 151 | CC0 |
+| خطوط | `video-identity/templates/fonts/` — 40+ عائلة عربية مفهرسة بالأسلوب (`--type font`) | 40+ | OFL |
 | `index.json` | فهرس موحّد: id، نوع، ملف، وسوم en، كلمات ar (CLDR + ar-concepts.json)، وللأصوات: وصف، مدة، sync | — | كلمات CLDR: Unicode License |
 
 ## الاستخدام
 ```bash
 python3 assets/find.py قلب                       # أفضل الأصول من كل الأنواع
-python3 assets/find.py "كاسة شاي" --type icon3d -n 3
+python3 assets/find.py "كاسة شاي" --type icon -n 3
 python3 assets/find.py انتقال --type sfx
 ```
 - في بطاقات الفيديو (`talk.json`): `"icon": "مطر"` تكفي؛ `compose.resolve_icon` تحلّها لأيقونة تصميم Phosphor داخل بلاطة زجاجية بلون المزاج (`"style": "fill"` للوزن المصمت).

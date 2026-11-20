@@ -1,25 +1,35 @@
-# مكتبات مجانية للموشن والفيديو — ما في الريبو وما يُنزَّل يدوياً
-_حدّث هذا الملف عند إضافة أي مصدر. ما يُنزَّل يدوياً يُرفع إلى `assets/incoming/` ثم يُفهرس._
+# حزم المونتاج — ما في الريبو وما ينزّله ساجد مرة واحدة
+_حدّث هذا الملف عند إضافة أي حزمة. التنزيل اليدوي يُرفع إلى Drive «sajed-brain مكتبة المونتاج» https://drive.google.com/drive/folders/1YHP-lxsaWe4uIWyB2mQHbiZPXiaZDhG4 ثم «فهرس الجديد»._
 
-## موجود في الريبو (assets/)
-| النوع | المصدر | الترخيص |
-|---|---|---|
-| أيقونات خطية | Phosphor — https://phosphoricons.com | MIT |
-| مجسمات 3D مفرغة | Microsoft Fluent Emoji 3D — https://github.com/microsoft/fluentui-emoji | MIT |
-| مؤثرات صوتية | SFX Kit — https://github.com/wyzowl/sfx-kit | CC0 |
-| خطوط | Fontsource (Google Fonts) | OFL |
+## في الريبو (نزّلها Claude بنفسه — لا تحتاج شيئاً)
+| النوع | المصدر | العدد | الترخيص |
+|---|---|---|---|
+| أيقونات تصميم | Phosphor (duotone/fill) · Hugeicons · MingCute | ~12,000 | MIT / Apache-2.0 |
+| خطوط عربية | Google Fonts عبر Fontsource (نسخ، كوفي، رقعة، عرض، مدور، يدوي…) | 40+ عائلة | OFL |
+| مؤثرات صوتية | SFX Kit (wyzowl) + Kenney Interface/UI Audio | 471 | CC0 |
+| لا إيموجي | حُذفت Fluent Emoji نهائياً بقرار ساجد | — | — |
 
-## يُنزَّل يدوياً (المواقع تمنع التنزيل الآلي) — الأولوية بالترتيب
-1. **موسيقى خلفية هادئة/دافئة/ملهمة** (أهم نقص): Pixabay Music https://pixabay.com/music/ · Mixkit https://mixkit.co/free-stock-music/ — 10–15 مقطعاً بأمزجة: هادئ، روحاني، تقني، حماسي، أمل.
-2. **مؤثرات طبيعية تكمّل المكتبة** (مطر، رعد، غليان شاي، نار، أذان بعيد، شارع): Pixabay SFX https://pixabay.com/sound-effects/ · Mixkit https://mixkit.co/free-sound-effects/ · Freesound (فلتر CC0) https://freesound.org
-3. **حزمة صوت ضخمة احترافية:** Sonniss GDC Game Audio Bundle (عشرات الجيجات، royalty-free) https://sonniss.com/gameaudiogdc — انتقِ منها فقط.
-4. **أيقونات/إيموجي متحركة:** Noto Animated Emoji (Lottie، CC BY 4.0) https://googlefonts.github.io/noto-emoji-animation/ · Animated Fluent Emojis https://github.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis · LottieFiles المجانية https://lottiefiles.com/free-animations · useAnimations https://useanimations.com
-5. **مراجع حركة النص والانتقالات:** Animista https://animista.net · GSAP (مجاني بالكامل مع SplitText) https://gsap.com — يمكن تثبيته من npm بلا رفع.
+## ينزّله ساجد (ملف مضغوط واحد لكل حزمة) — بالترتيب
+Gumroad: اكتب 0 في خانة السعر ثم بريدك ← يصل رابط zip.
 
-## نماذج مفتوحة أقوى (اختيارية — للترقية)
-- تفريغ عربي مختلط بالإنجليزي: MohamedRashad/Arabic-Whisper-CodeSwitching-Edition (Hugging Face).
-- توقيت كلمات أدق للكابشن الكتابي: WhisperX https://github.com/m-bain/whisperX
-- فصل الشخص بحواف أنظف للغلاف وtext-behind: BiRefNet https://github.com/ZhengPeng7/BiRefNet (MIT).
+| # | الحزمة | المحتوى | الحجم | ارفعه في |
+|---|---|---|---|---|
+| 1 | 99Sounds — 99 Sound Effects https://99sounds.org/free-sound-effects/ | 99 مؤثراً: braams، impacts، risers، swish، whoosh، textures، drones | 263MB | 3-مؤثرات-صوتية |
+| 2 | 99Sounds — Cinematic Sounds https://99sounds.org/cinematic-sounds/ | 99 مؤثراً سينمائياً: booms، impacts، whooshes، tension | 357MB | 3-مؤثرات-صوتية |
+| 3 | Cinecom — Leak Pack (مجاني) https://cinecom.gumroad.com/l/LeakPack | 20 تسريب ضوئي ووهج 4K حقيقي (للانتقالات والإضاءة) | كبير (4K) | 6-انتقالات-وإضاءة |
+| 4 | MyCreativeFX — 500+ Overlays & Transitions https://mycreativefx.com/blog/335-500-free-overlays-transitions-download-100-free-video-effects-mycreativefx | تسريبات ضوئية، حرق فيلم، غبار، دخان، انتقالات flash/glitch/zoom | متعدد | 6-انتقالات-وإضاءة |
+| 5 | Editors Keys — Cinematic Whoosh pack https://editorskeys.com/products/cinematic-transition-sound-effects | whoosh/swoosh للانتقالات | صغير | 3-مؤثرات-صوتية |
+| 6 | موسيقى: Pixabay Music https://pixabay.com/music/ | لا توجد حزمة مجانية واحدة قانونية جيدة؛ اختر 10 مقاطع: هادئ، روحاني، تقني، حماسي، أمل | — | 4-موسيقى |
+| 7 (اختياري) | Sonniss GDC 2026 https://gdc.sonniss.com/ | 347 ملفاً احترافياً royalty-free | 7.5GB | 3-مؤثرات-صوتية — فقط إن سمح النت |
+
+## لا يلزم تنزيله
+- **حركات النصوص**: قوالب After Effects/Premiere (.mogrt/.aep) لا يستخدمها المحرّك — الحركات تُبنى بالكود. أرسل بدلها فيديوهات تعجبك (mp4) إلى 5-حركات-نصوص كمراجع تُحلَّل.
+- **الخطوط والأيقونات**: موجودة كاملة في الريبو. أي خط أو أيقونة خاصة تريدها ← 1-خطوط / 2-أيقونات.
+
+## نماذج مفتوحة أقوى (للترقية لاحقاً)
+- تفريغ عربي مختلط: MohamedRashad/Arabic-Whisper-CodeSwitching-Edition (Hugging Face).
+- توقيت كلمات أدق: WhisperX https://github.com/m-bain/whisperX
+- فصل الشخص بحواف أنظف: BiRefNet https://github.com/ZhengPeng7/BiRefNet (MIT).
 
 ## طريقة الرفع
 إلى Drive «sajed-brain مكتبة المونتاج» بمجلداته السبعة ثم «فهرس الجديد» — التفاصيل في `assets/README.md`.
