@@ -60,8 +60,31 @@ def duplicates() -> list:
     return [f"عنوان مكرر «{t[2:]}»: {', '.join(v)}" for t, v in titles.items() if len(v) > 1]
 
 
+def stats() -> None:
+    """كتلة إحصاءات حية في README بين علامتين — تُحدَّث تلقائياً فلا تتقادم الأرقام."""
+    import datetime
+    import json
+    idx = json.loads((ROOT / "assets" / "index.json").read_text(encoding="utf-8"))
+    count = collections.Counter(e["type"] for e in idx)
+    sess = sorted(f for f in SESS.glob("20*.md")) if SESS.exists() else []
+    block = (f"<!-- stats:start -->\n_مولّد تلقائياً بـbrain_tidy — {datetime.date.today()}_ · "
+             f"أيقونات تصميم {count.get('icon', 0)} · مؤثرات صوتية {count.get('sfx', 0)} · خطوط {count.get('font', 0)} · "
+             f"موسيقى {count.get('music', 0)} · صور {count.get('image', 0)} · جلسات {len(sess)}"
+             + (f" · آخر جلسة `sessions/{sess[-1].name}`" if sess else "") + "\n<!-- stats:end -->")
+    readme = ROOT / "README.md"
+    text = readme.read_text(encoding="utf-8")
+    if "<!-- stats:start -->" in text:
+        text = re.sub(r"<!-- stats:start -->.*?<!-- stats:end -->", block, text, flags=re.S)
+    else:
+        lines = text.splitlines()
+        lines.insert(2, block)
+        text = "\n".join(lines) + "\n"
+    readme.write_text(text, encoding="utf-8")
+
+
 def main() -> None:
     report = sessions()
+    stats()
     print(run("scripts/journal_digest.py"))
     if (ROOT / "chats").exists():
         print("chats: موجودة — فهرسها في chats/index.md")

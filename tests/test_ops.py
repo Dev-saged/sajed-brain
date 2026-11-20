@@ -196,3 +196,21 @@ class InstallAndHooksTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ConsistencyTests(unittest.TestCase):
+    def test_stale_decision_is_flagged(self):
+        import importlib, json, pathlib, sys, tempfile
+        sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "scripts"))
+        doctor = importlib.import_module("brain_doctor")
+        with tempfile.TemporaryDirectory() as td:
+            root = pathlib.Path(td)
+            (root / "rules").mkdir()
+            src = pathlib.Path(__file__).resolve().parent.parent / "rules" / "consistency.json"
+            (root / "rules" / "consistency.json").write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+            (root / "features").mkdir()
+            (root / "features" / "x.md").write_text("Package with WebToApp.\nNo WebToApp here.\n", encoding="utf-8")
+            (root / "mistakes.md").write_text("- old: used WebToApp\n", encoding="utf-8")
+            errors, _ = doctor.consistency(root)
+            self.assertEqual(len(errors), 1)
+            self.assertIn("features/x.md:1", errors[0])

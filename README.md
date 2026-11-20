@@ -1,5 +1,8 @@
-# 🧠 sajed-brain — السياق الكامل لساجد
-_آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0_
+# sajed-brain — السياق الكامل لساجد
+_Mission Control v2.1 · GRCS v5.7.0 · الإحصاءات والتاريخ أدناه مولّدة تلقائياً_
+<!-- stats:start -->
+_مولّد تلقائياً بـbrain_tidy — 2026-11-20_ · أيقونات تصميم 12194 · مؤثرات صوتية 471 · خطوط 33 · موسيقى 0 · صور 0 · جلسات 1 · آخر جلسة `sessions/2026-11-20-video-engine-v2.md`
+<!-- stats:end -->
 
 > **كيفية الاستخدام:** اقرأ هذا الملف أول شيء في كل جلسة. ابحث في الملفات الفرعية فقط عند الحاجة لتفاصيل ميزة معينة.
 
@@ -26,12 +29,14 @@ _آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0_
 ## الميزات الثابتة — كل مشروع Android يجب أن يحتويها
 | الميزة | التفاصيل |
 |--------|----------|
-| إعدادات الحساب | النص الكامل `docs/account-instructions.md` (v3.4) + نسخة مختصرة للصق في الإعدادات `docs/account-preferences-short.md` |
+| إعدادات الحساب | النص الكامل `docs/account-instructions.md` (v3.5) + نسخة مختصرة للصق في الإعدادات `docs/account-preferences-short.md` |
+| قانون الفيديو | `video-identity/references/motion/gold/GRAMMAR.md` — سطح نص واحد، كابشن بالعبارة، مشاهد، انتقالات مقيسة؛ الأداة `video-identity/talk/README.md` |
+| فحص التعارض | `rules/consistency.json` + `scripts/brain_doctor.py` — أي قرار قديم يعود يُفشل الفحص؛ الترتيب اليومي في brain-daily |
 | سجل الجلسات | كل جلسة ملف في `sessions/` يُرفع عند نهايتها؛ «رتّب الدماغ» ← `scripts/brain_tidy.py`؛ استيراد تصدير claude.ai ← `scripts/import_chats.py` → `sessions/index.md` |
 | خطوط عربية | 40+ خطاً مفهرسة بالأسلوب (نسخ، كوفي، رقعة، عرض، مدور…) ← `python3 assets/find.py "نسخ ديني" --type font` |
 | ميزات افتراضية | أدوار/دخول/استعادة/تذكرني، تحديث مخزّن يُحذف بعد التثبيت، نسخ يومي 3 أيام، إشعارات، صلاحيات → `features/defaults.md` |
 | توافق كامل | خط النظام المكبّر بلا تداخل، كل المتصفحات والشاشات، PWA آيفون بنافذة تثبيت → `features/compat.md` |
-| مكتبة الأصول | 1512 أيقونة تصميم + 320 مؤثر صوتي (بلا إيموجي) + ما يرفعه ساجد عبر Drive، بحث عربي بالمعنى → `assets/README.md` · `python3 assets/find.py قلب` |
+| مكتبة الأصول | أيقونات تصميم + مؤثرات صوتية + خطوط (الأعداد في كتلة الإحصاءات أعلاه، بلا إيموجي) + ما يرفعه ساجد عبر Drive، بحث عربي بالمعنى → `assets/README.md` · `python3 assets/find.py قلب` |
 | auto-update | GitHub Release API → قارن versionCode → بانر RTL إذا يوجد إصدار أحدث → `features/auto-update.md` |
 | BrandConfig.kt | مصدر الحقيقة الوحيد: OKLCH palette، fonts، modules، Firebase config، license expiry → `features/brand-config.md` |
 | Room + migrations | SQLite مع WAL، migrations مرقّمة append-only، JSON export/import → `features/room-setup.md` |

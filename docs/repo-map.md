@@ -8,7 +8,9 @@ _بلا كود_
 - migration معدّلة: findings.py ← `migration_edits` (يحتاج `--base`)
 - رادار اعتماديات: scripts/deps_radar.py ← `run`، `apply`
 - استرجاع سياق: scripts/brief.py ← `brief`؛ مرادفات rules/synonyms.json
-- سلامة الدماغ: scripts/brain_doctor.py ← `check`
+- سلامة الدماغ: scripts/brain_doctor.py ← `check`، `consistency` (rules/consistency.json: تعارض القرارات، مسارات غير موجودة، handoff أقدم من آخر جلسة)
+- ترتيب دوري: scripts/brain_tidy.py ← `sessions`، `stats` (كتلة الإحصاءات في README)، `duplicates`؛ يعمل في brain-daily
+- سجل الجلسات: sessions/*.md + sessions/index.md؛ استيراد claude.ai: scripts/import_chats.py ← chats/
 - عبر المشاريع: scripts/crossref.py ← `analyse`؛ التجميع scripts/collect.py (يحتاج GH_PAT + projects.json)
 - طبقة المشروع: templates/claude/brain_hooks.py (boot/stop/learn/scout/commit-msg)، تثبيت scripts/install_project.py
 - إصلاحات آلية: rules/fixes.json ← scoutlib/fixes.py `apply_fixes`؛ `cli.maintain` للصيانة
@@ -22,8 +24,8 @@ _بلا كود_
 - لا قيود حجم على أي ملف (قرار ساجد 2026-11-18)؛ أُزيل فحص حجم README من brain_doctor
 - مراجع موشن: scripts/motion_refs.py ← `analyze`، `contact_sheet`، `motion_energy`؛ workflow brain-motion؛ references/motion/{notes,LEXICON}.md
 - talk.py يفرض قواعد ساجد: `validate` (نص حرفي، لا تعريب، لا hook)، `auto_fx`، `to_script` + rules/arabizi.json؛ talk.html يفشل الرندر عند قص/تراكب
-- مُركِّب فيديو الكلام v2: talk/compose.py ← `MOODS`، `detect_mood`، `resolve_icon`، `sfx_events` (assets/sfx)، `mix_audio`، `Vision`، `best_cover_frame`، `make_cover` (cover.html)؛ talk.py ← `timeline`، `mood_of`، `cover_data`؛ كابشن كتابي في talk.html
-- مكتبة الأصول: assets/ (أيقونات + مجسمات 3D + sfx) ← assets/find.py `find`، بناء scripts/assets_build.py؛ ميزات افتراضية features/defaults.md، توافق features/compat.md، روابط references/libraries.md
+- مُركِّب فيديو الكلام v2: talk/compose.py ← `MOODS`، `detect_mood`، `resolve_icon`، `sfx_events` (assets/sfx)، `mix_audio`، `Vision`، `best_cover_frame`، `make_cover` (cover.html)؛ talk.py ← `timeline`، `mood_of`، `cover_data`؛ talk.html: كابشن بالعبارة، scene/flow/quotes، انتقالات in/out، سطح نص واحد (GRAMMAR)
+- مكتبة الأصول: assets/ (أيقونات تصميم Phosphor/Hugeicons/MingCute + sfx + خطوط مفهرسة، بلا إيموجي) ← assets/find.py `find`، بناء scripts/assets_build.py + scripts/fonts_build.py، رفع ساجد scripts/assets_ingest.py؛ ميزات افتراضية features/defaults.md، توافق features/compat.md، حزم وروابط video-identity/references/libraries.md
 - فكرة جديدة: playbooks/idea-to-product.md (Core/Pro/Wow + كتالوج حسب النوع + موجز ≤40 سطراً)
 - features/: room-setup، icons، motion، firebase أُكملت (كانت روابط مكسورة في README)
 - هوية الفيديو: video-identity/tokens.json (المصدر الوحيد)، icons/platforms.json

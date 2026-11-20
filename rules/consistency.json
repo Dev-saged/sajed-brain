@@ -1,0 +1,8 @@
+[
+  {"id": "webtoapp-allowed", "severity": "error", "pattern": "(?i)(?<!no )(?<!لا )(?<!بدون )(?<!no-)(?<!not )\\bweb-?to-?app\\b", "message": "WebToApp لم يعد مستخدماً (Kotlin + Compose أصلي) — احذف أو اكتب «no WebToApp»", "source": "preferences.md#الـworkflow"},
+  {"id": "fixed-video-colors", "severity": "warn", "pattern": "الهوية ثابتة|identity never does|fixed Teal Brass", "message": "ألوان فيديو الكلام من مزاج المحتوى؛ الثابت هو التوقيع والخاتمة فقط", "source": "video-identity/references/motion/gold/GRAMMAR.md"},
+  {"id": "old-caption-rule", "severity": "warn", "pattern": "≤\\s?[34] كلمات|سطر واحد حتى 4|كابشن كتابي سطر", "message": "الكابشن الآن عبارة متراكمة بهرمية (GRAMMAR §1)", "source": "video-identity/references/motion/gold/GRAMMAR.md"},
+  {"id": "emoji-library", "severity": "error", "pattern": "icons3d|Fluent Emoji 3D|مجسمات 3D|مجسم 3D", "message": "مكتبة الإيموجي حُذفت نهائياً — لا إيموجي إطلاقاً", "source": "mistakes.md"},
+  {"id": "emoji-char", "severity": "error", "pattern": "[\\U0001F300-\\U0001FAFF\\u2705\\u23F3\\u2B50\\u2728\\u274C\\u2614\\u2615]", "message": "إيموجي داخل ملف معرفة — ممنوع", "source": "preferences.md#التصميم"},
+  {"id": "size-cap", "severity": "warn", "pattern": "≤\\s?25 سطراً|max 25 lines|5120 بايت|<6KB", "message": "لا قيود حجم على أي ملف (قرار ساجد)", "source": "preferences.md#حجم الملفات والتوثيق"}
+]

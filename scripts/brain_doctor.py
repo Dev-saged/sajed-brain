@@ -74,12 +74,49 @@ def check(root=ROOT):
             elif not gid and "noguard" not in ln:
                 warns.append(f"mistakes.md: خطأ بلا حارس (أضف guard:<id> أو noguard): {ln[:50]}")
 
+    errors_c, warns_c = consistency(root)
+    errors += errors_c
+    warns += warns_c
+
     md = {p.relative_to(root).as_posix(): cli.Src(p.read_text(encoding="utf-8"), None)
           for p in root.rglob("*") if p.suffix in (".md", ".json", ".yml", ".py")
           and ".git" not in p.parts and "tests" not in p.parts}
     leaks = findings.apply_rules(md, findings.load_rules(), only={"secret-key", "secret-assignment"},
                                  globs=["*.md", "*.json", "*.yml", "*.py"])
     errors += [f"سر ظاهر في {f['path']}:{f['line']}" for f in leaks]
+    return errors, warns
+
+# ملفات التاريخ تحفظ ما حدث كما حدث؛ لا تُفحص للتعارض
+HISTORY = ("mistakes.md", "sessions/", "journal/", "chats/", "index/", "references/motion/gold/", "references/motion/notes.md", "library/")
+PATH_RE = re.compile(r"`((?:docs|features|playbooks|scripts|assets|video-identity|rules|sessions|templates)/[\w\-./]+\.(?:md|py|json|html|yml))`")
+
+
+def consistency(root=ROOT):
+    """تعارضات القرارات + مسارات مذكورة غير موجودة + handoff أقدم من آخر جلسة."""
+    errors, warns = [], []
+    cf = root / "rules" / "consistency.json"
+    rules = json.loads(cf.read_text(encoding="utf-8")) if cf.exists() else []
+    for p in sorted(root.rglob("*.md")):
+        rel = p.relative_to(root).as_posix()
+        if ".git" in p.parts or any(h in rel for h in HISTORY):
+            continue
+        text = p.read_text(encoding="utf-8")
+        for r in rules:
+            for i, ln in enumerate(text.splitlines(), 1):
+                if re.search(r["pattern"], ln):
+                    (errors if r["severity"] == "error" else warns).append(f"تعارض [{r['id']}] {rel}:{i} — {r['message']}")
+        # تعليمات الحساب تشير لملفات داخل مستودعات المشاريع لا الدماغ
+        if (rel in ("README.md", "CLAUDE.md") or rel.startswith(("docs/", "features/", "playbooks/", "video-identity/", "assets/"))) and not rel.startswith("docs/account-"):
+            for target in sorted(set(PATH_RE.findall(text))):
+                base = p.parent if not (root / target).exists() and (p.parent / target).exists() else root
+                if not (base / target).exists() and not (root / "video-identity" / target).exists():
+                    warns.append(f"{rel} يشير إلى {target} وهو غير موجود")
+    hand = root / ".claude" / "session-handoff.md"
+    sess = sorted((root / "sessions").glob("20*.md")) if (root / "sessions").exists() else []
+    if hand.exists() and sess:
+        m = re.search(r"(\d{4}-\d{2}-\d{2})", hand.read_text(encoding="utf-8"))
+        if m and m.group(1) < sess[-1].name[:10]:
+            warns.append(f"session-handoff ({m.group(1)}) أقدم من آخر جلسة ({sess[-1].name[:10]}) — أعد كتابته")
     return errors, warns
 
 

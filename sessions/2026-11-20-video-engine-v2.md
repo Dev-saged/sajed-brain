@@ -43,6 +43,12 @@ status: ok
 - حُلّ تعارض دمج PR #4 (log-bad-film: دروس ArticleStudio Social Hub + تفضيل «لا قيود حجم») ودُمج video-film؛ أُبقيت كل الأسطر من الطرفين.
 - مفتاح GH_PAT أُضيف من ساجد؛ يعمل مع brain-daily المجدول (لا يمكن تشغيل Actions يدوياً من الجلسة).
 
+## إضافة (13:49) — توحيد الدماغ
+- فحص تعارض تلقائي: `rules/consistency.json` + `brain_doctor.consistency` (قرارات قديمة، إيموجي، مسارات غير موجودة، handoff متقادم) مع اختبار.
+- `brain_tidy.stats` يكتب كتلة إحصاءات حية في README؛ brain-daily يشغّل tidy يومياً.
+- أُصلحت كل التعارضات: README (إيموجي، v3.5، أعداد)، video-identity/README (الهوية الثابتة ← المزاج + GRAMMAR)، SYNTHESIS، CHARTER (حد 25 سطراً)، repo-map، preferences (أقسام الفيديو والأصول والجلسات)، علامات ✅/⏳ ← نص.
+- handoff أعيدت كتابته للحالة الحالية.
+
 ## التالي
 - انتظار حزم ساجد (حين يتحسن النت) ← «فهرس الجديد»؛ الرندر فقط بطلبه.
 - فهرسة الحزم التي سيرفعها.

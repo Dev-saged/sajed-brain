@@ -3,7 +3,7 @@
 
 المصادر: ملفات في references/motion/inbox/ أو روابط (Google Drive أو مباشرة) سطراً سطراً في references/motion/links.txt
 الناتج لكل مرجع: references/motion/refs/<slug>/sheet.jpg (لقطات من كل مشهد) + analysis.json
-+ سطر في references/motion/notes.md بالقياسات وعلامة "⏳ يحتاج تفسير" حتى يكتب Claude التقنية بكلمات.
++ سطر في references/motion/notes.md بالقياسات وعلامة "[يحتاج تفسير]" حتى يكتب Claude التقنية بكلمات.
 python3 scripts/motion_refs.py [--keep-source]"""
 import argparse
 import datetime
@@ -18,9 +18,9 @@ import urllib.request
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 MOTION = ROOT / "video-identity" / "references" / "motion"
 VIDEO_EXT = {".mp4", ".mov", ".webm", ".mkv", ".m4v"}
-PENDING = "⏳ يحتاج تفسير"
+PENDING = "[يحتاج تفسير]"
 NOTES_HEAD = ("# ملاحظات مراجع الموشن\n"
-              "_سطر لكل فيديو مرجعي. القياسات تُكتب آلياً؛ Claude يستبدل \"⏳ يحتاج تفسير\" بالتقنية وطريقة تطبيقها بهويتنا "
+              "_سطر لكل فيديو مرجعي. القياسات تُكتب آلياً؛ Claude يستبدل \"[يحتاج تفسير]\" بالتقنية وطريقة تطبيقها بهويتنا "
               "بعد النظر إلى `refs/<slug>/sheet.jpg` فقط. المصطلحات من `LEXICON.md`._\n\n"
               "| المرجع | المدة | قطعات/10ث | الحركة | الألوان | التقنية والتطبيق عندنا |\n|---|---|---|---|---|---|\n")
 DRIVE = re.compile(r"(?:/d/|id=)([\w-]{20,})")
