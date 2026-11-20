@@ -210,7 +210,7 @@ canvas{position:absolute;inset:0}
     if (pr) {
       if (propEl.dataset.k !== String(pr.at)) { propEl.querySelector('img').src = pr.src; propEl.dataset.k = pr.at; }
       const end = pr.at + (pr.dur || 1.6), q = clamp((t - pr.at) / 0.45), o = clamp((end - t) / 0.25), f = D.face || { cx: 540, cy: 760, w: 520 };
-      const side = pr.side === 'left' ? -1 : 1, x = 540 + side * 330 - 150, y = (pr.y || 360);
+      const side = pr.side === 'left' ? -1 : 1, x = 540 + side * 350 - 150, y = (pr.y || 1040);
       Object.assign(propEl.style, { left: x + 'px', top: y + 'px', opacity: Math.min(1, q * 2) * o, transform: `translateY(${Math.sin(t * 2.4) * 12}px) scale(${0.3 + 0.7 * back(q)}) rotate(${side * (12 - 12 * q)}deg)` });
     } else propEl.style.opacity = 0;
 
