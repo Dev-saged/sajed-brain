@@ -20,7 +20,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - يُشار إليه من: CLAUDE.md, docs/account-instructions.md, docs/mission-control.md
   - قريب منه: projects/index.md, docs/repo-map.md, docs/mission-control.md
 - **`ideas.md`** — أفكار وقرارات متراكمة: سياق يتراكم عبر الجلسات
-  - أقسام: قرارات معمارية مهمة (Nov 2026) · نظام الذاكرة (Nov 2026) · أفكار لم تُنفَّذ بعد · ملاحظات على المشاريع · Mission Control (Nov 2026) · GRCS (Nov 2026) · ArticleStudio v0.14.0 — Social Hub (Nov 2026) · ArticleStudio v0.14.1 — Social Hub (Nov 2026) · ArticleStudio v0.15.0 — إنستغرام (Nov 2026) · ArticleStudio v0.16.0 — طابور المشاركة (Nov 2026)
+  - أقسام: قرارات معمارية مهمة (Nov 2026) · نظام الذاكرة (Nov 2026) · أفكار لم تُنفَّذ بعد · ملاحظات على المشاريع · Mission Control (Nov 2026) · GRCS (Nov 2026) · ArticleStudio v0.14.0 — Social Hub (Nov 2026) · ArticleStudio v0.14.1 — Social Hub (Nov 2026) · ArticleStudio v0.15.0 — إنستغرام (Nov 2026) · ArticleStudio v0.16.0 — طابور المشاركة (Nov 2026) · ArticleStudio — إعادة تصميم الواجهة (Nov 2026)
   - يشير إلى: .claude/session-handoff.md, CLAUDE.md, docs/mission-control.md, docs/repo-map.md, rules/guards.json
   - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md, playbooks/idea-to-product.md
   - قريب منه: README.md, docs/repo-map.md, docs/mission-control.md
@@ -28,7 +28,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0 · Git / sajed-brain
   - يشير إلى: CHARTER.md, CLAUDE.md, video-identity/README.md
   - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/account-instructions.md, docs/repo-map.md, video-identity/README.md
-  - قريب منه: README.md, ideas.md, video-identity/README.md
+  - قريب منه: ideas.md, README.md, video-identity/README.md
 - **`preferences.md`** — تفضيلات ساجد الثابتة: يُحدَّث عند ظهور تفضيل جديد
   - أقسام: اللغة والتواصل · التصميم · المعمارية · الكود · الـworkflow · حجم الملفات والتوثيق (Nov 2026)
   - يشير إلى: .claude/session-handoff.md, CHARTER.md, CLAUDE.md, docs/repo-map.md
@@ -99,7 +99,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: 1) افهم — أجب داخلياً، لا تسأل ساجد · 2) وسّع الفكرة — 3 طبقات · 3) كتالوج حسب النوع · 4) الموجز قبل البناء (≤40 سطراً، شاشة واحدة) · 5) قبل التسليم
   - يشير إلى: docs/repo-map.md, features/background-sync.md, features/export-pipeline.md, features/firebase.md, ideas.md
   - يُشار إليه من: README.md, docs/account-instructions.md, docs/repo-map.md
-  - قريب منه: README.md, preferences.md, mistakes.md
+  - قريب منه: README.md, preferences.md, ideas.md
 
 ## projects
 - **`projects/index.md`** — فهرس المشاريع النشطة: يُحدَّث عند بدء مشروع جديد أو تغيير حالة
