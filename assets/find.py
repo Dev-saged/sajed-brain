@@ -60,7 +60,9 @@ def find(query: str, kind: str = None, n: int = 5) -> list:
     words = [norm(w) for w in query.split() if w.strip()]
     tg = targets(words) | set(words)
     boost = lambda e: 12 if e["id"] in tg else 4 if tg & set(e["id"].split("-")) else 0
-    ranked = sorted(((score(e, words) + boost(e), e) for e in entries if not kind or e["type"] == kind), key=lambda x: (-x[0], len(x[1]["id"])))
+    # ما رفعه ساجد يتقدّم عند التطابق
+    mine = lambda e: 5 if e.get("source") == "sajed" else 0
+    ranked = sorted(((score(e, words) + boost(e) + mine(e) * (score(e, words) > 0), e) for e in entries if not kind or e["type"] == kind), key=lambda x: (-x[0], len(x[1]["id"])))
     return [dict(e, score=s, path=str(HERE / e["file"])) for s, e in ranked[:n] if s > 0]
 
 

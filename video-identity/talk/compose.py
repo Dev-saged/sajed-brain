@@ -55,15 +55,15 @@ def detect_mood(words: list, headline: str = "") -> str:
     return best if scores[best] else "tech"
 
 
-def resolve_icon(q: str, kind: str = "icon3d") -> pathlib.Path:
-    """اسم ملف أو كلمة عربية/إنجليزية ← أفضل أصل من المكتبة."""
-    direct = ASSETS / ("icons3d" if kind == "icon3d" else "icons/duotone") / (f"{q}.webp" if kind == "icon3d" else f"{q}.svg")
-    if direct.is_file():
-        return direct
-    hit = assetfind.find(q, kind, 1)
+def resolve_icon(q: str, weight: str = "icon") -> pathlib.Path:
+    """اسم ملف أو كلمة عربية/إنجليزية ← أيقونة Phosphor (duotone، أو fill بـweight="fill")."""
+    folder = ASSETS / "icons" / ("fill" if weight == "fill" else "duotone")
+    if (folder / f"{q}.svg").is_file():
+        return folder / f"{q}.svg"
+    hit = assetfind.find(q, "icon", 1)
     if not hit:
-        raise SystemExit(f"لا أصل يطابق «{q}» ({kind}) — جرّب: python3 assets/find.py \"{q}\"")
-    return pathlib.Path(hit[0]["path"])
+        raise SystemExit(f"لا أيقونة تطابق «{q}» — جرّب: python3 assets/find.py \"{q}\" --type icon")
+    return pathlib.Path(hit[0]["path"]) if hit[0].get("source") == "sajed" else folder / f"{hit[0]['id']}.svg"
 
 
 def sfx_catalog() -> dict:

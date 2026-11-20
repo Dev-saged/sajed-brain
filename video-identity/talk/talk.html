@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="utf-8">
 <title>Talk compositor v2</title>
 <link rel="stylesheet" href="../templates/fonts.css">
 <style>
 *{box-sizing:border-box;margin:0}
-html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+html,body{width:1080px;height:1920px;overflow:clip;background:#000}
+.cap,.paper,.pills,.ringlabel,.pop,.card,#behind{direction:rtl}
 body{font-family:'IBM Plex Sans Arabic',sans-serif;color:#fff}
 :root{--title:'El Messiri'}
 .layer{position:absolute;inset:0}
@@ -16,6 +17,9 @@ body{font-family:'IBM Plex Sans Arabic',sans-serif;color:#fff}
 #person{display:none}
 #behind{position:absolute;left:0;right:0;text-align:center;font-family:var(--title);font-weight:700;font-size:300px;line-height:1.05;white-space:nowrap;opacity:0;color:var(--accent);text-shadow:0 20px 50px rgba(0,0,0,.45)}
 canvas{position:absolute;inset:0}
+/* إعادة إضاءة: صبغة المزاج على الظلال + ضوء يتبع الوجه (مرجع ذهبي) */
+#tint{background:var(--b1);mix-blend-mode:soft-light;opacity:.55}
+#leak{mix-blend-mode:screen;opacity:0;background:linear-gradient(115deg,transparent 30%,var(--accentGlow) 46%,rgba(255,255,255,.55) 50%,var(--accentGlow) 54%,transparent 70%)}
 /* رأس ورقي يُكتب فيه العنوان عند تصغير الفيديو لنافذة */
 .paper{position:absolute;left:90px;right:90px;top:120px;padding:44px 50px;border-radius:36px;background:#f6f1e7;color:#141414;box-shadow:0 40px 80px -30px rgba(0,0,0,.6);opacity:0;text-align:center}
 .paper .num{font-family:'Inter',sans-serif;font-weight:700;font-size:40px;color:var(--accentDark);letter-spacing:2px}
@@ -25,26 +29,27 @@ canvas{position:absolute;inset:0}
 .ring::before{content:'';position:absolute;inset:-24px;border-radius:50%;border:3px dashed rgba(255,255,255,.55)}
 .ringlabel{position:absolute;background:var(--accent);color:#111;font-weight:700;font-size:42px;padding:10px 28px;border-radius:28px;white-space:nowrap;opacity:0;transform:translateX(-50%)}
 /* أقراص معلومات بيضاء تتمدد بتوهج ثم يُكتب نصها */
-.pills{position:absolute;left:60px;right:60px;bottom:600px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.pills{position:absolute;left:50px;right:50px;bottom:575px;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-end;gap:14px}
+.pills .t{flex-basis:100%;text-align:center}
 .pills .t{font-family:var(--title);font-size:56px;font-weight:700;color:var(--accent);text-shadow:0 4px 18px rgba(0,0,0,.6);min-height:70px}
 .pill{position:relative;background:#fbfaf7;color:#111;border-radius:999px;padding:16px 36px;font-size:44px;font-weight:600;white-space:nowrap;box-shadow:0 18px 40px -16px rgba(0,0,0,.6);overflow:hidden;min-height:78px;min-width:60px}
 .pill::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,var(--accentGlow) 50%,transparent 70%);transform:translateX(var(--sweep,120%))}
 .phone{position:absolute;left:70px;top:330px;width:470px;height:960px;border-radius:72px;background:#0b0f10;padding:18px;box-shadow:0 60px 120px -30px rgba(0,0,0,.75),0 0 0 3px #2b3a3b;opacity:0}
 .phone img{width:100%;height:100%;object-fit:cover;border-radius:56px;display:block}
 .phone::before{content:'';position:absolute;top:34px;left:50%;width:140px;height:36px;margin-left:-70px;border-radius:20px;background:#000;z-index:1}
-/* مجسم ثلاثي الأبعاد بجانب الوجه */
-.prop{position:absolute;width:300px;height:300px;opacity:0;filter:drop-shadow(0 30px 30px rgba(0,0,0,.45))}
-.prop img{width:100%;height:100%}
+/* أيقونة مصممة داخل بلاطة زجاجية متوهجة بجانب الصدر */
+.tile{border-radius:22%;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.03));border:2px solid color-mix(in oklab,var(--accent) 55%,transparent);box-shadow:0 0 60px var(--accentGlow),inset 0 0 40px rgba(255,255,255,.06),0 40px 70px -25px rgba(0,0,0,.7);backdrop-filter:blur(18px);display:grid;place-items:center}
+.tile svg{width:58%;height:58%;color:var(--accent);filter:drop-shadow(0 0 22px var(--accentGlow))}
+.prop{position:absolute;width:250px;height:250px;opacity:0}
 .card{position:absolute;inset:0;opacity:0;overflow:hidden;background:radial-gradient(110% 70% at 50% 38%,var(--b1),var(--b2))}
 .card .halo{position:absolute;left:50%;top:760px;width:900px;height:900px;margin:-450px 0 0 -450px;border-radius:50%;background:radial-gradient(circle,var(--accentGlow),transparent 62%)}
-.card .obj{position:absolute;left:50%;top:760px;width:560px;height:560px;margin:-280px 0 0 -280px;filter:drop-shadow(0 50px 50px rgba(0,0,0,.55))}
-.card .obj img,.card .obj svg{width:100%;height:100%}
-.card .obj svg{color:var(--accent)}
+.card .obj{position:absolute;left:50%;top:760px;width:520px;height:520px;margin:-260px 0 0 -260px}
+.card .ghost{position:absolute;left:0;right:0;top:330px;text-align:center;font-family:var(--title);font-weight:700;font-size:300px;line-height:1;white-space:nowrap;color:var(--accent);opacity:.16}
 .card .typo{position:absolute;left:70px;right:70px;top:620px;text-align:center;font-family:var(--title);font-weight:700;font-size:170px;line-height:1.2;color:var(--accent);text-shadow:0 0 50px var(--accentGlow)}
 .card img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 /* الكابشن: سطر 3-4 كلمات يُكتب حرفاً حرفاً مع الكلام، يظهر مرة واحدة */
-.cap{position:absolute;left:90px;right:150px;bottom:430px;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 18px;font-size:68px;font-weight:600;line-height:1.35;text-align:center;text-shadow:0 3px 14px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.9)}
-.cap .k{color:var(--accent)}
+.cap{position:absolute;left:90px;right:150px;bottom:420px;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 18px;font-size:62px;font-weight:600;line-height:1.35;text-align:center;text-shadow:0 3px 14px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.9)}
+.cap .k{font-family:var(--title);font-size:96px;font-weight:700;line-height:1.1;background:linear-gradient(180deg,#fff 0%,var(--accent) 70%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 16px var(--accentGlow)) drop-shadow(0 3px 6px rgba(0,0,0,.55))}
 .cap .g{display:inline-flex;gap:0 16px;direction:ltr;unicode-bidi:isolate}
 .cap .lat{font-family:'Inter','IBM Plex Sans Arabic',sans-serif;font-weight:600}
 .pop{position:absolute;left:50%;top:22%;max-width:900px;width:max-content;background:var(--b2);border:3px solid var(--accent);border-radius:36px;padding:26px 46px;font-size:72px;font-weight:700;line-height:1.25;text-align:center}
@@ -56,15 +61,18 @@ canvas{position:absolute;inset:0}
 <body>
 <div id="bg" class="layer"></div>
 <div id="vidwrap"><img id="vid" alt=""><div id="behind"></div><img id="person" alt=""></div>
+<canvas id="light" width="1080" height="1920"></canvas>
+<div id="tint" class="layer"></div>
 <canvas id="fx" width="1080" height="1920"></canvas>
 <div class="paper"><div class="num"></div><h2></h2><p></p></div>
 <div class="ring"></div><div class="ringlabel"></div>
 <div class="pills"></div>
 <div class="phone"><img alt=""></div>
-<div class="prop"><img alt=""></div>
+<div class="prop tile"></div>
 <div class="card"></div>
 <div class="pop" style="opacity:0"></div>
 <div class="cap"></div>
+<div id="leak" class="layer"></div>
 <div class="bar"></div>
 <script>
 (() => {
@@ -151,7 +159,23 @@ canvas{position:absolute;inset:0}
   const buildCard = c => {
     if (c.type === 'image') cardEl.innerHTML = `<img class="photo" src="${esc(c.src)}" alt="">`;
     else if (c.type === 'typo') cardEl.innerHTML = `<div class="halo"></div><div class="typo"></div>`;
-    else cardEl.innerHTML = `<div class="halo"></div><div class="obj">${c.svg || `<img src="${esc(c.src)}" alt="">`}</div>`;
+    else cardEl.innerHTML = `<div class="halo"></div>${c.text ? `<div class="ghost">${esc(K(c.text))}</div>` : ''}<div class="obj tile">${c.svg || ''}</div>`;
+  };
+  // لحظات الانتقال: تسريب ضوئي يعبر الشاشة + عودة ضبابية للوجه
+  const cardEnd = c => c.at + (c.dur || 1.6);
+  const shifts = [...(D.cards || []).filter(c => c.type !== 'prop').flatMap(c => [c.at, cardEnd(c)]), ...(D.frames || []).flatMap(f => [f.from, f.to]), ...(D.behind || []).map(b => b.from)];
+  const returns = [...(D.cards || []).filter(c => c.type !== 'prop').map(cardEnd), ...(D.frames || []).map(f => f.to)];
+  const lc = $('#light').getContext('2d');
+  const relight = (f, on) => {
+    lc.clearRect(0, 0, 1080, 1920);
+    if (!on) return;
+    const cx = f ? f.cx : 540, cy = f ? f.cy : 760, r = f ? f.w : 480;
+    const g2 = lc.createRadialGradient(cx, cy, r * 0.55, cx, cy + r * 0.6, r * 2.6);
+    g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(0.55, 'rgba(0,0,0,.28)'); g2.addColorStop(1, 'rgba(0,0,0,.62)');
+    lc.fillStyle = g2; lc.fillRect(0, 0, 1080, 1920);
+    const key = lc.createRadialGradient(cx - r * 0.3, cy - r * 0.4, 0, cx, cy, r * 1.1);
+    key.addColorStop(0, 'rgba(255,236,210,.10)'); key.addColorStop(1, 'rgba(255,236,210,0)');
+    lc.fillStyle = key; lc.fillRect(0, 0, 1080, 1920);
   };
   const vid = $('#vid'), person = $('#person'), wrap = $('#vidwrap'), behind = $('#behind'), paper = $('.paper'), pills = $('.pills');
   const overlap = (a, b) => !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
@@ -162,6 +186,11 @@ canvas{position:absolute;inset:0}
   const render = t => {
     const cd = (D.cards || []).find(c => c.type !== 'prop' && t >= c.at - 0.05 && t <= c.at + (c.dur || 1.6));
     drawFx(t, !!cd);
+    relight(D.face, !cd);
+    const sh = shifts.find(e => t >= e - 0.25 && t <= e + 0.3), lk = $('#leak');
+    if (sh !== undefined) { const p = clamp((t - sh + 0.25) / 0.55); lk.style.opacity = Math.sin(Math.PI * p) * 0.85; lk.style.transform = `translateX(${(p * 2 - 1) * 110}%)`; } else lk.style.opacity = 0;
+    const rt = returns.find(e => t >= e && t <= e + 0.45);
+    wrap.style.filter = rt !== undefined ? `blur(${(16 * (1 - out3(clamp((t - rt) / 0.45)))).toFixed(1)}px)` : 'none';
     // نافذة الفيديو + رأس ورقي يُكتب
     const fr = active(D.frames, t, 0.45), fk = fr ? out3(io(t, fr.from, fr.to, 0.45)) : 0;
     $('#bg').style.opacity = fk;
@@ -208,9 +237,9 @@ canvas{position:absolute;inset:0}
     // مجسم بجانب الوجه
     const pr = (D.cards || []).find(c => c.type === 'prop' && t >= c.at && t <= c.at + (c.dur || 1.6));
     if (pr) {
-      if (propEl.dataset.k !== String(pr.at)) { propEl.querySelector('img').src = pr.src; propEl.dataset.k = pr.at; }
+      if (propEl.dataset.k !== String(pr.at)) { propEl.innerHTML = pr.svg || ''; propEl.dataset.k = pr.at; }
       const end = pr.at + (pr.dur || 1.6), q = clamp((t - pr.at) / 0.45), o = clamp((end - t) / 0.25), f = D.face || { cx: 540, cy: 760, w: 520 };
-      const side = pr.side === 'left' ? -1 : 1, x = 540 + side * 350 - 150, y = (pr.y || 1040);
+      const side = pr.side === 'left' ? -1 : 1, x = 540 + side * 360 - 125, y = (pr.y || 1060);
       Object.assign(propEl.style, { left: x + 'px', top: y + 'px', opacity: Math.min(1, q * 2) * o, transform: `translateY(${Math.sin(t * 2.4) * 12}px) scale(${0.3 + 0.7 * back(q)}) rotate(${side * (12 - 12 * q)}deg)` });
     } else propEl.style.opacity = 0;
 
@@ -218,16 +247,16 @@ canvas{position:absolute;inset:0}
     if (cd !== cardShown) { if (cd) buildCard(cd); cardShown = cd; }
     if (cd) {
       const end = cd.at + (cd.dur || 1.6), k = io(t, cd.at, end, 0.3), ent = out3(clamp((t - cd.at) / 0.5));
-      cardEl.style.opacity = 1; cardEl.style.clipPath = `inset(${(1 - out3(k)) * 50}% 0 ${(1 - out3(k)) * 50}% 0 round 40px)`;
+      cardEl.style.opacity = 1; cardEl.style.clipPath = `circle(${(out3(k) * 125).toFixed(1)}% at 50% 40%)`;
       const ob = cardEl.querySelector('.obj'), ty = cardEl.querySelector('.typo'), ph2 = cardEl.querySelector('.photo');
-      if (ob) ob.style.transform = `translateY(${Math.sin(t * 2.2) * 16}px) scale(${0.6 + 0.4 * back(ent)}) rotate(${-8 * (1 - ent)}deg)`;
+      if (ob) { ob.style.transform = `translateY(${Math.sin(t * 2.2) * 16}px) scale(${0.7 + 0.3 * back(ent)})`; ob.style.filter = `blur(${(12 * (1 - ent)).toFixed(1)}px)`; }
       if (ty) ty.textContent = typed(K(cd.text || ''), t, cd.at + 0.15, 22);
       if (ph2) ph2.style.transform = `scale(${1.12 - 0.08 * clamp((t - cd.at) / (end - cd.at))})`;
     } else cardEl.style.opacity = 0;
 
     // الكابشن (حرفي، مرة واحدة، يُكتب مع الكلام) — يُخفى أثناء بطاقة النص لأنها تحمل نفس الكلمات
     const L = lines.find(l => t >= l.a && t < l.b), cap = $('.cap');
-    if (L && !(cd && cd.type === 'typo')) {
+    if (L && !(cd && (cd.type === 'typo' || cd.text))) {
       cap.innerHTML = lineHtml(L, t);
       cap.style.opacity = Math.min(clamp((t - L.a) / 0.12), clamp((L.b - t) / 0.15));
       cap.style.transform = `translateY(${10 * (1 - clamp((t - L.a) / 0.12))}px)`;

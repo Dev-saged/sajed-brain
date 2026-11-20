@@ -113,7 +113,7 @@ def validate(cfg: dict, words: list, keep: list) -> None:
     errs = []
     spoken = {core(w["w"]) for w in words}
     for k, v in cfg.get("fixes", {}).items():
-        if k not in spoken:
+        if k not in spoken and not cfg.get("part"):
             errs.append(f"fixes: «{k}» غير موجودة في التفريغ")
         if LATIN.search(k) and ARABIC.search(v):
             errs.append(f"fixes: «{k}» إنجليزية ولا تُكتب بحروف عربية «{v}»")
@@ -150,6 +150,13 @@ def plan(cfg: dict, base: pathlib.Path) -> dict:
     work = (base / cfg["work"]).resolve()
     words = json.loads((work / "words.json").read_text(encoding="utf-8"))
     keep = cfg.get("keep") or auto_keep(words)
+    if cfg.get("part"):
+        # مقطع تجريبي من الفيديو (زمن المصدر): ما خارجه ليس حذفاً لكلام
+        a, b = cfg["part"]
+        keep = [[max(s, a), min(e, b)] for s, e in keep if e > a and s < b]
+        words = [w for w in words if w["s"] >= a and w["e"] <= b]
+        inside = lambda x: a <= x.get("at", x.get("from", a)) and x.get("to", x.get("at", a)) <= b
+        cfg = {**cfg, **{k: [x for x in cfg.get(k, []) if inside(x)] for k in ("cards", "pops", "fx", *SPANS) if k in cfg}}
     validate(cfg, words, keep)
     fixes = cfg.get("fixes", {})
     out = []
@@ -190,11 +197,13 @@ def timeline(cfg: dict, rt, base: pathlib.Path) -> dict:
             continue
         if c.get("type") not in ("typo", "icon", "prop", "image"):
             errs.append(f"cards: النوع {c.get('type')} غير معروف (typo/icon/prop/image)")
+        if c.get("style") == "3d":
+            errs.append("cards: style 3d (إيموجي) ممنوع — أيقونات تصميم فقط")
         if c.get("type") in ("icon", "prop"):
             # الأيقونة: اسم ملف أو كلمة عربية/إنجليزية تُحل من مكتبة assets
-            kind = "icon" if c.get("style") == "line" else "icon3d"
-            path = compose.resolve_icon(c.get("icon") or c.get("text", ""), kind)
-            c = {**c, "src": path.as_uri()} if kind == "icon3d" else {**c, "svg": compose.svg_markup(path)}
+            # أيقونة تصميم (Phosphor) — الإيموجي ممنوع بقرار ساجد
+            path = compose.resolve_icon(c.get("icon") or c.get("text", ""), "fill" if c.get("style") == "fill" else "icon")
+            c = {**c, "svg": compose.svg_markup(path)}
         if c.get("type") == "image":
             src = (base / c["src"]).resolve()
             if not src.is_file():
@@ -227,19 +236,31 @@ def peak_gain(src: pathlib.Path) -> float:
     return max(0.0, -1.5 - float(m.group(1))) if m else 0.0
 
 
+def beats(p: dict, gap: float = 0.18, min_len: float = 2.2, max_len: float = 4.5) -> list:
+    """مقاطع الإيقاع (عريض/قريب): تنكسر عند الوقفات ونهايات الجمل، بين min_len وmax_len."""
+    ws, cuts = p["words"], [0.0]
+    for prev, w in zip(ws, ws[1:]):
+        span = w["s"] - cuts[-1]
+        if span >= min_len and (w["s"] - prev["e"] >= gap or prev["w"][-1:] in ".؟!?،" or span >= max_len):
+            cuts.append(w["s"])
+    cuts.append(p["duration"])
+    return [(a, b) for a, b in zip(cuts, cuts[1:]) if b > a]
+
+
 def cut_source(src: pathlib.Path, p: dict, out: pathlib.Path, grade: str) -> None:
     keep, parts, labels = p["keep"], [], []
     for i, (s, e) in enumerate(keep):
         parts.append(f"[0:v]trim={s}:{e},setpts=PTS-STARTPTS[v{i}];[0:a]atrim={s}:{e},asetpts=PTS-STARTPTS[a{i}]")
         labels.append(f"[v{i}][a{i}]")
-    # قفزة زوم متناوبة عند كل قطع + دفعة إضافية في اللحظات المحددة
-    alt = "+".join(f"0.07*between(t,{a:.3f},{b:.3f})" for i, (a, b) in enumerate(p["bounds"]) if i % 2) or "0"
+    # إيقاع عريض ↔ قريب عند كل قطع (مرجع ذهبي) + دفع بطيء داخل كل مقطع + دفعة في اللحظات المحددة
+    alt = "+".join(f"0.2*between(t,{a:.3f},{b:.3f})" for i, (a, b) in enumerate(beats(p)) if i % 2) or "0"
+    drift = "+".join(f"0.05*between(t,{a:.3f},{b:.3f})*(t-{a:.3f})/{max(b - a, 0.1):.3f}" for a, b in p["bounds"]) or "0"
     push = "+".join(f"between(t,{a:.3f},{b:.3f})" for a, b in p["zooms"]) or "0"
-    z = f"(1+{alt}+0.08*gt({push},0))"
+    z = f"(1+{alt}+{drift}+0.08*gt({push},0))"
     gain = peak_gain(src)
     fc = ";".join(parts) + f";{''.join(labels)}concat=n={len(keep)}:v=1:a=1[cv][ca];" \
         f"[cv]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920," \
-        f"crop=w='iw/{z}':h='ih/{z}',scale=1080:1920,setsar=1,{grade}[vo];" \
+        f"scale=w='trunc(1080*{z}/2)*2':h='trunc(1920*{z}/2)*2':eval=frame,crop=1080:1920,setsar=1,{grade}[vo];" \
         f"[ca]volume={gain:.2f}dB[ao]"
     ff("-i", str(src), "-filter_complex", fc, "-map", "[vo]", "-map", "[ao]", *VIDEO, *AUDIO, str(out))
 
@@ -275,10 +296,12 @@ def extract_frames(video: pathlib.Path, folder: pathlib.Path) -> list:
     return sorted(folder.glob("*.jpg"))
 
 
-def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
+def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool, part=None) -> None:
     from playwright.sync_api import sync_playwright
 
     cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+    if part:
+        cfg = {**cfg, "part": part, "outro": False, "no_archive": True}
     base = cfg_path.parent
     src = (base / cfg["source"]).resolve()
     p = plan(cfg, base)
@@ -296,7 +319,7 @@ def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
         if preview:
             marks = [1.2] + [x["at"] + 0.9 for x in p["cards"][:3]] + [(x["from"] + x["to"]) / 2 for k in SPANS for x in p[k][:1]]
             cut_r = [(m - 0.1, m + 0.1) for m in marks if any(a <= m <= b for a, b in span("behind"))]
-            face_r = [(m - 0.1, m + 0.1) for m in marks if any(a <= m <= b for a, b in span("spotlight"))]
+            face_r = [(m - 0.1, m + 0.1) for m in marks]
             all_frames = frames
             cutouts, faces = compose.vision(all_frames, cut_r, face_r, td / "cut")
             pg = br.new_page(viewport={"width": 1080, "height": 1920})
@@ -316,7 +339,8 @@ def do_render(cfg_path: pathlib.Path, out: pathlib.Path, preview: bool) -> None:
             print(f"مدة {p['duration']}ث · بطاقات {len(p['cards'])} · أجواء {[f['type'] for f in p['fx']]} · مزاج {data['mood']['name']}")
             br.close()
             return
-        cutouts, faces = compose.vision(frames, span("behind"), span("spotlight"), td / "cut")
+        # الوجه في كل الإطارات: الإضاءة تتبعه
+        cutouts, faces = compose.vision(frames, span("behind"), [(0, p["duration"])], td / "cut")
         compose.composite(br, data, frames, cutouts, faces, td / "out")
         ff("-i", str(td / "cut.mp4"), "-vn", "-c:a", "pcm_s16le", str(td / "voice.wav"))
         music = (base / cfg["music"]).resolve() if cfg.get("music") else None
@@ -375,11 +399,13 @@ def main() -> None:
     r.add_argument("talk")
     r.add_argument("out")
     r.add_argument("--preview", action="store_true")
+    r.add_argument("--part", help="مقطع تجريبي بزمن المصدر مثل 12-42 (بلا خاتمة)")
     a = ap.parse_args()
     if a.cmd == "transcribe":
         transcribe(pathlib.Path(a.video).resolve(), pathlib.Path(a.work).resolve(), a.model, a.lang)
     else:
-        do_render(pathlib.Path(a.talk).resolve(), pathlib.Path(a.out).resolve(), a.preview)
+        do_render(pathlib.Path(a.talk).resolve(), pathlib.Path(a.out).resolve(), a.preview,
+                  [float(x) for x in a.part.split("-")] if a.part else None)
 
 
 if __name__ == "__main__":

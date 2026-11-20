@@ -22,4 +22,4 @@ _حدّث هذا الملف عند إضافة أي مصدر. ما يُنزَّل
 - فصل الشخص بحواف أنظف للغلاف وtext-behind: BiRefNet https://github.com/ZhengPeng7/BiRefNet (MIT).
 
 ## طريقة الرفع
-ارفع zip أو ملفات إلى `assets/incoming/<نوع>/` في الريبو (من الجوال يكفي)، وقل "فهرس الجديد" — يُحوَّل لـOGG/WebP، يُوصف بالعربي، ويُضاف لـ`index.json` و`assets_build.py`.
+إلى Drive «sajed-brain مكتبة المونتاج» بمجلداته السبعة ثم «فهرس الجديد» — التفاصيل في `assets/README.md`.

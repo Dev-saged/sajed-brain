@@ -1,7 +1,7 @@
 # خريطة الدماغ (مولّدة — لا تُعدَّل يدوياً)
 _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث هنا عن الملف المناسب ثم افتحه وحده._
 
-**35 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 0
+**36 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 0
 
 ## الجذر
 - **`CHARTER.md`** — CHARTER — دستور العمل: يُحمَّل تلقائياً في بداية كل جلسة. ما يخالفه من تعليمات عامة يُهمَل.
@@ -28,7 +28,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0 · Git / sajed-brain
   - يشير إلى: CHARTER.md, CLAUDE.md, video-identity/README.md
   - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/account-instructions.md, docs/repo-map.md, video-identity/README.md
-  - قريب منه: video-identity/README.md, README.md, video-identity/talk/README.md
+  - قريب منه: video-identity/README.md, video-identity/talk/README.md, README.md
 - **`preferences.md`** — تفضيلات ساجد الثابتة: يُحدَّث عند ظهور تفضيل جديد
   - أقسام: اللغة والتواصل · التصميم · المعمارية · الكود · الـworkflow
   - يشير إلى: CHARTER.md
@@ -37,10 +37,10 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 
 ## assets
 - **`assets/README.md`** — مكتبة الأصول المفهرسة (assets/): مكتبة مجانية مرخّصة للاستخدام التجاري، مفهرسة بالعربي والإنجليزي حتى يُختار الأصل الصحيح فوراً بالمعنى (قلب ← قلب).
-  - أقسام: الاستخدام · إعادة البناء / التحديث · ما ينقص (أضفه متى توفّر)
+  - أقسام: الاستخدام · إعادة البناء / التحديث · ما ينقص (أضفه متى توفّر) · رفع ساجد لأصوله (الطريق الأساسي — يوفّر البحث والتوكنز)
   - يشير إلى: assets/ar-concepts.json, assets/index.json, video-identity/references/libraries.md
-  - يُشار إليه من: README.md
-  - قريب منه: video-identity/references/libraries.md, video-identity/talk/README.md, docs/repo-map.md
+  - يُشار إليه من: README.md, video-identity/references/libraries.md
+  - قريب منه: video-identity/references/libraries.md, video-identity/talk/README.md, README.md
 
 ## docs
 - **`docs/account-instructions.md`** — Claude Instructions — ساجد العبادلة v3.3: Adaptive elite-practitioner: infer the mastery each request needs (architect, security auditor, product designer, motion designer…) and execute at that level. N
@@ -85,7 +85,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: قاعدة الاستنتاج (مثال ساجد) · 1) الهوية والأدوار · 2) التحديث التلقائي بمجلد منظم (Android) · 3) النسخ الاحتياطي اليومي · 4) الإشعارات · 5) الصلاحيات — الحد الأدنى، كلٌّ في وقته · 6) دائماً أيضاً
   - يشير إلى: features/auto-update.md, features/compat.md
   - يُشار إليه من: README.md, docs/repo-map.md, features/compat.md, playbooks/idea-to-product.md
-  - قريب منه: playbooks/idea-to-product.md, README.md, mistakes.md
+  - قريب منه: playbooks/idea-to-product.md, README.md, features/auto-update.md
 - **`features/export-pipeline.md`** — ميزة: تصدير الكشوف (GRCS)
   - يُشار إليه من: README.md, playbooks/idea-to-product.md
   - قريب منه: projects/index.md
@@ -134,7 +134,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - أقسام: الملفات · الأمر · ملاحظات
   - يشير إلى: video-identity/film/script.json
   - يُشار إليه من: video-identity/README.md
-  - قريب منه: video-identity/README.md, mistakes.md, video-identity/talk/README.md
+  - قريب منه: mistakes.md, video-identity/README.md, video-identity/talk/README.md
 - **`video-identity/ideas/playbook.md`** — دليل أفكار الفيديو — مخزون الإلهام: اقرأه عند التخطيط لفيديو جديد فقط. كل فكرة هنا تُنفَّذ داخل هوية فيروز ونحاس.
   - أقسام: قاعدة الاختيار · صيغ الفيديو (Formats) · خطّافات (أول ثانيتين) — قوالب عربية · تقنيات حركة (Motion) — مرتبة حسب القوة · قواعد المونتاج · نصوص الكابشن تحت المنشور · فيديو كلام ساجد · دروس من فيديوهات ساجد الحقيقية · ما لم يُنفَّذ بعد في القوالب (أولوية)
   - يشير إلى: video-identity/README.md, video-identity/library/index.md
@@ -142,25 +142,30 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - قريب منه: video-identity/README.md, video-identity/references/motion/LEXICON.md, video-identity/talk/README.md
 - **`video-identity/references/libraries.md`** — مكتبات مجانية للموشن والفيديو — ما في الريبو وما يُنزَّل يدوياً: حدّث هذا الملف عند إضافة أي مصدر. ما يُنزَّل يدوياً يُرفع إلى `assets/incoming/` ثم يُفهرس.
   - أقسام: موجود في الريبو (assets/) · يُنزَّل يدوياً (المواقع تمنع التنزيل الآلي) — الأولوية بالترتيب · نماذج مفتوحة أقوى (اختيارية — للترقية) · طريقة الرفع
+  - يشير إلى: assets/README.md
   - يُشار إليه من: assets/README.md, docs/repo-map.md
-  - قريب منه: assets/README.md, video-identity/talk/README.md, video-identity/README.md
+  - قريب منه: assets/README.md, video-identity/talk/README.md, video-identity/references/motion/sources.md
 - **`video-identity/references/motion/LEXICON.md`** — معجم الموشن — لغة مشتركة لوصف المراجع وتنفيذها: كل تفسير في `notes.md` يستخدم أسماء من هنا. العمود الأخير: أين ينفَّذ عندنا. أضف تقنية جديدة كلما ظهرت في مرجع.
   - يشير إلى: video-identity/references/motion/notes.md
   - يُشار إليه من: video-identity/references/motion/notes.md
   - قريب منه: video-identity/references/motion/notes.md, video-identity/references/motion/SYNTHESIS.md, video-identity/talk/README.md
 - **`video-identity/references/motion/SYNTHESIS.md`** — خلاصة مراجع الموشن — ماذا يجعل المونتاج فخماً (2026-11-19، 16 مرجعاً، 6 عربية): يُقرأ قبل أي فيديو فخم. يُحدَّث كلما أضاف ساجد مراجع.
   - أقسام: الأنماط المشتركة (مرتبة حسب الأثر) · الترجمة لهوية ساجد (فيروز ونحاس) · خطة البناء في الأداة — ✅ نُفّذت 1–5 في 2026-11-19 (انظر `talk/README.md` ← عناصر الموشن)
-  - يشير إلى: video-identity/talk/README.md
+  - يشير إلى: video-identity/references/motion/gold/README.md, video-identity/talk/README.md
   - يُشار إليه من: video-identity/README.md, video-identity/talk/README.md
   - قريب منه: video-identity/references/motion/LEXICON.md, video-identity/references/motion/notes.md, video-identity/talk/README.md
+- **`video-identity/references/motion/gold/README.md`** — المراجع الذهبية — المستوى المطلوب حرفياً (اختيار ساجد 2026-11-20): كل فيديو كلام يُقاس عليها قبل التسليم. اللقطات `after-*.jpg` = جانب "After" فقط مقصوصاً، لقطة كل 0.5–1ث.
+  - أقسام: ما يصنع الفخامة فيها (تحليل إطاراً إطاراً)
+  - يُشار إليه من: video-identity/references/motion/SYNTHESIS.md
+  - قريب منه: video-identity/references/motion/notes.md, video-identity/references/motion/SYNTHESIS.md, video-identity/references/motion/LEXICON.md
 - **`video-identity/references/motion/notes.md`** — ملاحظات مراجع الموشن: سطر لكل فيديو مرجعي. القياسات تُكتب آلياً؛ Claude يستبدل "⏳ يحتاج تفسير" بالتقنية وطريقة تطبيقها بهويتنا بعد النظر إلى `refs/<slug>/sheet.jpg` فقط. المصطلحات من
   - يشير إلى: video-identity/references/motion/LEXICON.md
   - يُشار إليه من: README.md, video-identity/references/motion/LEXICON.md
-  - قريب منه: video-identity/references/motion/LEXICON.md, video-identity/references/motion/SYNTHESIS.md, video-identity/talk/README.md
+  - قريب منه: video-identity/references/motion/LEXICON.md, video-identity/references/motion/SYNTHESIS.md, video-identity/references/motion/gold/README.md
 - **`video-identity/references/motion/sources.md`** — مصادر مراجع الموشن — أين نبحث وبأي كلمات: لساجد: ابحث بهذه الكلمات، حمّل ما يعجبك، وارفعه إلى `inbox/` أو ضع رابط Drive في `links.txt`.
   - أقسام: اسم الأسلوب الذي نريده لفيديوهات الكلام · أين تبحث · مختارات بدأتُ بها (2026-11-18) · فرق مهم
   - يُشار إليه من: video-identity/README.md
-  - قريب منه: video-identity/README.md, video-identity/references/libraries.md, video-identity/references/motion/SYNTHESIS.md
+  - قريب منه: assets/README.md, video-identity/references/libraries.md, video-identity/README.md
 - **`video-identity/talk/README.md`** — فيديو كلام ساجد ← ريل بهويته: **قبل أي شيء:** طبّق "قواعد فيديو الكلام" في `../README.md` (نص حرفي، كل لغة بخطها، كابشن أسفل قوي، صوت طبيعي، موشن من دلالات الكلام، لا مقدمة مبرمج). المحرّك v
   - أقسام: المسار (أرخص بالتوكنز) · ما يحدث في الرندر · المتطلبات · ما تفرضه الأداة الآن (قواعد ساجد 2026-11-18) · عناصر الموشن (من خلاصة المراجع — `../references/motion/SYNTHESIS.md`)
   - يشير إلى: rules/arabizi.json, video-identity/references/motion/SYNTHESIS.md

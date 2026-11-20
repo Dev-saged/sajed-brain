@@ -80,10 +80,12 @@ class TalkTest(unittest.TestCase):
         self.assertTrue(set(talk.compose.SFX_FOR.values()) <= set(cat))
 
     def test_icons_resolve_from_arabic(self):
-        self.assertEqual(talk.compose.resolve_icon("كاسة شاي").stem, "hot-beverage")
-        self.assertEqual(talk.compose.resolve_icon("heart", "icon").suffix, ".svg")
+        self.assertEqual(talk.compose.resolve_icon("كاسة شاي").stem, "coffee")
+        self.assertEqual(talk.compose.resolve_icon("قلب", "fill").parent.name, "fill")
         p = plan({"cards": [{"at": 1.5, "type": "prop", "icon": "قلب"}]})
-        self.assertTrue(p["cards"][0]["src"].endswith(".webp"))
+        self.assertIn("<svg", p["cards"][0]["svg"])
+        with self.assertRaises(SystemExit):
+            plan({"cards": [{"at": 1.5, "type": "icon", "icon": "قلب", "style": "3d"}]})
 
     def test_mood_from_content(self):
         self.assertEqual(talk.compose.detect_mood([{"w": "مطر"}, {"w": "شاي"}]), "cozy")
