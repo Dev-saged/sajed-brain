@@ -1,6 +1,12 @@
 # فهرس المشاريع النشطة
 _يُحدَّث عند بدء مشروع جديد أو تغيير حالة_
 
+## مورد MAWRED — منصة توريد بالجملة
+- **المستودع:** Dev-saged/Morud
+- **Stack:** Kotlin + Compose (Android)، Cloudflare Worker TS + Firebase Auth/Firestore + R2 + FCM، React + TS PWA
+- **الحالة:** نشط — M0 مغلقة (مواصفات + spec JSON + اختبارات)، التالي M1 نواة المنطق
+- **آخر قرار:** لا كتابة من العميل إلى Firestore؛ كل كتابة عبر Worker. المرجع `Morud→docs/SRS` + انحرافات `Morud→docs/architecture`
+
 ## قيد — نظام إدارة متاجر
 - **المستودع:** Dev-saged/qayd (خاص)
 - **Stack:** Kotlin + Jetpack Compose، minSdk 26، Firebase Auth+Firestore (offline persistence)، Cloudflare Worker

@@ -1,7 +1,7 @@
 # خريطة الدماغ (مولّدة — لا تُعدَّل يدوياً)
 _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث هنا عن الملف المناسب ثم افتحه وحده._
 
-**40 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 0
+**41 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 0
 
 ## الجذر
 - **`CHARTER.md`** — CHARTER — دستور العمل: يُحمَّل تلقائياً في بداية كل جلسة. ما يخالفه من تعليمات عامة يُهمَل.
@@ -12,7 +12,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`CLAUDE.md`** — sajed-brain: مستودع الدماغ المركزي لساجد + مركز العمليات (scout، deps radar، حرّاس، خطافات).
   - أقسام: ابدأ هنا · قواعد هذا الريبو
   - يشير إلى: .claude/session-handoff.md, CHARTER.md, README.md, docs/mission-control.md, docs/repo-map.md, index/MAP.md, mistakes.md, rules/guards.json
-  - يُشار إليه من: docs/account-instructions.md, ideas.md, mistakes.md, preferences.md
+  - يُشار إليه من: docs/account-instructions.md, ideas.md, mistakes.md, preferences.md, sessions/2026-11-20-mawred-m0.md
   - قريب منه: docs/mission-control.md, CHARTER.md, README.md
 - **`README.md`** — sajed-brain — السياق الكامل لساجد: Mission Control v2.1 · GRCS v5.7.0 · الإحصاءات والتاريخ أدناه مولّدة تلقائياً
   - أقسام: مركز العمليات (Mission Control) · الميزات الثابتة — كل مشروع Android يجب أن يحتويها · المشاريع النشطة · أين أجد ماذا (اقرأ عند الحاجة فقط)
@@ -20,10 +20,10 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - يُشار إليه من: CLAUDE.md, docs/account-instructions.md, docs/account-preferences-short.md, docs/mission-control.md
   - قريب منه: docs/repo-map.md, preferences.md, projects/index.md
 - **`ideas.md`** — أفكار وقرارات متراكمة: سياق يتراكم عبر الجلسات
-  - أقسام: قرارات معمارية مهمة (Nov 2026) · نظام الذاكرة (Nov 2026) · أفكار لم تُنفَّذ بعد · ملاحظات على المشاريع · Mission Control (Nov 2026) · GRCS (Nov 2026) · ArticleStudio v0.14.0 — Social Hub (Nov 2026) · ArticleStudio v0.14.1 — Social Hub (Nov 2026) · ArticleStudio v0.15.0 — إنستغرام (Nov 2026) · ArticleStudio v0.16.0 — طابور المشاركة (Nov 2026)
+  - أقسام: قرارات معمارية مهمة (Nov 2026) · نظام الذاكرة (Nov 2026) · أفكار لم تُنفَّذ بعد · ملاحظات على المشاريع · Mission Control (Nov 2026) · GRCS (Nov 2026) · ArticleStudio v0.14.0 — Social Hub (Nov 2026) · ArticleStudio v0.14.1 — Social Hub (Nov 2026) · ArticleStudio v0.15.0 — إنستغرام (Nov 2026) · ArticleStudio v0.16.0 — طابور المشاركة (Nov 2026) · مورد MAWRED — بدء المشروع (Nov 2026)
   - يشير إلى: .claude/session-handoff.md, CLAUDE.md, docs/mission-control.md, docs/repo-map.md, rules/guards.json
   - يُشار إليه من: CHARTER.md, README.md, docs/account-instructions.md, playbooks/idea-to-product.md
-  - قريب منه: README.md, docs/repo-map.md, docs/mission-control.md
+  - قريب منه: README.md, projects/index.md, docs/mission-control.md
 - **`mistakes.md`** — أخطاء حدثت — لا تكررها أبداً: يُضاف إليه فور اكتشاف خطأ جديد
   - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0 · Git / sajed-brain
   - يشير إلى: CHARTER.md, CLAUDE.md, video-identity/README.md, video-identity/references/motion/gold/GRAMMAR.md
@@ -60,7 +60,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`docs/repo-map.md`** — repo-map: بلا كود
   - أقسام: الميزات (ميزة ← ملف ← رمز للبحث) · القرارات · أخطاء محلولة · مشاكل مفتوحة
   - يشير إلى: features/compat.md, features/defaults.md, index/MAP.md, mistakes.md, playbooks/idea-to-product.md, projects.json, rules/arabizi.json, rules/consistency.json, rules/deprecated.json, rules/fixes.json, rules/guards.json, rules/synonyms.json, sessions/index.md, video-identity/icons/platforms.json, video-identity/ideas/playbook.md, video-identity/library/index.md, video-identity/references/libraries.md, video-identity/tokens.json
-  - يُشار إليه من: CHARTER.md, CLAUDE.md, docs/account-instructions.md, ideas.md, playbooks/idea-to-product.md, preferences.md
+  - يُشار إليه من: CHARTER.md, CLAUDE.md, docs/account-instructions.md, ideas.md, playbooks/idea-to-product.md, preferences.md, sessions/2026-11-20-mawred-m0.md
   - قريب منه: README.md, docs/mission-control.md, sessions/2026-11-20-video-engine-v2.md
 
 ## features
@@ -92,10 +92,9 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
   - قريب منه: playbooks/idea-to-product.md, README.md, features/auto-update.md
 - **`features/export-pipeline.md`** — ميزة: تصدير الكشوف (GRCS)
   - يُشار إليه من: README.md, playbooks/idea-to-product.md
-  - قريب منه: projects/index.md
 - **`features/firebase.md`** — ميزة: Firebase + Cloudflare
   - يُشار إليه من: README.md, playbooks/idea-to-product.md
-  - قريب منه: playbooks/idea-to-product.md, projects/index.md, features/defaults.md
+  - قريب منه: projects/index.md, playbooks/idea-to-product.md, features/defaults.md
 - **`features/icons.md`** — ميزة: Icons.kt
   - يُشار إليه من: README.md
   - قريب منه: preferences.md
@@ -123,18 +122,23 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 
 ## projects
 - **`projects/index.md`** — فهرس المشاريع النشطة: يُحدَّث عند بدء مشروع جديد أو تغيير حالة
-  - أقسام: قيد — نظام إدارة متاجر · SMS Barq — تطبيق رسائل SMS · android-template — القالب الرئيسي · Sport Monitor AI — مراقبة رياضية · GRCS — منظومة مخيمات النزوح (Android الأصلي + نسخة ويب)
+  - أقسام: مورد MAWRED — منصة توريد بالجملة · قيد — نظام إدارة متاجر · SMS Barq — تطبيق رسائل SMS · android-template — القالب الرئيسي · Sport Monitor AI — مراقبة رياضية · GRCS — منظومة مخيمات النزوح (Android الأصلي + نسخة ويب)
   - يُشار إليه من: README.md
-  - قريب منه: README.md, ideas.md, features/ci-cd.md
+  - قريب منه: README.md, ideas.md, sessions/2026-11-20-mawred-m0.md
 
 ## sessions
+- **`sessions/2026-11-20-mawred-m0.md`** — بدء مشروع مورد MAWRED — الوحدة M0
+  - أقسام: الطلب · ما نُفّذ · القرارات · الأخطاء والدروس · التالي
+  - يشير إلى: .claude/session-handoff.md, CLAUDE.md, docs/repo-map.md
+  - يُشار إليه من: sessions/index.md
+  - قريب منه: projects/index.md, ideas.md, README.md
 - **`sessions/2026-11-20-video-engine-v2.md`** — محرّك فيديو الكلام v2 + المراجع الذهبية + مكتبة الأصول
   - أقسام: الطلب · ما نُفّذ · القرارات · الأخطاء والدروس · إضافة (09:44) · إضافة (09:52) · إضافة (11:22) · إضافة (13:49) — توحيد الدماغ · التالي
   - يشير إلى: features/compat.md, features/defaults.md, mistakes.md, rules/consistency.json, video-identity/references/motion/gold/GRAMMAR.md
   - يُشار إليه من: README.md, sessions/index.md
   - قريب منه: docs/repo-map.md, preferences.md, README.md
 - **`sessions/index.md`** — سجل الجلسات: كل جلسة عمل تُكتب هنا عند نهايتها ثم تُرفع. «رتّب الدماغ» يعيد بناء هذا الفهرس.
-  - يشير إلى: sessions/2026-11-20-video-engine-v2.md
+  - يشير إلى: sessions/2026-11-20-mawred-m0.md, sessions/2026-11-20-video-engine-v2.md
   - يُشار إليه من: README.md, docs/repo-map.md
 
 ## video-identity

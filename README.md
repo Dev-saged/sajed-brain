@@ -1,7 +1,7 @@
 # sajed-brain — السياق الكامل لساجد
 _Mission Control v2.1 · GRCS v5.7.0 · الإحصاءات والتاريخ أدناه مولّدة تلقائياً_
 <!-- stats:start -->
-_مولّد تلقائياً بـbrain_tidy — 2026-11-20_ · أيقونات تصميم 12194 · مؤثرات صوتية 471 · خطوط 33 · موسيقى 0 · صور 0 · جلسات 1 · آخر جلسة `sessions/2026-11-20-video-engine-v2.md`
+_مولّد تلقائياً بـbrain_tidy — 2026-11-20_ · أيقونات تصميم 12194 · مؤثرات صوتية 471 · خطوط 33 · موسيقى 0 · صور 0 · جلسات 2 · آخر جلسة `sessions/2026-11-20-video-engine-v2.md`
 <!-- stats:end -->
 
 > **كيفية الاستخدام:** اقرأ هذا الملف أول شيء في كل جلسة. ابحث في الملفات الفرعية فقط عند الحاجة لتفاصيل ميزة معينة.
@@ -57,6 +57,7 @@ _مولّد تلقائياً بـbrain_tidy — 2026-11-20_ · أيقونات ت
 |---------|----------|-------|-------|-----------|
 | قيد — نظام متاجر | Dev-saged/qayd | Kotlin+Compose+Firebase+Cloudflare | نشط | v2.x |
 | SMS Barq — رسائل SMS | Dev-saged/SMS-Barq | Kotlin+Compose | نشط | v1.x |
+| مورد — توريد بالجملة | Dev-saged/Morud | Kotlin+Compose+Workers+Firebase+React | نشط (M0) | - |
 | القالب الرئيسي | Dev-saged/android-template | Kotlin+Compose | قالب | - |
 | GRCS — مخيمات النزوح | Dev-saged/wasla-system | Kotlin+Compose+Firestore REST + ويب | نشط | v5.7.0 |
 | Sport Monitor AI | Dev-saged/sport-monitor-ai | Python Flask + Android WebView | نشط | - |
