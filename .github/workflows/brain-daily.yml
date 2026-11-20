@@ -31,6 +31,9 @@ jobs:
       - name: Organize
         run: python3 scripts/organize_brain.py
 
+      - name: Sessions index + tidy report
+        run: python3 scripts/brain_tidy.py
+
       - name: Brain map
         run: python3 scripts/brain_map.py --check
 

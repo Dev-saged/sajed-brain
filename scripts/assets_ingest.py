@@ -64,8 +64,13 @@ def ingest_one(kind: str, f: pathlib.Path, meta: dict) -> dict:
         return {**base, "type": "image", "file": str(dest.relative_to(ASSETS))}
     if kind in ("text-motion", "transitions", "refs") and ext in VIDEO:
         REFS.mkdir(parents=True, exist_ok=True)
-        dest = REFS / f"{kind}-{sid}{ext}"
-        shutil.copyfile(f, dest)
+        if ext in {".mp4", ".mov", ".webm", ".mkv"}:
+            # المستودع خفيف: 1080 بالارتفاع الأقصى، H.264، بلا تكبير
+            dest = REFS / f"{kind}-{sid}.mp4"
+            ff("-i", str(f), "-vf", "scale='min(1080,iw)':-2", "-c:v", "libx264", "-preset", "veryfast", "-crf", "26", "-c:a", "aac", "-b:a", "128k", str(dest))
+        else:
+            dest = REFS / f"{kind}-{sid}{ext}"
+            shutil.copyfile(f, dest)
         return {**base, "type": kind, "file": str(dest.relative_to(ROOT))}
     raise ValueError(f"نوع غير مدعوم: {kind}/{f.name}")
 

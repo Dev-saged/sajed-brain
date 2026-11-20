@@ -1,4 +1,9 @@
 [
   {"name": "qayd", "repo": "Dev-saged/qayd"},
-  {"name": "sms-barq", "repo": "Dev-saged/SMS-Barq"}
+  {"name": "sms-barq", "repo": "Dev-saged/SMS-Barq"},
+  {"name": "sport-monitor-ai", "repo": "Dev-saged/sport-monitor-ai"},
+  {"name": "android-template", "repo": "Dev-saged/android-template"},
+  {"name": "articlestudio", "repo": "Dev-saged/ArticleStudio"},
+  {"name": "bloger", "repo": "Dev-saged/bloger"},
+  {"name": "pdf", "repo": "Dev-saged/pdf"}
 ]

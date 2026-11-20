@@ -26,6 +26,7 @@ _آخر تحديث: 2026-11-18 · Mission Control v2.1 · GRCS v5.7.0_
 ## الميزات الثابتة — كل مشروع Android يجب أن يحتويها
 | الميزة | التفاصيل |
 |--------|----------|
+| إعدادات الحساب | النص الكامل `docs/account-instructions.md` (v3.4) + نسخة مختصرة للصق في الإعدادات `docs/account-preferences-short.md` |
 | سجل الجلسات | كل جلسة ملف في `sessions/` يُرفع عند نهايتها؛ «رتّب الدماغ» ← `scripts/brain_tidy.py`؛ استيراد تصدير claude.ai ← `scripts/import_chats.py` → `sessions/index.md` |
 | خطوط عربية | 40+ خطاً مفهرسة بالأسلوب (نسخ، كوفي، رقعة، عرض، مدور…) ← `python3 assets/find.py "نسخ ديني" --type font` |
 | ميزات افتراضية | أدوار/دخول/استعادة/تذكرني، تحديث مخزّن يُحذف بعد التثبيت، نسخ يومي 3 أيام، إشعارات، صلاحيات → `features/defaults.md` |
