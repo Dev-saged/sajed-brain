@@ -1,7 +1,7 @@
 # خريطة الدماغ (مولّدة — لا تُعدَّل يدوياً)
 _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث هنا عن الملف المناسب ثم افتحه وحده._
 
-**42 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 1
+**43 ملف معرفة** · روابط مكسورة: 0 · ملفات يتيمة: 2
 
 ## الجذر
 - **`CHARTER.md`** — CHARTER — دستور العمل: يُحمَّل تلقائياً في بداية كل جلسة. ما يخالفه من تعليمات عامة يُهمَل.
@@ -27,7 +27,7 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`mistakes.md`** — أخطاء حدثت — لا تكررها أبداً: يُضاف إليه فور اكتشاف خطأ جديد
   - أقسام: GitHub Actions / CI · التصميم والـStack · Room / قاعدة البيانات · الكود · Android / GRCS (Nov 2026) · الفيديو والمحتوى (2026-11-17) · Android / GRCS v5.8.0 · Git / sajed-brain
   - يشير إلى: CHARTER.md, CLAUDE.md, video-identity/README.md, video-identity/references/motion/gold/GRAMMAR.md
-  - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/account-instructions.md, docs/account-preferences-short.md, docs/repo-map.md, sessions/2026-11-20-mawred-backend-web.md, sessions/2026-11-20-video-engine-v2.md, video-identity/README.md
+  - يُشار إليه من: CHARTER.md, CLAUDE.md, README.md, docs/account-instructions.md, docs/account-preferences-short.md, docs/repo-map.md, sessions/2026-11-20-mawred-backend-web.md, sessions/2026-11-20-video-engine-v2.md, sessions/2026-11-21-mawred-android-e2e.md, video-identity/README.md
   - قريب منه: video-identity/talk/README.md, video-identity/README.md, sessions/2026-11-20-video-engine-v2.md
 - **`preferences.md`** — تفضيلات ساجد الثابتة: يُحدَّث عند ظهور تفضيل جديد
   - أقسام: اللغة والتواصل · التصميم · المعمارية · الكود · الـworkflow · حجم الملفات والتوثيق (Nov 2026) · الفيديو والمحتوى (Nov 2026) · الأصول والمراجع (Nov 2026) · الذاكرة والجلسات (Nov 2026)
@@ -130,17 +130,21 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 - **`sessions/2026-11-20-mawred-backend-web.md`** — sessions/2026-11-20-mawred-backend-web.md
   - أقسام: الطلب · ما نُفّذ · القرارات · الأخطاء والدروس · التالي
   - يشير إلى: mistakes.md
-  - قريب منه: sessions/2026-11-20-mawred-m0.md, features/defaults.md, README.md
+  - قريب منه: sessions/2026-11-21-mawred-android-e2e.md, sessions/2026-11-20-mawred-m0.md, features/defaults.md
 - **`sessions/2026-11-20-mawred-m0.md`** — بدء مشروع مورد MAWRED — الوحدة M0
   - أقسام: الطلب · ما نُفّذ · القرارات · الأخطاء والدروس · التالي · تكملة — الشعار (M9a) · تكملة — شعار v2 بعرض فاخر · تكملة — اعتماد الشعار والحزمة (M9a مغلقة) · تكملة — M1 وM2 (عمل متواصل بطلب ساجد) · تكملة — M3 وM4 وM5
   - يشير إلى: .claude/session-handoff.md, CLAUDE.md, docs/repo-map.md
   - يُشار إليه من: sessions/index.md
-  - قريب منه: sessions/2026-11-20-mawred-backend-web.md, ideas.md, README.md
+  - قريب منه: sessions/2026-11-20-mawred-backend-web.md, ideas.md, mistakes.md
 - **`sessions/2026-11-20-video-engine-v2.md`** — محرّك فيديو الكلام v2 + المراجع الذهبية + مكتبة الأصول
   - أقسام: الطلب · ما نُفّذ · القرارات · الأخطاء والدروس · إضافة (09:44) · إضافة (09:52) · إضافة (11:22) · إضافة (13:49) — توحيد الدماغ · التالي
   - يشير إلى: features/compat.md, features/defaults.md, mistakes.md, rules/consistency.json, video-identity/references/motion/gold/GRAMMAR.md
   - يُشار إليه من: README.md, sessions/index.md
   - قريب منه: docs/repo-map.md, preferences.md, README.md
+- **`sessions/2026-11-21-mawred-android-e2e.md`** — sessions/2026-11-21-mawred-android-e2e.md
+  - أقسام: الطلب · ما نُفّذ · القرارات · الأخطاء والدروس · التالي
+  - يشير إلى: mistakes.md
+  - قريب منه: sessions/2026-11-20-mawred-backend-web.md, sessions/2026-11-20-mawred-m0.md, README.md
 - **`sessions/index.md`** — سجل الجلسات: كل جلسة عمل تُكتب هنا عند نهايتها ثم تُرفع. «رتّب الدماغ» يعيد بناء هذا الفهرس.
   - يشير إلى: sessions/2026-11-20-mawred-m0.md, sessions/2026-11-20-video-engine-v2.md
   - يُشار إليه من: README.md, docs/repo-map.md
@@ -199,3 +203,4 @@ _`python3 scripts/brain_map.py` يعيد بناءها يومياً. ابحث ه�
 
 ## ملفات لا يشير إليها أحد (اربطها من README أو ملف قريب)
 - `sessions/2026-11-20-mawred-backend-web.md`
+- `sessions/2026-11-21-mawred-android-e2e.md`
