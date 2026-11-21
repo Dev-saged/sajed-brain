@@ -1,6 +1,7 @@
-# session-handoff — 2026-11-20 (توحيد الدماغ وفحص التعارض التلقائي)
+# session-handoff — 2026-11-21 (آخر عمل: مورد Android وE2E؛ حالة الدماغ أدناه ثابتة)
 
 ## الحالة
+- آخر جلسة مشروع: `sessions/2026-11-21-mawred-android-e2e.md` (مورد M10–M13c مغلقة، التالي M14).
 - الدماغ موحّد: README (كتلة إحصاءات مولّدة تلقائياً) ← CLAUDE.md ← هذا الملف ← docs/repo-map.md ← index/MAP.md. لا تعارض بين الملفات؛ `scripts/brain_doctor.py` يفحص التعارض بـ`rules/consistency.json` ويفشل عنده.
 - التحديث التلقائي: brain-daily (يومياً) ← organize → `brain_tidy.py` (فهرس الجلسات + اليوميات + الإحصاءات) → الخريطة → doctor + tests → commit. يحتاج GH_PAT (أضافه ساجد) لجمع المشاريع.
 - تعليمات الحساب v3.5: `docs/account-instructions.md` (الكامل) و`docs/account-preferences-short.md` (المختصر). ساجد يلصقها بنفسه في الإعدادات.
